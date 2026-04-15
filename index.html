@@ -1,702 +1,146 @@
-import React, { useState, useEffect, useRef } from 'react';
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة حساب التكامل | د. صلاح الدين عباس</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        body { font-family: 'Tajawal', sans-serif; }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-slate-950">
+    <div id="root"></div>
 
-// --- Safe MathJax Text Component ---
-const MathText = ({ text, className }) => {
-  const containerRef = useRef(null);
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
 
-  useEffect(() => {
-    if (!window.MathJax && !document.getElementById('mathjax-script')) {
-      const script = document.createElement('script');
-      script.id = 'mathjax-script';
-      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.async = true;
-      document.head.appendChild(script);
-      
-      window.MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']],
-          displayMath: [['$$', '$$'], ['\\[', '\\]']]
-        },
-        startup: { typeset: false }
-      };
-    }
-  }, []);
+        const MathText = ({ text, className }) => {
+            const containerRef = useRef(null);
 
-  useEffect(() => {
-    let isCancelled = false;
+            useEffect(() => {
+                let isCancelled = false;
+                const renderMath = () => {
+                    if (isCancelled) return;
+                    if (containerRef.current && window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetClear([containerRef.current]);
+                        window.MathJax.typesetPromise([containerRef.current]).catch((err) => console.error(err));
+                    } else {
+                        setTimeout(renderMath, 100);
+                    }
+                };
+                renderMath();
+                return () => { isCancelled = true; };
+            }, [text]);
 
-    const renderMath = () => {
-      if (isCancelled) return;
-      if (containerRef.current && window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetClear([containerRef.current]);
-        window.MathJax.typesetPromise([containerRef.current]).catch((err) => console.error(err));
-      } else {
-        setTimeout(renderMath, 100);
-      }
-    };
+            return (
+                <span ref={containerRef} className={className} dangerouslySetInnerHTML={{ __html: text }} />
+            );
+        };
 
-    renderMath();
+        const THEORY_DATA = [
+            { id: 't1', type: 'مفهوم أساسي', title: 'تعريف التكامل المحدود', content: '<p class="mb-2">إذا كانت الدالة <strong class="text-emerald-400">$f(x)$</strong> متصلة على الفترة <strong class="text-cyan-400">$[a, b]$</strong>، فإن التكامل المحدود يمثل المساحة الجبرية المحصورة بين منحنى الدالة ومحور السينات.</p> <p>$$ \\int_{a}^{b} f(x) dx = F(b) - F(a) $$</p>' },
+            { id: 't2', type: 'نظرية هامة', title: 'العلاقة بين الدوال الزائدية والأسية', content: '<ul class="list-disc list-inside space-y-2 mt-4 text-slate-300"> <li>دالة الجيب الزائدي: $$ \\sinh(x) = \\frac{e^x - e^{-x}}{2} $$</li> <li>دالة جيب التمام الزائدي: $$ \\cosh(x) = \\frac{e^x + e^{-x}}{2} $$</li> </ul>', derivation: '<p>بتربيع كل من المعادلتين وطرحهما نجد أن: $\\cosh^2(x) - \\sinh^2(x) = 1$</p>' }
+        ];
 
-    return () => {
-      isCancelled = true;
-    };
-  }, [text]);
+        const QUESTION_BANK_DATA = [
+            { id: 1, type: 'تمرين', category: 'دوال أسية', source: 'تمارين - صفحة 21', ruleRef: 'التعويض الجبري', problem: '$$ \\int \\frac{e^{\\sqrt{x}}}{\\sqrt{x}} dx $$', steps: ['نفرض أن $u = \\sqrt{x}$.', 'نفاضل الطرفين: $du = \\frac{1}{2\\sqrt{x}} dx$', 'النتيجة: $$ 2e^{\\sqrt{x}} + c $$'] },
+            { id: 2, type: 'تمرين', category: 'دوال لوغاريتمية', source: 'تمارين - صفحة 21', ruleRef: 'البسط مشتقة المقام', problem: '$$ \\int \\frac{dx}{x - x \\ln x} $$', steps: ['نأخذ $x$ عامل مشترك.', 'نفرض $u = 1 - \\ln x$.', 'النتيجة: $$ -\\ln|1 - \\ln x| + c $$'] }
+        ];
 
-  return (
-    <span 
-      ref={containerRef} 
-      className={className} 
-      dangerouslySetInnerHTML={{ __html: text }} 
-    />
-  );
-};
+        const RULES_DATA = [
+            { id: 1, category: 'أساسية', func: '$y = x^n$', deriv: '$\\frac{dy}{dx} = n x^{n-1}$' },
+            { id: 3, category: 'أساسية', func: '$y = e^x$', deriv: '$\\frac{dy}{dx} = e^x$' },
+            { id: 5, category: 'مثلثية', func: '$y = \\sin(x)$', deriv: '$\\frac{dy}{dx} = \\cos(x)$' }
+        ];
 
-// --- DATA: Theory Hub (المستودع المعرفي) ---
-const THEORY_DATA = [
-  {
-    id: 't1',
-    type: 'مفهوم أساسي',
-    title: 'تعريف التكامل المحدود (Definite Integral)',
-    content: '<p class="mb-2">إذا كانت الدالة <strong class="text-emerald-400">$f(x)$</strong> متصلة على الفترة <strong class="text-cyan-400">$[a, b]$</strong>، فإن التكامل المحدود يمثل المساحة الجبرية المحصورة بين منحنى الدالة ومحور السينات في هذه الفترة.</p> <p>يُعبر عنه بالصيغة: $$ \\int_{a}^{b} f(x) dx = F(b) - F(a) $$ حيث $F(x)$ هي المشتقة العكسية للدالة $f(x)$.</p>',
-    derivation: null
-  },
-  {
-    id: 't2',
-    type: 'نظرية هامة',
-    title: 'العلاقة بين الدوال الزائدية والدوال الأسية',
-    content: '<p class="mb-2">تعرف الدوال الزائدية (Hyperbolic Functions) بشكل مباشر من خلال الدالة الأسية <strong class="text-emerald-400">$e^x$</strong>، وهي تشكل الأساس الرياضي لفهم سلوك هذه الدوال في التفاضل والتكامل.</p> <ul class="list-disc list-inside space-y-2 mt-4 text-slate-300"> <li>دالة الجيب الزائدي: $$ \\sinh(x) = \\frac{e^x - e^{-x}}{2} $$</li> <li>دالة جيب التمام الزائدي: $$ \\cosh(x) = \\frac{e^x + e^{-x}}{2} $$</li> </ul>',
-    derivation: '<p class="mb-2 font-bold text-amber-400">اشتقاق المتطابقة الأساسية $\\cosh^2(x) - \\sinh^2(x) = 1$:</p> <p>بتربيع كل من المعادلتين وطرحهما:</p> $$ \\left(\\frac{e^x + e^{-x}}{2}\\right)^2 - \\left(\\frac{e^x - e^{-x}}{2}\\right)^2 $$ $$ = \\frac{e^{2x} + 2 + e^{-2x}}{4} - \\frac{e^{2x} - 2 + e^{-2x}}{4} $$ $$ = \\frac{2 - (-2)}{4} = \\frac{4}{4} = 1 $$'
-  },
-  {
-    id: 't3',
-    type: 'اشتقاق رياضي',
-    title: 'استنتاج تكامل الدوال المثلثية العكسية',
-    content: '<p>تعتبر قاعدة تكامل الدالة الكسرية التي تحتوي على جذور في المقام من أهم التطبيقات للوصول إلى الدوال العكسية. القاعدة القياسية هي: $$ \\int \\frac{1}{\\sqrt{a^2 - x^2}} dx = \\arcsin\\left(\\frac{x}{a}\\right) + c $$</p>',
-    derivation: '<p class="mb-2 font-bold text-amber-400">كيف استنتجنا هذا القانون؟ (طريقة التعويض المثلثي):</p> <p>لحساب التكامل $\\int \\frac{1}{\\sqrt{1 - x^2}} dx$، نفرض أن:</p> <p>$x = \\sin(\\theta)$ مما يعني أن $dx = \\cos(\\theta) d\\theta$</p> <p>نعوض في التكامل:</p> $$ \\int \\frac{1}{\\sqrt{1 - \\sin^2(\\theta)}} \\cos(\\theta) d\\theta $$ <p>باستخدام المتطابقة $\\cos^2(\\theta) = 1 - \\sin^2(\\theta)$، يصبح المقام $\\cos(\\theta)$:</p> $$ \\int \\frac{\\cos(\\theta)}{\\cos(\\theta)} d\\theta = \\int 1 d\\theta = \\theta + c $$ <p>وبما أن $\\sin(\\theta) = x$، إذن $\\theta = \\arcsin(x)$. وبالتالي النتيجة: $\\arcsin(x) + c$</p>'
-  },
-  {
-    id: 't4',
-    type: 'نظرية',
-    title: 'نظرية القيمة المتوسطة للتكامل',
-    content: '<p class="mb-2">إذا كانت الدالة $f(x)$ متصلة على الفترة المغلقة $[a, b]$، فإنه يوجد على الأقل نقطة واحدة $c$ تنتمي للفترة $(a, b)$ بحيث يحقق التكامل الشرط التالي:</p> $$ \\int_{a}^{b} f(x) dx = f(c) \\cdot (b - a) $$ <p class="text-sm text-slate-400 mt-2"><b>المعنى الهندسي:</b> توجد مستطيل قاعدته $(b-a)$ وارتفاعه $f(c)$ مساحته تساوي تماماً المساحة تحت المنحنى.</p>',
-    derivation: null
-  }
-];
-
-// --- DATA: Rules and Identities ---
-const RULES_DATA = [
-  { id: 1, category: 'التفاضلات الأساسية', func: '$y = x^n$', deriv: '$\\frac{dy}{dx} = n x^{n-1}$' },
-  { id: 2, category: 'التفاضلات الأساسية', func: '$y = a^x$', deriv: '$\\frac{dy}{dx} = a^x \\ln(a)$' },
-  { id: 3, category: 'التفاضلات الأساسية', func: '$y = e^x$', deriv: '$\\frac{dy}{dx} = e^x$' },
-  { id: 4, category: 'التفاضلات الأساسية', func: '$y = \\ln(x)$', deriv: '$\\frac{dy}{dx} = \\frac{1}{x}$' },
-  { id: 5, category: 'الدوال المثلثية', func: '$y = \\sin(x)$', deriv: '$\\frac{dy}{dx} = \\cos(x)$' },
-  { id: 6, category: 'الدوال المثلثية', func: '$y = \\cos(x)$', deriv: '$\\frac{dy}{dx} = -\\sin(x)$' },
-  { id: 7, category: 'الدوال المثلثية', func: '$y = \\tan(x)$', deriv: '$\\frac{dy}{dx} = \\sec^2(x)$' },
-  { id: 8, category: 'الدوال الزائدية', func: '$y = \\sinh(x)$', deriv: '$\\frac{dy}{dx} = \\cosh(x)$' },
-  { id: 9, category: 'الدوال الزائدية', func: '$y = \\cosh(x)$', deriv: '$\\frac{dy}{dx} = \\sinh(x)$' },
-];
-
-const IDENTITIES_DATA = [
-  { id: 1, type: 'مثلثية', eq: '$\\sin^2(x) + \\cos^2(x) = 1$' },
-  { id: 2, type: 'مثلثية', eq: '$1 + \\tan^2(x) = \\sec^2(x)$' },
-  { id: 3, type: 'زائدية', eq: '$\\cosh^2(x) - \\sinh^2(x) = 1$' },
-  { id: 4, type: 'زائدية', eq: '$\\sinh(x) = \\frac{e^x - e^{-x}}{2}$' },
-  { id: 5, type: 'زائدية', eq: '$\\cosh(x) = \\frac{e^x + e^{-x}}{2}$' },
-];
-
-// --- DATA: Massive Interactive Question Bank ---
-const QUESTION_BANK_DATA = [
-  {
-    id: 1,
-    type: 'تمرين',
-    category: 'دوال أسية وجذرية',
-    source: 'تمارين - صفحة 21',
-    ruleRef: 'قاعدة تكامل الدالة الأسية وتكامل بالتعويض',
-    problem: '$$ \\int \\frac{e^{\\sqrt{x}}}{\\sqrt{x}} dx $$',
-    steps: [
-      'نلاحظ أن مشتقة الأس $\\sqrt{x}$ موجودة جزئياً في المقام.',
-      'نستخدم التعويض: نفرض أن $u = \\sqrt{x}$.',
-      'نفاضل الطرفين: $du = \\frac{1}{2\\sqrt{x}} dx$',
-      'بضرب الطرفين في 2: $2du = \\frac{1}{\\sqrt{x}} dx$',
-      'نعوض في التكامل الأصلي: $$\\int e^u (2 du) = 2 \\int e^u du$$',
-      'تكامل الدالة الأسية $e^u$ هو $e^u$. إذن النتيجة: $2e^u + c$',
-      'نرجع الدالة لأصلها: $$ 2e^{\\sqrt{x}} + c $$'
-    ]
-  },
-  {
-    id: 2,
-    type: 'تمرين',
-    category: 'دوال لوغاريتمية وكسرية',
-    source: 'تمارين - صفحة 21',
-    ruleRef: 'تكامل الدالة الكسرية (البسط مشتقة المقام ينتج ln)',
-    problem: '$$ \\int \\frac{dx}{x - x \\ln x} $$',
-    steps: [
-      'نأخذ $x$ كعامل مشترك في المقام لتسهيل التعويض.',
-      'يصبح التكامل: $$\\int \\frac{1}{x(1 - \\ln x)} dx$$',
-      'نلاحظ أن مشتقة القوس $(1 - \\ln x)$ هي $-\\frac{1}{x}$.',
-      'نفرض أن $u = 1 - \\ln x$.',
-      'نفاضل الطرفين: $du = -\\frac{1}{x} dx$ مما يعني أن $-du = \\frac{1}{x} dx$',
-      'نعوض في التكامل: $$\\int \\frac{1}{u} (-du) = - \\int \\frac{1}{u} du$$',
-      'نعلم أن $\\int \\frac{1}{u} du = \\ln|u|$. إذن النتيجة: $-\\ln|u| + c$',
-      'نرجع الدالة لأصلها: $$ -\\ln|1 - \\ln x| + c $$'
-    ]
-  },
-  {
-    id: 3,
-    type: 'محلول',
-    category: 'دوال مثلثية',
-    source: 'أمثلة الكتاب',
-    ruleRef: 'متطابقات الدوال المثلثية',
-    problem: '$$ \\int \\tan(x) dx $$',
-    steps: [
-      'نكتب دالة الظل (tan) بدلالة الجيب وجيب التمام: $$\\int \\frac{\\sin(x)}{\\cos(x)} dx$$',
-      'نلاحظ أن بسط الكسر هو مشتقة مقامه (مع اختلاف الإشارة).',
-      'نفرض أن $u = \\cos(x)$.',
-      'نفاضل الطرفين: $du = -\\sin(x) dx$ ومنها $-du = \\sin(x) dx$.',
-      'نعوض في التكامل: $$\\int \\frac{-du}{u} = -\\int \\frac{1}{u} du$$',
-      'النتيجة هي: $-\\ln|u| + c$',
-      'بالتعويض العكسي: $-\\ln|\\cos(x)| + c$. ويمكن كتابتها أيضاً: $$ \\ln|\\sec(x)| + c $$'
-    ]
-  },
-  {
-    id: 4,
-    type: 'تمرين',
-    category: 'دوال مثلثية وزائدية',
-    source: 'تمارين - صفحة 37',
-    ruleRef: 'متطابقات ضعف الزاوية',
-    problem: '$$ \\int \\cos^2(x) dx $$',
-    steps: [
-      'لا يمكننا تكامل $\\cos^2(x)$ مباشرة، لذا نستخدم متطابقات ضعف الزاوية.',
-      'نتذكر المتطابقة: $\\cos^2(x) = \\frac{1 + \\cos(2x)}{2}$.',
-      'نعوض في التكامل: $$\\int \\frac{1 + \\cos(2x)}{2} dx$$',
-      'نوزع التكامل على الحدين ونخرج الثابت $\\frac{1}{2}$:',
-      '$$ \\frac{1}{2} \\int 1 dx + \\frac{1}{2} \\int \\cos(2x) dx $$',
-      'تكامل $1$ هو $x$. وتكامل $\\cos(2x)$ هو $\\frac{1}{2}\\sin(2x)$.',
-      'النتيجة النهائية هي: $$ \\frac{1}{2}x + \\frac{1}{4}\\sin(2x) + c $$'
-    ]
-  },
-  {
-    id: 5,
-    type: 'تمرين',
-    category: 'دوال مثلثية عكسية',
-    source: 'تطبيقات عامة',
-    ruleRef: 'استنتاج تكامل الدوال المثلثية العكسية (انظر المستودع)',
-    problem: '$$ \\int \\frac{1}{\\sqrt{1 - 4x^2}} dx $$',
-    steps: [
-      'هذا التكامل يشبه الصيغة القياسية لتكامل الدالة العكسية للجيب $\\arcsin(x)$.',
-      'الصيغة القياسية هي: $\\int \\frac{1}{\\sqrt{1 - u^2}} du = \\arcsin(u) + c$',
-      'لتحويل التكامل للصيغة القياسية، نلاحظ أن $4x^2 = (2x)^2$. نفرض $u = 2x$.',
-      'نفاضل الطرفين: $du = 2 dx$ ومنها $\\frac{1}{2}du = dx$.',
-      'نعوض في التكامل: $$\\int \\frac{1}{\\sqrt{1 - u^2}} \\cdot \\frac{1}{2} du$$',
-      'نخرج الثابت ونكامل: $\\frac{1}{2} \\arcsin(u) + c$',
-      'نرجع الدالة لأصلها: $$ \\frac{1}{2} \\arcsin(2x) + c $$'
-    ]
-  },
-  {
-    id: 6,
-    type: 'محلول',
-    category: 'دوال جبرية',
-    source: 'أمثلة الكتاب',
-    ruleRef: 'التكامل بالتعويض الجبري الكامل',
-    problem: '$$ \\int x \\sqrt{x-1} dx $$',
-    steps: [
-      'نستخدم التعويض. نفرض أن $u = x - 1$.',
-      'منها نستنتج أن $x = u + 1$.',
-      'نفاضل الطرفين: $du = dx$.',
-      'نعوض في التكامل الأصلي متخلصين من $x$ بالكامل: $$\\int (u+1) \\sqrt{u} du$$',
-      'نوزع $\\sqrt{u}$ (أي $u^{1/2}$) داخل القوس: $$\\int (u^{3/2} + u^{1/2}) du$$',
-      'نكامل كل حد باستخدام قاعدة القوة:',
-      '$$ \\frac{u^{5/2}}{5/2} + \\frac{u^{3/2}}{3/2} + c $$',
-      'نرجع $u$ لأصلها ونبسط: $$ \\frac{2}{5}(x-1)^{5/2} + \\frac{2}{3}(x-1)^{3/2} + c $$'
-    ]
-  }
-];
-
-// --- Main App Component ---
-export default function App() {
-  const [activeTab, setActiveTab] = useState('theory'); // Start with Theory Hub
-  const [progressSegments, setProgressSegments] = useState(new Set(['theory']));
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    setProgressSegments(prev => new Set(prev).add(tab));
-  };
-
-  const tabs = [
-    { id: 'theory', label: 'المستودع المعرفي', icon: '📖' },
-    { id: 'bank', label: 'بنك الأسئلة التفاعلي', icon: '🧠' },
-    { id: 'rules', label: 'مركز القواعد', icon: '📚' },
-    { id: 'lab', label: 'المعمل التفاعلي', icon: '🔬' },
-  ];
-
-  const progressPercentage = Math.round((progressSegments.size / tabs.length) * 100);
-
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans" dir="rtl">
-      {/* Header & Progress */}
-      <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-emerald-400 to-cyan-400">
-                حسبان (2): محاضرات في حساب التكامل
-              </h1>
-              <p className="text-slate-400 text-sm mt-1">د. صلاح الدين عباس - الإصدار الشامل للتمارين والنظريات</p>
-            </div>
-            <div className="text-left bg-slate-800 py-2 px-4 rounded-lg shadow-inner">
-              <div className="text-xs text-slate-400 mb-1">نسبة الاستكشاف</div>
-              <div className="text-xl font-bold text-emerald-400">{progressPercentage}%</div>
-            </div>
-          </div>
-          
-          <div className="w-full bg-slate-800 rounded-full h-2.5 mb-2 overflow-hidden shadow-inner">
-            <div 
-              className="bg-gradient-to-r from-emerald-400 to-cyan-400 h-2.5 rounded-full transition-all duration-1000 ease-out" 
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
-          </div>
-          
-          <nav className="flex space-x-reverse space-x-2 mt-6 overflow-x-auto pb-2 scrollbar-hide">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => handleTabChange(tab.id)}
-                className={`flex items-center px-5 py-3 rounded-t-lg transition-all font-semibold whitespace-nowrap ${
-                  activeTab === tab.id 
-                    ? 'bg-slate-800 text-cyan-400 border-t-2 border-cyan-400' 
-                    : 'bg-transparent text-slate-400 hover:bg-slate-800 hover:text-slate-200'
-                }`}
-              >
-                <span className="ml-2 text-lg">{tab.icon}</span>
-                {tab.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-      </header>
-
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        {activeTab === 'theory' && <TheoryHub />}
-        {activeTab === 'bank' && <QuestionBank />}
-        {activeTab === 'rules' && <RulesCenter />}
-        {activeTab === 'lab' && <InteractiveLab />}
-      </main>
-    </div>
-  );
-}
-
-// --- NEW COMPONENT: Theory Hub (المستودع المعرفي) ---
-function TheoryHub() {
-  return (
-    <div className="animate-fade-in space-y-12">
-      {/* Concept Map Section */}
-      <section>
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold text-white mb-2">خريطة مفاهيم التكامل</h2>
-          <p className="text-slate-400">نظرة عامة على هيكلة الفصول والقواعد الواردة في الكتاب.</p>
-        </div>
-        
-        <div className="bg-slate-900 border border-slate-700 rounded-2xl p-8 overflow-x-auto">
-          <div className="min-w-[700px] flex flex-col items-center">
-            {/* Root */}
-            <div className="bg-gradient-to-r from-emerald-600 to-cyan-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg border border-emerald-400/30 z-10">
-              علم حساب التكامل
-            </div>
-            
-            {/* Trunk line */}
-            <div className="w-px h-8 bg-slate-600"></div>
-            <div className="w-[600px] h-px bg-slate-600"></div>
-            
-            {/* Branches */}
-            <div className="flex justify-between w-[600px]">
-              <div className="w-px h-8 bg-slate-600 mx-auto"></div>
-              <div className="w-px h-8 bg-slate-600 mx-auto"></div>
-              <div className="w-px h-8 bg-slate-600 mx-auto"></div>
-            </div>
-            
-            {/* Nodes */}
-            <div className="flex justify-between w-[700px] gap-4">
-              <div className="flex-1 bg-slate-800 border border-slate-600 rounded-lg p-4 text-center shadow-md">
-                <h3 className="text-emerald-400 font-bold mb-2">التكامل غير المحدود</h3>
-                <p className="text-xs text-slate-400">إيجاد المشتقة العكسية وإضافة الثابت $c$</p>
-              </div>
-              <div className="flex-1 bg-slate-800 border border-slate-600 rounded-lg p-4 text-center shadow-md">
-                <h3 className="text-cyan-400 font-bold mb-2">طرق التكامل</h3>
-                <p className="text-xs text-slate-400">التعويض، التجزيء، الكسور الجزئية</p>
-              </div>
-              <div className="flex-1 bg-slate-800 border border-slate-600 rounded-lg p-4 text-center shadow-md">
-                <h3 className="text-amber-400 font-bold mb-2">التكامل المحدود</h3>
-                <p className="text-xs text-slate-400">حساب المساحات ونظرية القيمة المتوسطة</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Theories and Definitions */}
-      <section>
-        <div className="mb-6">
-          <h2 className="text-3xl font-bold text-white mb-2">موسوعة النظريات والتعاريف</h2>
-          <p className="text-slate-400">الشرح النصي والاشتقاقات الرياضية كما وردت في فصول الكتاب.</p>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {THEORY_DATA.map((item) => (
-            <TheoryCard key={item.id} theory={item} />
-          ))}
-        </div>
-      </section>
-    </div>
-  );
-}
-
-function TheoryCard({ theory }) {
-  const [showDerivation, setShowDerivation] = useState(false);
-
-  return (
-    <div className="bg-slate-800 border border-slate-700 rounded-2xl shadow-xl overflow-hidden flex flex-col">
-      <div className="px-6 py-4 border-b border-slate-700 bg-slate-800/50 flex justify-between items-center">
-        <h3 className="font-bold text-lg text-white">{theory.title}</h3>
-        <span className="bg-slate-700 text-cyan-400 text-xs px-3 py-1 rounded-full font-bold">
-          {theory.type}
-        </span>
-      </div>
-      
-      <div className="p-6 flex-grow">
-        <MathText text={theory.content} className="text-slate-200 text-base leading-relaxed block" />
-      </div>
-
-      {theory.derivation && (
-        <div className="border-t border-slate-700 bg-slate-900/50">
-          <button 
-            onClick={() => setShowDerivation(!showDerivation)}
-            className="w-full px-6 py-3 text-right text-amber-400 font-bold hover:bg-slate-800 transition-colors flex justify-between items-center"
-          >
-            <span>استعراض الاشتقاق الرياضي للمنطوق</span>
-            <span>{showDerivation ? '▲' : '▼'}</span>
-          </button>
-          
-          <div className={`transition-all duration-500 overflow-hidden ${showDerivation ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}>
-            <div className="p-6 border-t border-slate-800 bg-slate-950">
-              <MathText text={theory.derivation} className="text-slate-300 block leading-relaxed" />
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// --- Tooltip Component ---
-const Tooltip = ({ children, text }) => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  return (
-    <div 
-      className="relative flex items-center cursor-help"
-      onMouseEnter={() => setIsVisible(true)}
-      onMouseLeave={() => setIsVisible(false)}
-    >
-      {children}
-      {isVisible && (
-        <div className="absolute bottom-full mb-2 right-0 w-max max-w-[250px] bg-cyan-950 border border-cyan-800 text-cyan-100 text-xs rounded-lg px-3 py-2 shadow-xl z-50 animate-fade-in">
-          <strong className="text-cyan-400 block mb-1">النظرية المستند إليها:</strong>
-          {text}
-          {/* Decorative Arrow */}
-          <div className="absolute top-full right-4 w-2 h-2 bg-cyan-950 border-b border-l border-cyan-800 transform -translate-x-1/2 -translate-y-1/2 -rotate-45"></div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-
-// --- PREVIOUS COMPONENT: Interactive Question Bank (Updated with Tooltips) ---
-function QuestionBank() {
-  const [filter, setFilter] = useState('الكل');
-
-  const categories = ['الكل', 'دوال أسية وجذرية', 'دوال لوغاريتمية وكسرية', 'دوال مثلثية', 'دوال مثلثية وزائدية', 'دوال مثلثية عكسية', 'دوال جبرية'];
-
-  const filteredQuestions = filter === 'الكل' 
-    ? QUESTION_BANK_DATA 
-    : QUESTION_BANK_DATA.filter(q => q.category === filter);
-
-  return (
-    <div className="animate-fade-in">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-white mb-4">بنك الأسئلة الشامل (حلول خطوة بخطوة)</h2>
-        <p className="text-slate-400 mb-6">يضم هذا القسم أمثلة وتمارين الكتاب (مثل صفحات 21 و 37). مرر مؤشر الماوس على أيقونة (💡) لمعرفة النظرية المستخدمة.</p>
-        
-        {/* Filters */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-full text-sm transition-colors border ${
-                filter === cat 
-                  ? 'bg-cyan-900/50 text-cyan-400 border-cyan-500' 
-                  : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {filteredQuestions.map(question => (
-          <QuestionCard key={question.id} question={question} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function QuestionCard({ question }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const isExercise = question.type === 'تمرين';
-
-  const handleNextStep = () => {
-    if (currentStep < question.steps.length) {
-      setCurrentStep(prev => prev + 1);
-    }
-  };
-
-  const handleReset = () => {
-    setIsExpanded(false);
-    setCurrentStep(0);
-  };
-
-  return (
-    <div className={`rounded-xl border transition-all duration-300 shadow-xl overflow-hidden flex flex-col ${
-      isExercise ? 'bg-slate-900 border-amber-900/50' : 'bg-slate-900 border-slate-700'
-    }`}>
-      {/* Header */}
-      <div className={`px-6 py-4 flex justify-between items-center border-b ${
-        isExercise ? 'bg-amber-950/20 border-amber-900/30' : 'bg-slate-800/50 border-slate-700'
-      }`}>
-        <div className="flex items-center gap-3">
-          <span className={`px-2 py-1 rounded text-xs font-bold ${
-            isExercise ? 'bg-amber-900/50 text-amber-400' : 'bg-emerald-900/50 text-emerald-400'
-          }`}>
-            {question.type}
-          </span>
-          <span className="text-slate-300 text-sm">{question.source}</span>
-        </div>
-        
-        {/* Contextual Link / Tooltip */}
-        <div className="flex items-center gap-2">
-          {question.ruleRef && (
-            <Tooltip text={question.ruleRef}>
-               <span className="bg-slate-800 border border-slate-600 text-slate-300 px-2 py-1 rounded-full text-sm hover:bg-slate-700 transition-colors">
-                 💡 القاعدة
-               </span>
-            </Tooltip>
-          )}
-          <span className="text-xs text-slate-500 hidden sm:inline">{question.category}</span>
-        </div>
-      </div>
-
-      {/* Problem Area */}
-      <div className="p-6 text-center bg-slate-900 flex-grow">
-        <MathText text={question.problem} className="text-3xl text-white block my-4" />
-        
-        {!isExpanded ? (
-          <button
-            onClick={() => setIsExpanded(true)}
-            className={`mt-4 px-6 py-2 rounded-lg font-bold transition-transform hover:scale-105 shadow-lg ${
-              isExercise 
-                ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-900/20' 
-                : 'bg-slate-700 hover:bg-slate-600 text-white'
-            }`}
-          >
-            {isExercise ? 'عرض الحل النموذجي' : 'استعراض خطوات الحل'}
-          </button>
-        ) : null}
-      </div>
-
-      {/* Expanded Steps Area */}
-      {isExpanded && (
-        <div className="bg-slate-950 border-t border-slate-800 p-6 animate-fade-in">
-          <div className="space-y-4 mb-6">
-            {question.steps.map((step, idx) => {
-              const isVisible = idx < currentStep;
-              return (
-                <div 
-                  key={idx}
-                  className={`transition-all duration-500 origin-top flex gap-4 ${
-                    isVisible ? 'opacity-100 scale-y-100 h-auto' : 'opacity-0 scale-y-0 h-0 overflow-hidden'
-                  }`}
-                >
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold border ${
-                    isExercise ? 'bg-amber-900/20 border-amber-500/30 text-amber-400' : 'bg-cyan-900/20 border-cyan-500/30 text-cyan-400'
-                  }`}>
-                    {idx + 1}
-                  </div>
-                  <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 w-full text-slate-200">
-                    <MathText text={step} className="block text-lg" />
-                  </div>
+        function TheoryHub() {
+            return (
+                <div className="space-y-8 animate-fade-in">
+                    <h2 className="text-3xl font-bold text-white mb-2">موسوعة النظريات والتعاريف</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {THEORY_DATA.map(item => (
+                            <div key={item.id} className="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+                                <span className="text-cyan-400 text-xs bg-slate-700 px-2 py-1 rounded mb-2 inline-block">{item.type}</span>
+                                <h3 className="font-bold text-xl text-white mb-4">{item.title}</h3>
+                                <MathText text={item.content} className="text-slate-300" />
+                            </div>
+                        ))}
+                    </div>
                 </div>
-              );
-            })}
-          </div>
+            );
+        }
 
-          {/* Controls */}
-          <div className="flex justify-between items-center pt-4 border-t border-slate-800">
-            <button
-              onClick={handleReset}
-              className="text-slate-400 hover:text-white text-sm"
-            >
-              إغلاق ✕
-            </button>
-            {currentStep < question.steps.length ? (
-              <button
-                onClick={handleNextStep}
-                className="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg font-bold transition-all shadow-lg hover:shadow-cyan-500/25"
-              >
-                الخطوة التالية ↓
-              </button>
-            ) : (
-              <span className="text-emerald-400 font-bold px-4 py-2 bg-emerald-900/20 rounded-lg">
-                تمت خطوات الحل ✓
-              </span>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
+        function QuestionBank() {
+            return (
+                <div className="space-y-8 animate-fade-in">
+                    <h2 className="text-3xl font-bold text-white mb-2">بنك الأسئلة التفاعلي</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {QUESTION_BANK_DATA.map(q => (
+                            <div key={q.id} className="bg-slate-900 border border-amber-900/50 p-6 rounded-2xl shadow-xl text-center">
+                                <span className="text-amber-400 text-xs bg-amber-900/50 px-2 py-1 rounded mb-2 inline-block">{q.source}</span>
+                                <MathText text={q.problem} className="text-2xl text-white block my-4" />
+                                <div className="text-left bg-slate-950 p-4 rounded-xl mt-4 border border-slate-800">
+                                    <h4 className="text-emerald-400 mb-2 font-bold">الحل:</h4>
+                                    {q.steps.map((step, i) => <MathText key={i} text={step} className="block text-slate-300 mb-2" />)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
 
-// --- PREVIOUS COMPONENTS (Rules Center & Interactive Lab) ---
+        function InteractiveLab() {
+            const [cValue, setCValue] = useState(0);
+            return (
+                <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl animate-fade-in text-center">
+                    <h2 className="text-2xl font-bold text-white mb-4">تأثير ثابت التكامل (C)</h2>
+                    <MathText text={`$y = x^2 ${cValue >= 0 ? '+' : ''} ${cValue}$`} className="text-3xl text-cyan-400 font-bold block mb-8" />
+                    <input type="range" min="-10" max="10" step="1" value={cValue} onChange={(e) => setCValue(e.target.value)} className="w-full max-w-md cursor-pointer accent-cyan-400" />
+                </div>
+            );
+        }
 
-function RulesCenter() {
-  const [searchTerm, setSearchTerm] = useState('');
+        function App() {
+            const [activeTab, setActiveTab] = useState('theory');
+            const tabs = [
+                { id: 'theory', label: 'المستودع المعرفي', icon: '📖' },
+                { id: 'bank', label: 'بنك الأسئلة', icon: '🧠' },
+                { id: 'lab', label: 'المعمل التفاعلي', icon: '🔬' }
+            ];
 
-  const filteredRules = RULES_DATA.filter(rule => 
-    rule.func.includes(searchTerm) || 
-    rule.deriv.includes(searchTerm) || 
-    rule.category.includes(searchTerm)
-  );
+            return (
+                <div className="min-h-screen bg-slate-950 text-slate-200" dir="rtl">
+                    <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-50 p-4">
+                        <div className="max-w-6xl mx-auto">
+                            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-l from-emerald-400 to-cyan-400 mb-4">حسبان (2): حساب التكامل</h1>
+                            <div className="flex gap-2 overflow-x-auto">
+                                {tabs.map(tab => (
+                                    <button key={tab.id} onClick={() => setActiveTab(tab.id)} className={`px-4 py-2 rounded-lg font-bold transition-colors ${activeTab === tab.id ? 'bg-cyan-900 text-cyan-400' : 'bg-slate-800 text-slate-400 hover:bg-slate-700'}`}>
+                                        {tab.icon} {tab.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </header>
+                    <main className="max-w-6xl mx-auto p-6">
+                        {activeTab === 'theory' && <TheoryHub />}
+                        {activeTab === 'bank' && <QuestionBank />}
+                        {activeTab === 'lab' && <InteractiveLab />}
+                    </main>
+                </div>
+            );
+        }
 
-  return (
-    <div className="animate-fade-in">
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-white">الجدول القياسي للتفاضلات والمتطابقات</h2>
-        <input
-          type="text"
-          placeholder="ابحث عن دالة..."
-          className="px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-cyan-400 w-1/3"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
-          <div className="bg-slate-700/50 px-6 py-4 border-b border-slate-700">
-            <h3 className="font-bold text-lg text-cyan-400">قواعد التفاضل الأساسية</h3>
-          </div>
-          <div className="p-6">
-            <table className="w-full text-right">
-              <thead>
-                <tr className="text-slate-400 border-b border-slate-700">
-                  <th className="pb-3 w-1/3">النوع</th>
-                  <th className="pb-3 w-1/3">الدالة <MathText text={"$y$"} /></th>
-                  <th className="pb-3 w-1/3">المشتقة <MathText text={"$\\frac{dy}{dx}$"} /></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredRules.map((rule) => (
-                  <tr key={rule.id} className="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors">
-                    <td className="py-4 text-sm text-slate-400">{rule.category}</td>
-                    <td className="py-4 text-lg text-white"><MathText text={rule.func} /></td>
-                    <td className="py-4 text-lg text-emerald-400"><MathText text={rule.deriv} /></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="bg-slate-800 rounded-xl shadow-xl overflow-hidden border border-slate-700">
-          <div className="bg-slate-700/50 px-6 py-4 border-b border-slate-700">
-            <h3 className="font-bold text-lg text-cyan-400">المتطابقات المثلثية والزائدية</h3>
-          </div>
-          <div className="p-6 space-y-4">
-            {IDENTITIES_DATA.filter(i => i.eq.includes(searchTerm) || i.type.includes(searchTerm)).map(item => (
-              <div key={item.id} className="flex justify-between items-center p-4 bg-slate-900 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
-                <span className="text-slate-400 text-sm bg-slate-800 px-3 py-1 rounded-full">دوال {item.type}</span>
-                <MathText text={item.eq} className="text-xl text-white" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function InteractiveLab() {
-  const [cValue, setCValue] = useState(0);
-
-  const width = 600; const height = 400; const cx = width / 2; const cy = height / 2; const scale = 20;
-
-  const generateParabolaPath = (c) => {
-    let path = '';
-    for (let x = -15; x <= 15; x += 0.5) {
-      const mathY = (x * x) / 5 + parseFloat(c);
-      const svgX = cx + (x * scale); const svgY = cy - (mathY * scale);
-      if (x === -15) { path += `M ${svgX} ${svgY} `; } else { path += `L ${svgX} ${svgY} `; }
-    }
-    return path;
-  };
-
-  return (
-    <div className="animate-fade-in flex flex-col md:flex-row gap-8">
-      <div className="md:w-1/3 space-y-6">
-        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
-          <h2 className="text-2xl font-bold text-white mb-4">مفهوم التكامل غير المحدود</h2>
-          <div>
-            <MathText text="عندما نوجد تكامل دالة، فإننا نبحث عن العائلة الكاملة للدوال التي مشتقتها هي الدالة المعطاة." className="text-slate-300 mb-4 block" />
-            <div className="bg-slate-900 p-4 rounded-lg border border-slate-700 my-4 text-center">
-              <MathText text={"$\\int 2x \\,dx = x^2 + c$"} className="text-xl block" />
-            </div>
-            <MathText text="الثابت <strong class='text-cyan-400'>$c$</strong> يمثل الإزاحة الرأسية للمنحنى. جرب تحريك المؤشر لتغيير قيمة $c$." className="text-slate-300 block" />
-          </div>
-        </div>
-
-        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-xl">
-          <h3 className="font-bold text-lg text-emerald-400 mb-4">تحكم في ثابت التكامل ($c$)</h3>
-          <input type="range" min="-8" max="8" step="0.5" value={cValue} onChange={(e) => setCValue(e.target.value)} className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400" />
-        </div>
-      </div>
-
-      <div className="md:w-2/3 bg-slate-900 rounded-xl border border-slate-700 overflow-hidden shadow-inner relative flex justify-center items-center min-h-[400px]">
-        <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`} className="max-w-full">
-          <g stroke="#334155" strokeWidth="1">
-            {Array.from({length: 30}).map((_, i) => (
-              <React.Fragment key={`grid-${i}`}>
-                <line x1={0} y1={i * scale} x2={width} y2={i * scale} />
-                <line x1={i * scale} y1={0} x2={i * scale} y2={height} />
-              </React.Fragment>
-            ))}
-          </g>
-          <line x1={0} y1={cy} x2={width} y2={cy} stroke="#94a3b8" strokeWidth="2" />
-          <line x1={cx} y1={0} x2={cx} y2={height} stroke="#94a3b8" strokeWidth="2" />
-          <path d={generateParabolaPath(-5)} stroke="#1e293b" strokeWidth="2" fill="none" />
-          <path d={generateParabolaPath(0)} stroke="#334155" strokeWidth="2" fill="none" strokeDasharray="5,5" />
-          <path d={generateParabolaPath(5)} stroke="#1e293b" strokeWidth="2" fill="none" />
-          <path d={generateParabolaPath(cValue)} stroke="#22d3ee" strokeWidth="4" fill="none" className="transition-all duration-300 ease-out" />
-        </svg>
-        <div className="absolute top-4 left-4 bg-slate-800/80 backdrop-blur px-4 py-2 rounded-lg border border-slate-700">
-          <MathText text={`$y = x^2 ${cValue >= 0 ? '+' : ''} ${cValue}$`} className="text-cyan-400 font-bold text-lg block" />
-        </div>
-      </div>
-    </div>
-  );
-}
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
