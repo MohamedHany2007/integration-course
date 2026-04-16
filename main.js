@@ -227,3 +227,44 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 });
+// تبديل الوضع الليلي
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', targetTheme);
+  themeToggle.innerText = targetTheme === 'dark' ? '☀️' : '🌙';
+});
+
+// تحسين وظيفة التنقل بين الفصول لإضافة الأنيميشن
+function showChapter(index) {
+  const chapters = document.querySelectorAll('.chapter');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  chapters.forEach(ch => {
+    ch.classList.remove('active');
+    setTimeout(() => ch.style.display = 'none', 400); // انتظر حتى ينتهي الأنيميشن
+  });
+
+  navItems.forEach(item => item.classList.remove('active'));
+
+  setTimeout(() => {
+    const activeChapter = document.getElementById(`ch${index}`);
+    activeChapter.style.display = 'block';
+    setTimeout(() => activeChapter.classList.add('active'), 10);
+    navItems[index].classList.add('active');
+    
+    // تصيير المعادلات في الباب الجديد
+    if (window.renderMathInElement) {
+      renderMathInElement(activeChapter, {
+        delimiters: [
+          { left: "$$",  right: "$$",  display: true },
+          { left: "$",   right: "$",   display: false }
+        ]
+      });
+    }
+  }, 400);
+
+  currentChapter = index;
+  closeBrowser();
+}
