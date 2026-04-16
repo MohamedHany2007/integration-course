@@ -190,12 +190,22 @@ function refreshBrowser() {
 }
 
 /* ──────────────────────────────────────────────
-   openQuizForCurrentChapter — يُستدعى من زر
-   "افتح صفحة الأسئلة" في كل باب
+   تحديث: فتح روابط جوجل في تبويب جديد لتجنب الحظر
    ────────────────────────────────────────────── */
 function openQuizForCurrentChapter() {
   const url = QUIZ_URLS[currentChapter];
-  if (url) openBrowser(url);
+  if (!url) return;
+
+  // فحص ما إذا كان الرابط يتبع لجوجل أو NotebookLM
+  const isGoogleLink = url.includes("google.com") || url.includes("notebooklm");
+
+  if (isGoogleLink) {
+    // فتح الرابط مباشرة في نافذة جديدة لأن جوجل تمنع الـ iframe
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } else {
+    // فتح أي روابط أخرى داخل المتصفح المدمج كما كان سابقاً
+    openBrowser(url);
+  }
 }
 
 /* ──────────────────────────────────────────────
