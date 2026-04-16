@@ -1,1321 +1,983 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>محاضرات في حساب التكامل — د. صلاح الدين عباس</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محاضرات في حساب التكامل — د. صالح الدين عباس</title>
 
-<style>
-  :root {
-    --ink: #1a1008;
-    --parchment: #fdf8ef;
-    --gold: #c8941a;
-    --gold-light: #e8b84b;
-    --gold-pale: #f5e9c8;
-    --teal: #1a6b6b;
-    --teal-light: #2a8a8a;
-    --red: #8b1a1a;
-    --cream: #f9f3e3;
-    --border: #d4b96a;
-    --shadow: rgba(26,16,8,0.15);
-  }
+  <!-- خطوط جوجل -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  <!-- KaTeX لتصيير المعادلات الرياضية -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
 
-  body {
-    font-family: 'Cairo', sans-serif;
-    background: var(--parchment);
-    color: var(--ink);
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(200,148,26,0.08) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 100%, rgba(26,107,107,0.06) 0%, transparent 50%);
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: var(--ink);
-    color: var(--gold-light);
-    text-align: center;
-    padding: 2.5rem 1.5rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-  header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent, transparent 30px,
-      rgba(200,148,26,0.04) 30px, rgba(200,148,26,0.04) 31px
-    );
-  }
-  header::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0; height: 4px;
-    background: linear-gradient(90deg, var(--gold), var(--teal), var(--gold));
-  }
-  .header-ornament {
-    font-family: 'Amiri', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-    opacity: 0.7;
-    letter-spacing: 0.3em;
-    margin-bottom: 0.5rem;
-  }
-  header h1 {
-    font-family: 'Amiri', serif;
-    font-size: clamp(1.8rem, 5vw, 3rem);
-    font-weight: 700;
-    line-height: 1.3;
-    position: relative;
-  }
-  header .subtitle {
-    margin-top: 0.6rem;
-    font-size: 0.95rem;
-    color: rgba(232,184,75,0.7);
-    font-weight: 300;
-  }
-  header .author {
-    margin-top: 0.4rem;
-    font-family: 'Amiri', serif;
-    font-size: 1.1rem;
-    color: var(--gold);
-  }
-
-  /* ── LAYOUT ── */
-  .app {
-    display: flex;
-    min-height: calc(100vh - 140px);
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: 280px;
-    flex-shrink: 0;
-    background: var(--cream);
-    border-left: 3px solid var(--border);
-    padding: 1.5rem 0;
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-  }
-  .sidebar-title {
-    font-family: 'Amiri', serif;
-    font-size: 1.1rem;
-    color: var(--teal);
-    text-align: center;
-    padding: 0 1rem 1rem;
-    border-bottom: 2px solid var(--border);
-    margin-bottom: 0.5rem;
-  }
-  .nav-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.7rem 1.2rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    border-right: 3px solid transparent;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #4a3520;
-  }
-  .nav-item:hover { background: var(--gold-pale); color: var(--teal); }
-  .nav-item.active {
-    background: var(--gold-pale);
-    border-right-color: var(--gold);
-    color: var(--teal);
-  }
-  .nav-number {
-    width: 24px; height: 24px;
-    background: var(--teal);
-    color: white;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem;
-    flex-shrink: 0;
-  }
-  .nav-item.active .nav-number { background: var(--gold); }
-
-  /* ── MAIN CONTENT ── */
-  .main {
-    flex: 1;
-    padding: 2rem 2.5rem;
-    max-width: 860px;
-  }
-
-  /* ── CHAPTER ── */
-  .chapter { display: none; }
-  .chapter.active { display: block; animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-
-  .chapter-header {
-    border-bottom: 3px double var(--border);
-    padding-bottom: 1rem;
-    margin-bottom: 2rem;
-  }
-  .chapter-label {
-    font-size: 0.8rem;
-    color: var(--gold);
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .chapter-title {
-    font-family: 'Amiri', serif;
-    font-size: clamp(1.5rem, 4vw, 2.2rem);
-    color: var(--teal);
-    margin-top: 0.3rem;
-    line-height: 1.4;
-  }
-
-  /* ── CONTENT BLOCKS ── */
-  .definition-box, .theorem-box, .formula-box, .note-box {
-    border-radius: 4px;
-    padding: 1.2rem 1.5rem;
-    margin: 1.5rem 0;
-    position: relative;
-  }
-  .definition-box {
-    background: rgba(26,107,107,0.06);
-    border-right: 5px solid var(--teal);
-    border-top: 1px solid rgba(26,107,107,0.2);
-  }
-  .theorem-box {
-    background: rgba(139,26,26,0.05);
-    border-right: 5px solid var(--red);
-  }
-  .formula-box {
-    background: var(--gold-pale);
-    border: 1.5px solid var(--border);
-    text-align: center;
-  }
-  .note-box {
-    background: rgba(200,148,26,0.08);
-    border: 1px dashed var(--gold);
-  }
-  .box-label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-  }
-  .definition-box .box-label { color: var(--teal); }
-  .theorem-box .box-label { color: var(--red); }
-  .formula-box .box-label { color: var(--gold); }
-  .note-box .box-label { color: #7a5c1a; }
-
-  p { line-height: 1.9; margin-bottom: 0.9rem; font-size: 1rem; }
-  h3 {
-    font-family: 'Amiri', serif;
-    font-size: 1.3rem;
-    color: var(--ink);
-    margin: 2rem 0 0.8rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* ── MATH ── */
-  .math-block {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1rem 1.5rem;
-    margin: 1rem 0;
-    overflow-x: auto;
-    text-align: center;
-    font-size: 1.05rem;
-  }
-  .katex-display { margin: 0 !important; }
-
-  /* ── TABLE ── */
-  .formula-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1rem 0;
-    font-size: 0.93rem;
-  }
-  .formula-table th {
-    background: var(--teal);
-    color: white;
-    padding: 0.7rem 1rem;
-    text-align: center;
-    font-weight: 600;
-  }
-  .formula-table td {
-    padding: 0.6rem 1rem;
-    border: 1px solid var(--border);
-    text-align: center;
-    vertical-align: middle;
-  }
-  .formula-table tr:nth-child(even) td { background: var(--gold-pale); }
-  .formula-table tr:hover td { background: rgba(26,107,107,0.07); }
-  .row-num {
-    font-weight: 700;
-    color: var(--teal);
-    font-size: 0.8rem;
-    background: var(--gold-pale) !important;
-  }
-
-  /* ── EXAMPLES ── */
-  .example-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    margin: 1.5rem 0;
-    overflow: hidden;
-    box-shadow: 0 2px 8px var(--shadow);
-  }
-  .example-header {
-    background: var(--ink);
-    color: var(--gold-light);
-    padding: 0.6rem 1.2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-  }
-  .example-header:hover { background: #2a1e0e; }
-  .example-header span { font-size: 0.85rem; font-weight: 600; }
-  .example-header .toggle { color: var(--gold); transition: transform 0.3s; font-size: 1.2rem; }
-  .example-header.open .toggle { transform: rotate(180deg); }
-  .example-question {
-    padding: 1rem 1.2rem;
-    background: var(--cream);
-    border-bottom: 1px dashed var(--border);
-    font-weight: 600;
-    font-size: 0.95rem;
-  }
-  .example-solution {
-    padding: 1rem 1.2rem;
-    display: none;
-  }
-  .example-solution.show { display: block; animation: fadeIn 0.25s ease; }
-  .solution-step {
-    display: flex;
-    gap: 0.8rem;
-    margin: 0.6rem 0;
-    align-items: flex-start;
-    font-size: 0.93rem;
-  }
-  .step-num {
-    background: var(--teal);
-    color: white;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.7rem;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .result-box {
-    background: var(--gold-pale);
-    border: 2px solid var(--gold);
-    border-radius: 4px;
-    padding: 0.8rem 1.2rem;
-    text-align: center;
-    margin-top: 0.8rem;
-    font-weight: 700;
-  }
-
-  /* ── QUIZ ── */
-  .quiz-section {
-    background: white;
-    border: 2px solid var(--teal);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-top: 2.5rem;
-    box-shadow: 0 3px 12px var(--shadow);
-  }
-  .quiz-section h3 {
-    color: var(--teal);
-    border-bottom-color: var(--teal);
-    margin-top: 0;
-    font-size: 1.2rem;
-  }
-  .quiz-q {
-    margin: 1.2rem 0;
-    padding: 1rem;
-    background: var(--cream);
-    border-radius: 4px;
-    border-right: 3px solid var(--border);
-  }
-  .quiz-q p { font-weight: 600; margin-bottom: 0.7rem; font-size: 0.95rem; }
-  .quiz-options { display: flex; flex-direction: column; gap: 0.5rem; }
-  .quiz-opt {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.15s;
-    font-size: 0.9rem;
-    border: 1px solid transparent;
-  }
-  .quiz-opt:hover { background: var(--gold-pale); }
-  .quiz-opt input { accent-color: var(--teal); }
-  .quiz-opt.correct { background: rgba(26,107,107,0.12); border-color: var(--teal); }
-  .quiz-opt.wrong { background: rgba(139,26,26,0.08); border-color: var(--red); }
-  .quiz-btn {
-    margin-top: 1rem;
-    padding: 0.6rem 2rem;
-    background: var(--teal);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Cairo', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    transition: background 0.2s;
-  }
-  .quiz-btn:hover { background: var(--teal-light); }
-  .quiz-result {
-    margin-top: 1rem;
-    padding: 0.8rem 1rem;
-    border-radius: 4px;
-    font-weight: 700;
-    display: none;
-    text-align: center;
-  }
-  .quiz-result.show { display: block; }
-  .quiz-result.pass { background: rgba(26,107,107,0.12); color: var(--teal); }
-  .quiz-result.fail { background: rgba(139,26,26,0.08); color: var(--red); }
-
-  /* ── PROGRESS BAR ── */
-  .progress-bar {
-    height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    overflow: hidden;
-    margin: 0.3rem 0;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--teal), var(--gold));
-    transition: width 0.5s ease;
-  }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { padding: 1.2rem; }
-    .formula-table { font-size: 0.8rem; }
-  }
-
-  /* ── INTRO CARD ── */
-  .intro-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
-  .intro-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.1rem;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 1px 4px var(--shadow);
-  }
-  .intro-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px var(--shadow);
-    border-color: var(--gold);
-  }
-  .intro-card .ic-num {
-    width: 36px; height: 36px;
-    background: var(--teal);
-    color: white;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700;
-    margin: 0 auto 0.5rem;
-    font-size: 0.9rem;
-  }
-  .intro-card .ic-title {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--ink);
-    line-height: 1.4;
-  }
-  .bismi {
-    font-family: 'Amiri', serif;
-    font-size: 1.3rem;
-    text-align: center;
-    color: var(--teal);
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-</style>
+  <!-- ملف CSS الخاص بالموقع -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════
+     HEADER — الرأسية العلوية
+     ══════════════════════════════════════════ -->
 <header>
-  <div class="header-ornament">— جامعة سوهاج — كلية التربية — قسم الرياضيات —</div>
+  <div class="header-ornament">— جامعة سوهاج · كلية التربية · قسم الرياضيات —</div>
   <h1>محاضرات في حساب التكامل (حسبان ٢)</h1>
   <div class="author">د. صالح الدين عباس</div>
-  <div class="subtitle">للفرقة الأولى • كلية التربية</div>
+  <div class="subtitle">للفرقة الأولى · كلية التربية</div>
+  <div class="made-by">Made by Flasha 🎴 and Leader</div>
 </header>
 
+<!-- ══════════════════════════════════════════
+     APP LAYOUT — الهيكل العام
+     ══════════════════════════════════════════ -->
 <div class="app">
-  <!-- SIDEBAR -->
+
+  <!-- ── SIDEBAR — الشريط الجانبي للتنقل ── -->
   <nav class="sidebar">
     <div class="sidebar-title">📚 فهرس المحاضرات</div>
-    <div class="nav-item active" onclick="showChapter(0)">
-      <span class="nav-number">م</span> مقدمة وجداول قياسية
-    </div>
-    <div class="nav-item" onclick="showChapter(1)">
-      <span class="nav-number">١</span> التكامل غير المحدود
-    </div>
-    <div class="nav-item" onclick="showChapter(2)">
-      <span class="nav-number">٢</span> تكامل الدوال المثلثية
-    </div>
-    <div class="nav-item" onclick="showChapter(3)">
-      <span class="nav-number">٣</span> تكامل الدوال الزائدية
-    </div>
-    <div class="nav-item" onclick="showChapter(4)">
-      <span class="nav-number">٤</span> التكامل بالتجزيء
-    </div>
-    <div class="nav-item" onclick="showChapter(5)">
-      <span class="nav-number">٥</span> التكامل بالتعويض
-    </div>
-    <div class="nav-item" onclick="showChapter(6)">
-      <span class="nav-number">٦</span> الكسور الجزئية
-    </div>
-    <div class="nav-item" onclick="showChapter(7)">
-      <span class="nav-number">٧</span> إكمال المربع
-    </div>
-    <div class="nav-item" onclick="showChapter(8)">
-      <span class="nav-number">٨</span> الاختزال المتتالي
-    </div>
-    <div class="nav-item" onclick="showChapter(9)">
-      <span class="nav-number">٩</span> التكامل المحدود
+    <div class="nav-list">
+      <!-- كل nav-item يستدعي showChapter بالرقم المناسب -->
+      <div class="nav-item active"  onclick="showChapter(0)"><span class="nav-number">م</span>  مقدمة وجداول قياسية</div>
+      <div class="nav-item"         onclick="showChapter(1)"><span class="nav-number">١</span>  التكامل غير المحدود</div>
+      <div class="nav-item"         onclick="showChapter(2)"><span class="nav-number">٢</span>  تكامل الدوال المثلثية</div>
+      <div class="nav-item"         onclick="showChapter(3)"><span class="nav-number">٣</span>  تكامل الدوال الزائدية</div>
+      <div class="nav-item"         onclick="showChapter(4)"><span class="nav-number">٤</span>  التكامل بالتجزيء</div>
+      <div class="nav-item"         onclick="showChapter(5)"><span class="nav-number">٥</span>  التكامل بالتعويض</div>
+      <div class="nav-item"         onclick="showChapter(6)"><span class="nav-number">٦</span>  الكسور الجزئية</div>
+      <div class="nav-item"         onclick="showChapter(7)"><span class="nav-number">٧</span>  إكمال المربع</div>
+      <div class="nav-item"         onclick="showChapter(8)"><span class="nav-number">٨</span>  الاختزال المتتالي</div>
+      <div class="nav-item"         onclick="showChapter(9)"><span class="nav-number">٩</span>  التكامل المحدود</div>
     </div>
   </nav>
 
-  <!-- MAIN -->
+  <!-- ── MAIN — منطقة المحتوى الرئيسية ── -->
   <main class="main">
 
-    <!-- ══ CHAPTER 0: INTRO ══ -->
-    <section class="chapter active" id="ch0">
-      <div class="chapter-header">
-        <div class="chapter-label">المقدمة</div>
-        <div class="chapter-title">الجداول القياسية والمتطابقات الأساسية</div>
-      </div>
+    <!-- ══════════════════════════════════════
+         CONTENT PANE — لوح المحتوى القابل للتمرير
+         (يُخفى عند فتح المتصفح المدمج)
+         ══════════════════════════════════════ -->
+    <div class="content-pane" style="display:flex; flex-direction:column;">
+      <div class="content-inner">
 
-      <div class="bismi">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</div>
-
-      <p>هذه المحاضرات في حساب التكامل (حسبان ٢) مُعَدَّة لطلاب الفرقة الأولى بكلية التربية — قسم الرياضيات، جامعة سوهاج. اضغط على أي باب أدناه للانتقال إليه مباشرة.</p>
-
-      <div class="intro-grid">
-        <div class="intro-card" onclick="showChapter(1)"><div class="ic-num">١</div><div class="ic-title">التكامل غير المحدود</div></div>
-        <div class="intro-card" onclick="showChapter(2)"><div class="ic-num">٢</div><div class="ic-title">تكامل الدوال المثلثية</div></div>
-        <div class="intro-card" onclick="showChapter(3)"><div class="ic-num">٣</div><div class="ic-title">الدوال الزائدية</div></div>
-        <div class="intro-card" onclick="showChapter(4)"><div class="ic-num">٤</div><div class="ic-title">التكامل بالتجزيء</div></div>
-        <div class="intro-card" onclick="showChapter(5)"><div class="ic-num">٥</div><div class="ic-title">التكامل بالتعويض</div></div>
-        <div class="intro-card" onclick="showChapter(6)"><div class="ic-num">٦</div><div class="ic-title">الكسور الجزئية</div></div>
-        <div class="intro-card" onclick="showChapter(7)"><div class="ic-num">٧</div><div class="ic-title">إكمال المربع</div></div>
-        <div class="intro-card" onclick="showChapter(8)"><div class="ic-num">٨</div><div class="ic-title">الاختزال المتتالي</div></div>
-        <div class="intro-card" onclick="showChapter(9)"><div class="ic-num">٩</div><div class="ic-title">التكامل المحدود</div></div>
-      </div>
-
-      <h3>الجدول القياسي للتفاضلات</h3>
-      <table class="formula-table">
-        <tr><th>م</th><th>الدالة</th><th>المشتقة \(\dfrac{dy}{dx}\)</th></tr>
-        <tr><td class="row-num">١</td><td>\(y=x^n\)</td><td>\(nx^{n-1}\)</td></tr>
-        <tr><td class="row-num">٢</td><td>\(y=a^x\)</td><td>\(a^x \ln a\)</td></tr>
-        <tr><td class="row-num">٣</td><td>\(y=e^x\)</td><td>\(e^x\)</td></tr>
-        <tr><td class="row-num">٤</td><td>\(y=\ln x\)</td><td>\(\dfrac{1}{x}\)</td></tr>
-        <tr><td class="row-num">٥</td><td>\(y=\sin x\)</td><td>\(\cos x\)</td></tr>
-        <tr><td class="row-num">٦</td><td>\(y=\cos x\)</td><td>\(-\sin x\)</td></tr>
-        <tr><td class="row-num">٧</td><td>\(y=\tan x\)</td><td>\(\sec^2 x\)</td></tr>
-        <tr><td class="row-num">٨</td><td>\(y=\cot x\)</td><td>\(-\csc^2 x\)</td></tr>
-        <tr><td class="row-num">٩</td><td>\(y=\sec x\)</td><td>\(\sec x\tan x\)</td></tr>
-        <tr><td class="row-num">١٠</td><td>\(y=\csc x\)</td><td>\(-\csc x\cot x\)</td></tr>
-        <tr><td class="row-num">١١</td><td>\(y=\sin^{-1}x\)</td><td>\(\dfrac{1}{\sqrt{1-x^2}}\)</td></tr>
-        <tr><td class="row-num">١٢</td><td>\(y=\cos^{-1}x\)</td><td>\(\dfrac{-1}{\sqrt{1-x^2}}\)</td></tr>
-        <tr><td class="row-num">١٣</td><td>\(y=\tan^{-1}x\)</td><td>\(\dfrac{1}{1+x^2}\)</td></tr>
-        <tr><td class="row-num">١٤</td><td>\(y=\sinh x\)</td><td>\(\cosh x\)</td></tr>
-        <tr><td class="row-num">١٥</td><td>\(y=\cosh x\)</td><td>\(\sinh x\)</td></tr>
-        <tr><td class="row-num">١٦</td><td>\(y=\tanh x\)</td><td>\(\text{sech}^2 x\)</td></tr>
-      </table>
-
-      <h3>المتطابقات المثلثية الهامة</h3>
-      <div class="formula-box"><div class="box-label">متطابقات أساسية</div>
-        <p>\(\sin^2 x + \cos^2 x = 1\quad\) | \(\quad 1+\tan^2 x = \sec^2 x\quad\) | \(\quad 1+\cot^2 x = \csc^2 x\)</p>
-        <p>\(\sin^2 x = \dfrac{1-\cos 2x}{2}\quad\) | \(\quad\cos^2 x = \dfrac{1+\cos 2x}{2}\)</p>
-        <p>\(\sin 2x = 2\sin x\cos x\quad\) | \(\quad\cos 2x = \cos^2 x - \sin^2 x\)</p>
-      </div>
-
-      <h3>المتطابقات الزائدية الهامة</h3>
-      <div class="formula-box"><div class="box-label">دوال زائدية</div>
-        <p>\(\cosh^2 x - \sinh^2 x = 1\quad\) | \(\quad 1-\tanh^2 x = \text{sech}^2 x\)</p>
-        <p>\(\sinh x = \dfrac{e^x - e^{-x}}{2}\quad\) | \(\quad\cosh x = \dfrac{e^x + e^{-x}}{2}\)</p>
-      </div>
-    </section>
-
-    <!-- ══ CHAPTER 1: INDEFINITE INTEGRAL ══ -->
-    <section class="chapter" id="ch1">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب الأول</div>
-        <div class="chapter-title">التكامل غير المحدود</div>
-      </div>
-
-      <div class="definition-box">
-        <div class="box-label">تعريف</div>
-        <p>إذا كانت \(g\) دالة معرفة على فترة ما، وكانت \(F\) دالة مشتقة على هذه الفترة بحيث يكون \(F'(x) = g(x)\)، فإن الدالة \(F\) تُسمى <strong>دالة مقابلة</strong> أو <strong>تكاملاً غير محدود</strong> للدالة \(g\)، ونعبر عن ذلك بالرمز:</p>
-        <div class="math-block">\[\int g(x)\,dx = F(x) + c\]</div>
-        <p>حيث \(c\) ثابت اختياري يُسمى <strong>ثابت التكامل</strong>.</p>
-      </div>
-
-      <h3>الجدول القياسي للتكاملات</h3>
-      <table class="formula-table">
-        <tr><th>م</th><th>الصيغة</th></tr>
-        <tr><td class="row-num">١</td><td>\(\displaystyle\int 0\,dx = c\)</td></tr>
-        <tr><td class="row-num">٢</td><td>\(\displaystyle\int k\,f(x)\,dx = k\int f(x)\,dx\)</td></tr>
-        <tr><td class="row-num">٣</td><td>\(\displaystyle\int [f(x)+g(x)]\,dx = \int f(x)\,dx + \int g(x)\,dx\)</td></tr>
-        <tr><td class="row-num">٤</td><td>\(\displaystyle\int x^n\,dx = \dfrac{x^{n+1}}{n+1}+c \quad (n\neq -1)\)</td></tr>
-        <tr><td class="row-num">٥</td><td>\(\displaystyle\int \frac{1}{x}\,dx = \ln|x|+c\)</td></tr>
-        <tr><td class="row-num">٦</td><td>\(\displaystyle\int e^x\,dx = e^x+c\)</td></tr>
-        <tr><td class="row-num">٧</td><td>\(\displaystyle\int a^x\,dx = \dfrac{a^x}{\ln a}+c\)</td></tr>
-        <tr><td class="row-num">٨</td><td>\(\displaystyle\int \sin x\,dx = -\cos x+c\)</td></tr>
-        <tr><td class="row-num">٩</td><td>\(\displaystyle\int \cos x\,dx = \sin x+c\)</td></tr>
-        <tr><td class="row-num">١٠</td><td>\(\displaystyle\int \sec^2 x\,dx = \tan x+c\)</td></tr>
-        <tr><td class="row-num">١١</td><td>\(\displaystyle\int \csc^2 x\,dx = -\cot x+c\)</td></tr>
-        <tr><td class="row-num">١٢</td><td>\(\displaystyle\int \sec x\tan x\,dx = \sec x+c\)</td></tr>
-        <tr><td class="row-num">١٣</td><td>\(\displaystyle\int \csc x\cot x\,dx = -\csc x+c\)</td></tr>
-        <tr><td class="row-num">١٤</td><td>\(\displaystyle\int \frac{dx}{\sqrt{1-x^2}} = \sin^{-1}x+c\)</td></tr>
-        <tr><td class="row-num">١٥</td><td>\(\displaystyle\int \frac{dx}{1+x^2} = \tan^{-1}x+c\)</td></tr>
-        <tr><td class="row-num">١٦</td><td>\(\displaystyle\int \frac{dx}{x\sqrt{x^2-1}} = \sec^{-1}x+c\)</td></tr>
-      </table>
-
-      <h3>المعادلة التفاضلية</h3>
-      <div class="note-box">
-        <div class="box-label">تعريف</div>
-        <p>المعادلة التفاضلية في متغيرين \(x,y\) هي معادلة تحتوي على المتغيرين وتفاضلات \(y\) بالنسبة إلى \(x\). المعادلة التفاضلية من الدرجة الأولى والرتبة الأولى تكون على الصورة:</p>
-        <div class="math-block">\[f\!\left(x,y,\frac{dy}{dx}\right)=0\]</div>
-      </div>
-
-      <h3>أمثلة محلولة</h3>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — تكامل مباشر</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int (2x^3 - 4x^2 + x)\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نطبق خاصية توزيع التكامل على الحدود:</div></div>
-          <div class="math-block">\[\int 2x^3\,dx - \int 4x^2\,dx + \int x\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق قانون \(\int x^n dx = \dfrac{x^{n+1}}{n+1}+c\)</div></div>
-          <div class="result-box">\[\dfrac{x^4}{2} - \dfrac{4x^3}{3} + \dfrac{x^2}{2} + c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٢) — معادلة تفاضلية</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          أوجد الحل العام للمعادلة التفاضلية: \(\dfrac{dy}{dx} = 5\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نضرب الطرفين في \(dx\):</div></div>
-          <div class="math-block">\[dy = 5\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نكامل الطرفين:</div></div>
-          <div class="math-block">\[\int dy = \int 5\,dx\]</div>
-          <div class="result-box">\[y = 5x + c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٣) — معادلة تفاضلية</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          أوجد الحل العام للمعادلة التفاضلية: \(\dfrac{dy}{dx} = x^2 + 1\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نضرب الطرفين في \(dx\):</div></div>
-          <div class="math-block">\[dy = (x^2+1)\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نكامل الطرفين:</div></div>
-          <div class="result-box">\[y = \dfrac{x^3}{3} + x + c\]</div>
-        </div>
-      </div>
-
-      <!-- QUIZ 1 -->
-      <div class="quiz-section">
-        <h3>🧠 اختبر نفسك — الباب الأول</h3>
-        <div class="quiz-q" id="q1">
-          <p>١) ما قيمة \(\displaystyle\int x^4\,dx\) ؟</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="q1" value="a"> \(4x^3 + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q1" value="b"> \(\dfrac{x^5}{5} + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q1" value="c"> \(\dfrac{x^4}{4} + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q1" value="d"> \(x^5 + c\)</label>
+        <!-- ═══════════════════════════════
+             CHAPTER 0 — المقدمة
+             ═══════════════════════════════ -->
+        <section class="chapter active" id="ch0">
+          <div class="chapter-header">
+            <div class="chapter-label">المقدمة</div>
+            <div class="chapter-title">الجداول القياسية والمتطابقات الأساسية</div>
           </div>
-        </div>
-        <div class="quiz-q" id="q2">
-          <p>٢) الحل العام لـ \(\dfrac{dy}{dx} = 3x^2\) هو:</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="q2" value="a"> \(y = 6x + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q2" value="b"> \(y = x^3 + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q2" value="c"> \(y = 3x + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q2" value="d"> \(y = x^2 + c\)</label>
+
+          <div class="bismi">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</div>
+
+          <p>
+            هذه المحاضرات في حساب التكامل (حسبان ٢) مُعَدَّة لطلاب الفرقة الأولى بكلية التربية — قسم الرياضيات، جامعة سوهاج.
+            اضغط على أي باب أدناه أو استخدم الشريط الجانبي للانتقال مباشرةً.
+          </p>
+
+          <!-- بطاقات الأبواب السريعة -->
+          <div class="intro-grid">
+            <div class="intro-card" onclick="showChapter(1)"><div class="ic-num">١</div><div class="ic-title">التكامل غير المحدود</div></div>
+            <div class="intro-card" onclick="showChapter(2)"><div class="ic-num">٢</div><div class="ic-title">الدوال المثلثية</div></div>
+            <div class="intro-card" onclick="showChapter(3)"><div class="ic-num">٣</div><div class="ic-title">الدوال الزائدية</div></div>
+            <div class="intro-card" onclick="showChapter(4)"><div class="ic-num">٤</div><div class="ic-title">التجزيء</div></div>
+            <div class="intro-card" onclick="showChapter(5)"><div class="ic-num">٥</div><div class="ic-title">التعويض</div></div>
+            <div class="intro-card" onclick="showChapter(6)"><div class="ic-num">٦</div><div class="ic-title">الكسور الجزئية</div></div>
+            <div class="intro-card" onclick="showChapter(7)"><div class="ic-num">٧</div><div class="ic-title">إكمال المربع</div></div>
+            <div class="intro-card" onclick="showChapter(8)"><div class="ic-num">٨</div><div class="ic-title">الاختزال</div></div>
+            <div class="intro-card" onclick="showChapter(9)"><div class="ic-num">٩</div><div class="ic-title">التكامل المحدود</div></div>
           </div>
-        </div>
-        <button class="quiz-btn" onclick="checkQuiz('ch1quiz',{'q1':'b','q2':'b'})">تحقق من الإجابات</button>
-        <div class="quiz-result" id="ch1quiz"></div>
-      </div>
-    </section>
 
-    <!-- ══ CHAPTER 2: TRIG INTEGRALS ══ -->
-    <section class="chapter" id="ch2">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب الثاني</div>
-        <div class="chapter-title">تكامل الدوال المثلثية</div>
-      </div>
+          <!-- جدول التفاضلات القياسي -->
+          <h3>الجدول القياسي للتفاضلات</h3>
+          <table class="formula-table">
+            <thead><tr><th>م</th><th>الدالة</th><th>المشتقة \(\dfrac{dy}{dx}\)</th></tr></thead>
+            <tbody>
+              <tr><td class="row-num">١</td><td>\(y=x^n\)</td><td>\(nx^{n-1}\)</td></tr>
+              <tr><td class="row-num">٢</td><td>\(y=a^x\)</td><td>\(a^x \ln a\)</td></tr>
+              <tr><td class="row-num">٣</td><td>\(y=e^x\)</td><td>\(e^x\)</td></tr>
+              <tr><td class="row-num">٤</td><td>\(y=\ln x\)</td><td>\(\dfrac{1}{x}\)</td></tr>
+              <tr><td class="row-num">٥</td><td>\(y=\log_a x\)</td><td>\(\dfrac{1}{x\ln a}\)</td></tr>
+              <tr><td class="row-num">٦</td><td>\(y=\sin x\)</td><td>\(\cos x\)</td></tr>
+              <tr><td class="row-num">٧</td><td>\(y=\cos x\)</td><td>\(-\sin x\)</td></tr>
+              <tr><td class="row-num">٨</td><td>\(y=\tan x\)</td><td>\(\sec^2 x\)</td></tr>
+              <tr><td class="row-num">٩</td><td>\(y=\cot x\)</td><td>\(-\csc^2 x\)</td></tr>
+              <tr><td class="row-num">١٠</td><td>\(y=\sec x\)</td><td>\(\sec x\tan x\)</td></tr>
+              <tr><td class="row-num">١١</td><td>\(y=\csc x\)</td><td>\(-\csc x\cot x\)</td></tr>
+              <tr><td class="row-num">١٢</td><td>\(y=\sin^{-1}x\)</td><td>\(\dfrac{1}{\sqrt{1-x^2}}\)</td></tr>
+              <tr><td class="row-num">١٣</td><td>\(y=\cos^{-1}x\)</td><td>\(\dfrac{-1}{\sqrt{1-x^2}}\)</td></tr>
+              <tr><td class="row-num">١٤</td><td>\(y=\tan^{-1}x\)</td><td>\(\dfrac{1}{1+x^2}\)</td></tr>
+              <tr><td class="row-num">١٥</td><td>\(y=\cot^{-1}x\)</td><td>\(\dfrac{-1}{1+x^2}\)</td></tr>
+              <tr><td class="row-num">١٦</td><td>\(y=\sec^{-1}x\)</td><td>\(\dfrac{1}{x\sqrt{x^2-1}}\)</td></tr>
+              <tr><td class="row-num">١٧</td><td>\(y=\csc^{-1}x\)</td><td>\(\dfrac{-1}{x\sqrt{x^2-1}}\)</td></tr>
+              <tr><td class="row-num">١٨</td><td>\(y=\sinh x\)</td><td>\(\cosh x\)</td></tr>
+              <tr><td class="row-num">١٩</td><td>\(y=\cosh x\)</td><td>\(\sinh x\)</td></tr>
+              <tr><td class="row-num">٢٠</td><td>\(y=\tanh x\)</td><td>\(\text{sech}^2 x\)</td></tr>
+              <tr><td class="row-num">٢١</td><td>\(y=\coth x\)</td><td>\(-\text{csch}^2 x\)</td></tr>
+              <tr><td class="row-num">٢٢</td><td>\(y=\text{sech}\,x\)</td><td>\(-\text{sech}\,x\tanh x\)</td></tr>
+              <tr><td class="row-num">٢٣</td><td>\(y=\text{csch}\,x\)</td><td>\(-\text{csch}\,x\coth x\)</td></tr>
+              <tr><td class="row-num">٢٤</td><td>\(y=\sinh^{-1}x\)</td><td>\(\dfrac{1}{\sqrt{1+x^2}}\)</td></tr>
+              <tr><td class="row-num">٢٥</td><td>\(y=\cosh^{-1}x\)</td><td>\(\dfrac{1}{\sqrt{x^2-1}}\)</td></tr>
+              <tr><td class="row-num">٢٦</td><td>\(y=\tanh^{-1}x\)</td><td>\(\dfrac{1}{1-x^2}\)</td></tr>
+            </tbody>
+          </table>
 
-      <h3>التكاملات المثلثية الأساسية</h3>
-      <table class="formula-table">
-        <tr><th>م</th><th>التكامل</th><th>النتيجة</th></tr>
-        <tr><td class="row-num">١</td><td>\(\displaystyle\int\sin x\,dx\)</td><td>\(-\cos x+c\)</td></tr>
-        <tr><td class="row-num">٢</td><td>\(\displaystyle\int\cos x\,dx\)</td><td>\(\sin x+c\)</td></tr>
-        <tr><td class="row-num">٣</td><td>\(\displaystyle\int\sec x\tan x\,dx\)</td><td>\(\sec x+c\)</td></tr>
-        <tr><td class="row-num">٤</td><td>\(\displaystyle\int\csc x\cot x\,dx\)</td><td>\(-\csc x+c\)</td></tr>
-        <tr><td class="row-num">٥</td><td>\(\displaystyle\int\sec^2 x\,dx\)</td><td>\(\tan x+c\)</td></tr>
-        <tr><td class="row-num">٦</td><td>\(\displaystyle\int\csc^2 x\,dx\)</td><td>\(-\cot x+c\)</td></tr>
-        <tr><td class="row-num">٧</td><td>\(\displaystyle\int\tan x\,dx\)</td><td>\(\ln|\sec x|+c\)</td></tr>
-        <tr><td class="row-num">٨</td><td>\(\displaystyle\int\cot x\,dx\)</td><td>\(\ln|\sin x|+c\)</td></tr>
-        <tr><td class="row-num">٩</td><td>\(\displaystyle\int\sec x\,dx\)</td><td>\(\ln|\sec x+\tan x|+c\)</td></tr>
-        <tr><td class="row-num">١٠</td><td>\(\displaystyle\int\csc x\,dx\)</td><td>\(\ln|\csc x-\cot x|+c\)</td></tr>
-        <tr><td class="row-num">١١</td><td>\(\displaystyle\int\sin^2 x\,dx\)</td><td>\(\dfrac{x}{2}-\dfrac{\sin 2x}{4}+c\)</td></tr>
-        <tr><td class="row-num">١٢</td><td>\(\displaystyle\int\cos^2 x\,dx\)</td><td>\(\dfrac{x}{2}+\dfrac{\sin 2x}{4}+c\)</td></tr>
-        <tr><td class="row-num">١٣</td><td>\(\displaystyle\int\tan^2 x\,dx\)</td><td>\(\tan x - x+c\)</td></tr>
-        <tr><td class="row-num">١٤</td><td>\(\displaystyle\int\cot^2 x\,dx\)</td><td>\(-\cot x - x+c\)</td></tr>
-      </table>
-
-      <h3>أمثلة محلولة</h3>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — استخدام القانون المباشر</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int \dfrac{\sin x}{\cos^2 x}\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نكتب الكسر على شكل ضرب:</div></div>
-          <div class="math-block">\[\int\frac{\sin x}{\cos x}\cdot\frac{1}{\cos x}\,dx = \int\tan x\cdot\sec x\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق القانون مباشرة:</div></div>
-          <div class="result-box">\[\sec x + c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٢) — استخدام المتطابقات</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int \sin^3 x\cos x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نلاحظ أن \(\cos x = (\sin x)'\)، لذا نكتب:</div></div>
-          <div class="math-block">\[\int\sin^3 x\cdot d(\sin x)\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق قانون \(\int u^n du\):</div></div>
-          <div class="result-box">\[\dfrac{\sin^4 x}{4}+c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٣) — \(\int\sin^2 x\,dx\)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\sin^2 x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نستخدم المتطابقة: \(\sin^2 x = \dfrac{1-\cos 2x}{2}\)</div></div>
-          <div class="math-block">\[\int\frac{1-\cos 2x}{2}\,dx = \frac{1}{2}\int dx - \frac{1}{2}\int\cos 2x\,dx\]</div>
-          <div class="result-box">\[\dfrac{x}{2} - \dfrac{\sin 2x}{4}+c\]</div>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <h3>🧠 اختبر نفسك — الباب الثاني</h3>
-        <div class="quiz-q">
-          <p>١) \(\displaystyle\int\tan^2 x\,dx =\) ؟</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="q2_1" value="a"> \(\tan x + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q2_1" value="b"> \(\tan x - x + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q2_1" value="c"> \(\sec^2 x + c\)</label>
-            <label class="quiz-opt"><input type="radio" name="q2_1" value="d"> \(-\cot x - x + c\)</label>
+          <!-- المتطابقات المثلثية -->
+          <h3>المتطابقات المثلثية الهامة</h3>
+          <div class="formula-box">
+            <div class="box-label">متطابقات أساسية</div>
+            <p>\(\sin^2 x + \cos^2 x = 1 \quad|\quad 1+\tan^2 x = \sec^2 x \quad|\quad 1+\cot^2 x = \csc^2 x\)</p>
+            <p>\(\sin^2 x = \dfrac{1-\cos 2x}{2} \quad|\quad \cos^2 x = \dfrac{1+\cos 2x}{2}\)</p>
+            <p>\(\sin 2x = 2\sin x\cos x \quad|\quad \cos 2x = \cos^2 x - \sin^2 x\)</p>
+            <p>\(\tan^2 x = \sec^2 x - 1 \quad|\quad \cot^2 x = \csc^2 x - 1\)</p>
           </div>
-        </div>
-        <button class="quiz-btn" onclick="checkQuiz('ch2quiz',{'q2_1':'b'})">تحقق</button>
-        <div class="quiz-result" id="ch2quiz"></div>
-      </div>
-    </section>
 
-    <!-- ══ CHAPTER 3: HYPERBOLIC ══ -->
-    <section class="chapter" id="ch3">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب الثالث</div>
-        <div class="chapter-title">تكامل الدوال الزائدية</div>
-      </div>
-
-      <div class="definition-box">
-        <div class="box-label">تذكير بالدوال الزائدية</div>
-        <p>\(\sinh x = \dfrac{e^x-e^{-x}}{2}\) ، \(\cosh x = \dfrac{e^x+e^{-x}}{2}\) ، \(\tanh x = \dfrac{\sinh x}{\cosh x}\)</p>
-        <p>أهم المتطابقة: \(\cosh^2 x - \sinh^2 x = 1\)</p>
-      </div>
-
-      <h3>الجدول القياسي للتكاملات الزائدية</h3>
-      <table class="formula-table">
-        <tr><th>م</th><th>التكامل</th><th>النتيجة</th></tr>
-        <tr><td class="row-num">١</td><td>\(\displaystyle\int\sinh x\,dx\)</td><td>\(\cosh x+c\)</td></tr>
-        <tr><td class="row-num">٢</td><td>\(\displaystyle\int\cosh x\,dx\)</td><td>\(\sinh x+c\)</td></tr>
-        <tr><td class="row-num">٣</td><td>\(\displaystyle\int\text{sech}^2 x\,dx\)</td><td>\(\tanh x+c\)</td></tr>
-        <tr><td class="row-num">٤</td><td>\(\displaystyle\int\text{csch}^2 x\,dx\)</td><td>\(-\coth x+c\)</td></tr>
-        <tr><td class="row-num">٥</td><td>\(\displaystyle\int\text{sech}\,x\tanh x\,dx\)</td><td>\(-\text{sech}\,x+c\)</td></tr>
-        <tr><td class="row-num">٦</td><td>\(\displaystyle\int\text{csch}\,x\coth x\,dx\)</td><td>\(-\text{csch}\,x+c\)</td></tr>
-        <tr><td class="row-num">٧</td><td>\(\displaystyle\int\dfrac{dx}{\sqrt{1+x^2}}\)</td><td>\(\sinh^{-1}x+c\)</td></tr>
-        <tr><td class="row-num">٨</td><td>\(\displaystyle\int\dfrac{dx}{\sqrt{x^2-1}}\)</td><td>\(\cosh^{-1}x+c\)</td></tr>
-        <tr><td class="row-num">٩</td><td>\(\displaystyle\int\dfrac{dx}{1-x^2}\)</td><td>\(\tanh^{-1}x+c\quad(|x|<1)\)</td></tr>
-      </table>
-
-      <h3>أمثلة محلولة</h3>
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال — تكامل دالة زائدية مركبة</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\sinh^3 x\cosh x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نلاحظ أن \(\cosh x = (\sinh x)'\)</div></div>
-          <div class="math-block">\[\int\sinh^3 x\,d(\sinh x)\]</div>
-          <div class="result-box">\[\dfrac{\sinh^4 x}{4}+c\]</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ CHAPTER 4: INTEGRATION BY PARTS ══ -->
-    <section class="chapter" id="ch4">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب الرابع</div>
-        <div class="chapter-title">التكامل بالتجزيء</div>
-      </div>
-
-      <div class="theorem-box">
-        <div class="box-label">قانون التكامل بالتجزيء</div>
-        <p>من مقرر التفاضل: مشتقة حاصل ضرب دالتين تساوي:</p>
-        <div class="math-block">\[d(u\cdot v) = u\,dv + v\,du\]</div>
-        <p>بتكامل الطرفين:</p>
-        <div class="math-block">\[\boxed{\int u\,dv = uv - \int v\,du}\]</div>
-        <p>هذا هو <strong>قانون التكامل بالتجزيء</strong>.</p>
-      </div>
-
-      <div class="note-box">
-        <div class="box-label">كيف تختار u و dv؟</div>
-        <p>الترتيب المقترح لاختيار \(u\) (من الأعلى أولوية للأدنى): <strong>لوغاريتم ← دوال عكسية ← كثيرة الحدود ← أسية/مثلثية</strong></p>
-      </div>
-
-      <h3>أمثلة محلولة</h3>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — \(\int xe^x\,dx\)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب بالتجزيء: \(\displaystyle I = \int xe^x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=x \Rightarrow du=dx\) ، \(dv=e^x dx \Rightarrow v=e^x\)</div></div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق القانون: \(\int u\,dv = uv-\int v\,du\)</div></div>
-          <div class="math-block">\[\int xe^x\,dx = xe^x - \int e^x\,dx\]</div>
-          <div class="result-box">\[xe^x - e^x + c = e^x(x-1)+c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٢) — \(\int e^x\sin x\,dx\) (تجزيء متكرر)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle I = \int e^x\sin x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=\sin x,\; dv=e^x dx\)</div></div>
-          <div class="math-block">\[I = e^x\sin x - \int e^x\cos x\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نجزئ مرة أخرى: \(u=\cos x,\; dv=e^x dx\)</div></div>
-          <div class="math-block">\[I = e^x\sin x - e^x\cos x - \int e^x\sin x\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٣</div><div>نلاحظ أن \(\int e^x\sin x\,dx\) هو نفس \(I\)، فننقله للطرف الأيسر:</div></div>
-          <div class="math-block">\[2I = e^x\sin x - e^x\cos x\]</div>
-          <div class="result-box">\[I = \dfrac{e^x(\sin x - \cos x)}{2}+c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٣) — \(\int\ln x\,dx\)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\ln x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=\ln x \Rightarrow du=\tfrac{1}{x}dx\) ، \(dv=dx \Rightarrow v=x\)</div></div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق القانون:</div></div>
-          <div class="math-block">\[\int\ln x\,dx = x\ln x - \int x\cdot\frac{1}{x}\,dx = x\ln x - \int dx\]</div>
-          <div class="result-box">\[x\ln x - x + c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٤) — \(\int\tan^{-1}x\,dx\)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\tan^{-1}x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=\tan^{-1}x \Rightarrow du=\dfrac{dx}{1+x^2}\) ، \(dv=dx \Rightarrow v=x\)</div></div>
-          <div class="math-block">\[\int\tan^{-1}x\,dx = x\tan^{-1}x - \int\frac{x}{1+x^2}\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>للتكامل الأخير نستخدم \(\int\frac{f'(x)}{f(x)}dx=\ln|f(x)|+c\):</div></div>
-          <div class="result-box">\[x\tan^{-1}x - \dfrac{1}{2}\ln(1+x^2)+c\]</div>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <h3>🧠 اختبر نفسك — الباب الرابع</h3>
-        <div class="quiz-q">
-          <p>١) في تكامل \(\int x\cos x\,dx\) بالتجزيء، أي اختيار لـ \(u\) أصح؟</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="qp1" value="a"> \(u=\cos x\)</label>
-            <label class="quiz-opt"><input type="radio" name="qp1" value="b"> \(u=x\)</label>
-            <label class="quiz-opt"><input type="radio" name="qp1" value="c"> \(u=x\cos x\)</label>
+          <!-- المتطابقات الزائدية -->
+          <h3>المتطابقات الزائدية الهامة</h3>
+          <div class="formula-box">
+            <div class="box-label">دوال زائدية</div>
+            <p>\(\cosh^2 x - \sinh^2 x = 1 \quad|\quad 1 - \tanh^2 x = \text{sech}^2 x \quad|\quad \coth^2 x - 1 = \text{csch}^2 x\)</p>
+            <p>\(\sinh x = \dfrac{e^x - e^{-x}}{2} \quad|\quad \cosh x = \dfrac{e^x + e^{-x}}{2} \quad|\quad \tanh x = \dfrac{e^x - e^{-x}}{e^x + e^{-x}}\)</p>
           </div>
-        </div>
-        <div class="quiz-q">
-          <p>٢) \(\displaystyle\int\ln x\,dx =\) ؟</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="qp2" value="a"> \(\dfrac{1}{x}+c\)</label>
-            <label class="quiz-opt"><input type="radio" name="qp2" value="b"> \(x\ln x - x+c\)</label>
-            <label class="quiz-opt"><input type="radio" name="qp2" value="c"> \(\ln x - 1+c\)</label>
+
+          <!-- العلاقة بين الدوال المثلثية/الزائدية والأسية -->
+          <h3>العلاقة بين الدوال المثلثية والدالة الأسية</h3>
+          <div class="formula-box">
+            <div class="box-label">صيغ أويلر</div>
+            <p>\(e^{ix} = \cos x + i\sin x \quad|\quad \cos x = \dfrac{e^{ix}+e^{-ix}}{2} \quad|\quad \sin x = \dfrac{e^{ix}-e^{-ix}}{2i}\)</p>
           </div>
-        </div>
-        <button class="quiz-btn" onclick="checkQuiz('ch4quiz',{'qp1':'b','qp2':'b'})">تحقق</button>
-        <div class="quiz-result" id="ch4quiz"></div>
-      </div>
-    </section>
 
-    <!-- ══ CHAPTER 5: SUBSTITUTION ══ -->
-    <section class="chapter" id="ch5">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب الخامس</div>
-        <div class="chapter-title">التكامل بالتعويض</div>
-      </div>
-
-      <div class="definition-box">
-        <div class="box-label">الفكرة الأساسية</div>
-        <p>نستبدل متغير التكامل بتعبير جديد \(y = g(x)\) لتبسيط صورة التكامل وإرجاعه إلى صيغة قياسية. هناك نوعان رئيسيان: <strong>تعويضات جبرية</strong> و<strong>تعويضات مثلثية</strong>.</p>
-      </div>
-
-      <h3>التعويضات الجبرية</h3>
-      <p>تُستخدم للتخلص من الجذور التربيعية أو تبسيط التعابير المعقدة.</p>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — إزالة جذر تربيعي</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\dfrac{dx}{(3-x)\sqrt{x-2}}\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نعوِّض: \(y=\sqrt{x-2}\) أي \(y^2=x-2\)، ومنها \(2y\,dy=dx\)</div></div>
-          <div class="math-block">\[\int\frac{2y\,dy}{(3-(y^2+2))\cdot y} = \int\frac{2\,dy}{1-y^2}\]</div>
-          <div class="result-box">\[2\tan^{-1}(y)+c = 2\tan^{-1}\!\sqrt{x-2}+c\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٢)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int x^3\sqrt{x^2-4}\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نعوِّض: \(y=\sqrt{x^2-4}\) أي \(y^2=x^2-4\)، ومنها \(y\,dy=x\,dx\)</div></div>
-          <div class="math-block">\[\int (y^2+4)\cdot y\cdot y\,dy = \int(y^4+4y^2)\,dy\]</div>
-          <div class="result-box">\[\dfrac{1}{5}(x^2-4)^{5/2}+\dfrac{4}{3}(x^2-4)^{3/2}+c\]</div>
-        </div>
-      </div>
-
-      <h3>التعويضات المثلثية</h3>
-      <table class="formula-table">
-        <tr><th>الصورة</th><th>التعويض</th><th>المبرهنة المستخدمة</th></tr>
-        <tr><td>\(\sqrt{a^2-x^2}\)</td><td>\(x=a\sin\theta\)</td><td>\(1-\sin^2\theta=\cos^2\theta\)</td></tr>
-        <tr><td>\(\sqrt{a^2+x^2}\)</td><td>\(x=a\tan\theta\)</td><td>\(1+\tan^2\theta=\sec^2\theta\)</td></tr>
-        <tr><td>\(\sqrt{x^2-a^2}\)</td><td>\(x=a\sec\theta\)</td><td>\(\sec^2\theta-1=\tan^2\theta\)</td></tr>
-      </table>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٣) — تعويض مثلثي</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\dfrac{dx}{\sqrt{a^2-x^2}}\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نعوِّض: \(x = a\sin\theta \Rightarrow dx = a\cos\theta\,d\theta\)</div></div>
-          <div class="math-block">\[\int\frac{a\cos\theta\,d\theta}{\sqrt{a^2-a^2\sin^2\theta}} = \int\frac{a\cos\theta\,d\theta}{a\cos\theta} = \int d\theta\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نرجع للمتغير الأصلي: \(\theta = \sin^{-1}\!\dfrac{x}{a}\)</div></div>
-          <div class="result-box">\[\sin^{-1}\!\dfrac{x}{a}+c\]</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ CHAPTER 6: PARTIAL FRACTIONS ══ -->
-    <section class="chapter" id="ch6">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب السادس</div>
-        <div class="chapter-title">التكامل باستخدام الكسور الجزئية</div>
-      </div>
-
-      <div class="definition-box">
-        <div class="box-label">شرط التطبيق</div>
-        <p>قبل التحليل إلى كسور جزئية، يجب التأكد أن الكسر <strong>حقيقي</strong> (درجة البسط أقل من درجة المقام). ثم نحلل المقام إلى عوامله الأولية.</p>
-      </div>
-
-      <h3>الحالات الثلاث</h3>
-
-      <div class="theorem-box">
-        <div class="box-label">الحالة الأولى — عوامل مختلفة من الدرجة الأولى</div>
-        <p>إذا كان \(Q(x)=(x-a_1)(x-a_2)\cdots(x-a_n)\)، فإن:</p>
-        <div class="math-block">\[\frac{P(x)}{Q(x)} = \frac{A_1}{x-a_1}+\frac{A_2}{x-a_2}+\cdots+\frac{A_n}{x-a_n}\]</div>
-      </div>
-
-      <div class="theorem-box">
-        <div class="box-label">الحالة الثانية — عوامل مكررة من الدرجة الأولى</div>
-        <p>إذا كان \(Q(x)=(x-a)^r\)، فإن:</p>
-        <div class="math-block">\[\frac{P(x)}{Q(x)} = \frac{A_1}{x-a}+\frac{A_2}{(x-a)^2}+\cdots+\frac{A_r}{(x-a)^r}\]</div>
-      </div>
-
-      <div class="theorem-box">
-        <div class="box-label">الحالة الثالثة — عوامل تربيعية غير قابلة للتحليل</div>
-        <p>إذا كان المقام يحتوي على عامل \(ax^2+bx+c\) (غير قابل للتحليل)، فإن لكل عامل كسراً من الشكل:</p>
-        <div class="math-block">\[\frac{Ax+B}{ax^2+bx+c}\]</div>
-      </div>
-
-      <h3>أمثلة محلولة</h3>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — الحالة الأولى</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\dfrac{3x+1}{(x-1)(x+2)}\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نحلل إلى كسور جزئية:</div></div>
-          <div class="math-block">\[\frac{3x+1}{(x-1)(x+2)} = \frac{A}{x-1}+\frac{B}{x+2}\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>بتوحيد المقامات وإيجاد المعاملات: \(A=\dfrac{4}{3},\; B=\dfrac{5}{3}\)</div></div>
-          <div class="solution-step"><div class="step-num">٣</div><div>نكامل:</div></div>
-          <div class="result-box">\[\dfrac{4}{3}\ln|x-1|+\dfrac{5}{3}\ln|x+2|+c\]</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ CHAPTER 7: COMPLETING THE SQUARE ══ -->
-    <section class="chapter" id="ch7">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب السابع</div>
-        <div class="chapter-title">التكامل باستخدام إكمال المربع</div>
-      </div>
-
-      <div class="definition-box">
-        <div class="box-label">متى نستخدم إكمال المربع؟</div>
-        <p>نستخدم هذه الطريقة عندما يكون التكامل على إحدى الصور:</p>
-        <div class="math-block">\[\int\frac{dx}{ax^2+bx+c}\quad,\quad\int\frac{dx}{\sqrt{ax^2+bx+c}}\quad,\quad\int\sqrt{ax^2+bx+c}\,dx\]</div>
-      </div>
-
-      <h3>خطوات إكمال المربع</h3>
-      <div class="formula-box">
-        <div class="box-label">الخطوات</div>
-        <p>\(ax^2+bx+c = a\!\left[\left(x+\dfrac{b}{2a}\right)^2 + \dfrac{c}{a}-\left(\dfrac{b}{2a}\right)^2\right]\)</p>
-        <p>بعد الإكمال يتحول التكامل إلى صيغة قياسية من نوع \(\displaystyle\int\dfrac{dy}{y^2\pm A^2}\)</p>
-      </div>
-
-      <h3>الصيغ القياسية الناتجة</h3>
-      <table class="formula-table">
-        <tr><th>الصيغة</th><th>النتيجة</th></tr>
-        <tr><td>\(\displaystyle\int\dfrac{dy}{\sqrt{y^2+A^2}}\)</td><td>\(\sinh^{-1}\!\dfrac{y}{A}+c\)</td></tr>
-        <tr><td>\(\displaystyle\int\dfrac{dy}{\sqrt{y^2-A^2}}\)</td><td>\(\cosh^{-1}\!\dfrac{y}{A}+c\)</td></tr>
-        <tr><td>\(\displaystyle\int\dfrac{dy}{\sqrt{A^2-y^2}}\)</td><td>\(\sin^{-1}\!\dfrac{y}{A}+c\)</td></tr>
-      </table>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال — إكمال المربع</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int\dfrac{dx}{\sqrt{6-2x^2-3x}}\)  (أو الصورة المشابهة من الكتاب)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نكمل المربع في المقام: \(6-2x^2-3x = -2\!\left[x^2+\tfrac{3}{2}x-3\right]\)</div></div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نكمل: \(= -2\!\left[\left(x+\tfrac{3}{4}\right)^2 - \tfrac{105}{16}\right]\)</div></div>
-          <div class="solution-step"><div class="step-num">٣</div><div>يتحول التكامل إلى صيغة \(\displaystyle\int\dfrac{dy}{\sqrt{A^2-y^2}}\)</div></div>
-          <div class="result-box">\[\sin^{-1}\!\left(\dfrac{x+\tfrac{3}{4}}{\tfrac{\sqrt{105}}{4}}\right)+c\]</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ CHAPTER 8: REDUCTION FORMULAS ══ -->
-    <section class="chapter" id="ch8">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب الثامن</div>
-        <div class="chapter-title">التكامل باستخدام الاختزال المتتالي</div>
-      </div>
-
-      <div class="definition-box">
-        <div class="box-label">تعريف قانون الاختزال</div>
-        <p>عند محاولة إجراء أحد التكاملات بطريقة التجزيء نجد أحياناً أن التكامل يعتمد على تكامل آخر أبسط منه وغالباً ما يكون على نفس الصورة لكن أقل درجة. نستخدم قانوناً يُسمى <strong>الاختزال المتتالي (Reduction Formula)</strong>.</p>
-      </div>
-
-      <h3>أشكال قانون الاختزال</h3>
-      <div class="formula-box">
-        <div class="box-label">الأشكال العامة</div>
-        <p>• علاقة تربط \(I_n = \int f(x,n)\,dx\) بـ \(I_{n-1}\)</p>
-        <p>• علاقة تربط \(I_n\) بـ \(I_{n-2}\)</p>
-        <p>• علاقة تربط \(I_{n,m} = \int f(x,n,m)\,dx\) بـ \(I_{n-2,m}\) أو \(I_{n,m-2}\)</p>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — اختزال \(\int\sin^n x\,dx\)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          اشتق قانون الاختزال لـ \(I_n = \displaystyle\int\sin^n x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نكتب \(\sin^n x = \sin^{n-1}x\cdot\sin x\) ونجزئ: \(u=\sin^{n-1}x,\; dv=\sin x\,dx\)</div></div>
-          <div class="math-block">\[I_n = -\sin^{n-1}x\cos x + (n-1)\int\sin^{n-2}x\cos^2 x\,dx\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نستبدل \(\cos^2 x = 1-\sin^2 x\) ونبسط:</div></div>
-          <div class="result-box">\[I_n = -\dfrac{\sin^{n-1}x\cos x}{n}+\dfrac{n-1}{n}I_{n-2}\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٢) — \(\int\sec^n x\,dx\)</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          اشتق قانون الاختزال لـ \(I_n = \displaystyle\int\sec^n x\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نكتب \(\sec^n x = \sec^{n-2}x\cdot\sec^2 x\) ونجزئ</div></div>
-          <div class="solution-step"><div class="step-num">٢</div><div>بعد التجزيء والتبسيط:</div></div>
-          <div class="result-box">\[I_n = \dfrac{\sec^{n-2}x\tan x}{n-1}+\dfrac{n-2}{n-1}I_{n-2}\]</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ══ CHAPTER 9: DEFINITE INTEGRAL ══ -->
-    <section class="chapter" id="ch9">
-      <div class="chapter-header">
-        <div class="chapter-label">الباب التاسع</div>
-        <div class="chapter-title">التكامل المحدود (المُعيَّن)</div>
-      </div>
-
-      <div class="theorem-box">
-        <div class="box-label">تعريف التكامل المحدود — قاعدة باروو</div>
-        <p>إذا كان \(F'(x)=f(x)\) وكانت \(f\) دالة متصلة على الفترة المغلقة \([a,b]\)، فإن:</p>
-        <div class="math-block">\[\int_a^b f(x)\,dx = F(b)-F(a)\]</div>
-        <p>ويُكتب \(F(b)-F(a)\) بالرمز \(\Big[F(x)\Big]_a^b\).</p>
-      </div>
-
-      <h3>خواص التكامل المحدود</h3>
-
-      <div class="formula-box">
-        <div class="box-label">النظريات الأساسية</div>
-        <p><strong>نظرية (١):</strong> \(\displaystyle\int_a^b c\,dx = c(b-a)\)</p>
-        <p><strong>نظرية (٢):</strong> \(\displaystyle\int_a^b cf(x)\,dx = c\int_a^b f(x)\,dx\)</p>
-        <p><strong>نظرية (٣):</strong> \(\displaystyle\int_a^b [f(x)\pm g(x)]\,dx = \int_a^b f(x)\,dx \pm \int_a^b g(x)\,dx\)</p>
-        <p><strong>نظرية (٤):</strong> إذا كان \(f(x)\geq 0\) على \([a,b]\) فإن \(\displaystyle\int_a^b f(x)\,dx\geq 0\)</p>
-        <p><strong>نظرية (٥):</strong> \(\displaystyle\int_a^b f(x)\,dx = \int_a^c f(x)\,dx + \int_c^b f(x)\,dx\quad (a<c<b)\)</p>
-      </div>
-
-      <h3>أمثلة محلولة</h3>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (١) — تكامل مباشر</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int_1^3 x^3\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نوجد التكامل اللامحدود:</div></div>
-          <div class="math-block">\[\int x^3\,dx = \frac{x^4}{4}+c\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق حدود التكامل:</div></div>
-          <div class="math-block">\[\left[\frac{x^4}{4}\right]_1^3 = \frac{81}{4} - \frac{1}{4}\]</div>
-          <div class="result-box">\[= \dfrac{80}{4} = 20\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٢) — تكامل مع دوال مثلثية</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int_0^{\pi/2}(3\cos 4x + 7)\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="math-block">\[\left[\frac{3}{4}\sin 4x + 7x\right]_0^{\pi/2}\]</div>
-          <div class="math-block">\[= \left(\frac{3}{4}\sin 2\pi + \frac{7\pi}{2}\right) - \left(\frac{3}{4}\sin 0 + 0\right)\]</div>
-          <div class="result-box">\[= \dfrac{7\pi}{2}\]</div>
-        </div>
-      </div>
-
-      <div class="example-card">
-        <div class="example-header" onclick="toggleExample(this)">
-          <span>مثال (٣) — تكامل بالتعويض مع تغيير الحدود</span><span class="toggle">▼</span>
-        </div>
-        <div class="example-question">
-          احسب: \(\displaystyle\int_0^1 xe^{2x}\,dx\)
-        </div>
-        <div class="example-solution">
-          <div class="solution-step"><div class="step-num">١</div><div>نستخدم التجزيء: \(u=x,\; dv=e^{2x}dx\)</div></div>
-          <div class="math-block">\[\int xe^{2x}\,dx = \frac{xe^{2x}}{2} - \frac{e^{2x}}{4}+c\]</div>
-          <div class="solution-step"><div class="step-num">٢</div><div>نطبق الحدود:</div></div>
-          <div class="math-block">\[\left[\frac{xe^{2x}}{2}-\frac{e^{2x}}{4}\right]_0^1 = \left(\frac{e^2}{2}-\frac{e^2}{4}\right)-\left(0-\frac{1}{4}\right)\]</div>
-          <div class="result-box">\[= \dfrac{e^2}{4}+\dfrac{1}{4} = \dfrac{e^2+1}{4}\]</div>
-        </div>
-      </div>
-
-      <div class="quiz-section">
-        <h3>🧠 اختبر نفسك — الباب التاسع</h3>
-        <div class="quiz-q">
-          <p>١) \(\displaystyle\int_0^1 e^x\,dx =\) ؟</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="qd1" value="a"> \(e\)</label>
-            <label class="quiz-opt"><input type="radio" name="qd1" value="b"> \(e-1\)</label>
-            <label class="quiz-opt"><input type="radio" name="qd1" value="c"> \(1-e\)</label>
-            <label class="quiz-opt"><input type="radio" name="qd1" value="d"> \(e+1\)</label>
+          <!-- مفكوك ذات الحدين -->
+          <h3>مفكوك ذات الحدين</h3>
+          <div class="formula-box">
+            <div class="box-label">Newton's Binomial</div>
+            <p>\((a+b)^n = \displaystyle\sum_{k=0}^{n}\binom{n}{k}a^{n-k}b^k = a^n + na^{n-1}b + \dfrac{n(n-1)}{2!}a^{n-2}b^2 + \cdots + b^n\)</p>
           </div>
-        </div>
-        <div class="quiz-q">
-          <p>٢) \(\displaystyle\int_0^{\pi/2}\cos x\,dx =\) ؟</p>
-          <div class="quiz-options">
-            <label class="quiz-opt"><input type="radio" name="qd2" value="a"> \(0\)</label>
-            <label class="quiz-opt"><input type="radio" name="qd2" value="b"> \(-1\)</label>
-            <label class="quiz-opt"><input type="radio" name="qd2" value="c"> \(1\)</label>
-            <label class="quiz-opt"><input type="radio" name="qd2" value="d"> \(2\)</label>
+
+          <!-- قسم الأسئلة -->
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — المقدمة</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body">
+              <p style="color:var(--teal); font-weight:600; font-size:0.92rem;">
+                📌 اضغط على زر "افتح صفحة الأسئلة" أعلاه لعرض الأسئلة التفاعلية الكاملة لهذا الباب مباشرةً داخل الموقع.
+              </p>
+            </div>
           </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 1 — التكامل غير المحدود
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch1">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب الأول</div>
+            <div class="chapter-title">التكامل غير المحدود</div>
+          </div>
+
+          <!-- تعريف التكامل -->
+          <div class="definition-box">
+            <div class="box-label">تعريف</div>
+            <p>
+              إذا كانت \(g\) دالة معرفة على فترة ما، وكانت \(F\) دالة مشتقة على هذه الفترة بحيث يكون \(F'(x) = g(x)\)،
+              فإن الدالة \(F\) تُسمى <strong>دالة مقابلة</strong> أو <strong>تكاملاً غير محدود</strong> للدالة \(g\)، ونعبر عن ذلك بالرمز:
+            </p>
+            <div class="math-block">\[\int g(x)\,dx = F(x) + c\]</div>
+            <p>حيث \(c\) ثابت اختياري يُسمى <strong>ثابت التكامل</strong>.</p>
+          </div>
+
+          <!-- الجدول القياسي للتكاملات -->
+          <h3>الجدول القياسي للتكاملات</h3>
+          <table class="formula-table">
+            <thead><tr><th>م</th><th>الصيغة</th></tr></thead>
+            <tbody>
+              <tr><td class="row-num">١</td><td>\(\displaystyle\int 0\,dx = c\)</td></tr>
+              <tr><td class="row-num">٢</td><td>\(\displaystyle\int k\,f(x)\,dx = k\int f(x)\,dx\) &nbsp;— المقدار الثابت يخرج من التكامل</td></tr>
+              <tr><td class="row-num">٣</td><td>\(\displaystyle\int [f(x)+g(x)]\,dx = \int f(x)\,dx + \int g(x)\,dx\)</td></tr>
+              <tr><td class="row-num">٤</td><td>\(\displaystyle\int x^n\,dx = \dfrac{x^{n+1}}{n+1}+c \quad (n\neq -1)\)</td></tr>
+              <tr><td class="row-num">٥</td><td>\(\displaystyle\int \frac{1}{x}\,dx = \ln|x|+c\)</td></tr>
+              <tr><td class="row-num">٦</td><td>\(\displaystyle\int e^x\,dx = e^x+c\)</td></tr>
+              <tr><td class="row-num">٧</td><td>\(\displaystyle\int a^x\,dx = \dfrac{a^x}{\ln a}+c\)</td></tr>
+              <tr><td class="row-num">٨</td><td>\(\displaystyle\int \sin x\,dx = -\cos x+c\)</td></tr>
+              <tr><td class="row-num">٩</td><td>\(\displaystyle\int \cos x\,dx = \sin x+c\)</td></tr>
+              <tr><td class="row-num">١٠</td><td>\(\displaystyle\int \sec^2 x\,dx = \tan x+c\)</td></tr>
+              <tr><td class="row-num">١١</td><td>\(\displaystyle\int \csc^2 x\,dx = -\cot x+c\)</td></tr>
+              <tr><td class="row-num">١٢</td><td>\(\displaystyle\int \sec x\tan x\,dx = \sec x+c\)</td></tr>
+              <tr><td class="row-num">١٣</td><td>\(\displaystyle\int \csc x\cot x\,dx = -\csc x+c\)</td></tr>
+              <tr><td class="row-num">١٤</td><td>\(\displaystyle\int \dfrac{dx}{\sqrt{1-x^2}} = \sin^{-1}x+c\)</td></tr>
+              <tr><td class="row-num">١٥</td><td>\(\displaystyle\int \dfrac{dx}{1+x^2} = \tan^{-1}x+c\)</td></tr>
+              <tr><td class="row-num">١٦</td><td>\(\displaystyle\int \dfrac{dx}{x\sqrt{x^2-1}} = \sec^{-1}x+c\)</td></tr>
+              <tr><td class="row-num">١٧</td><td>إذا كان البسط = مشتقة المقام: \(\displaystyle\int \dfrac{f'(x)}{f(x)}\,dx = \ln|f(x)|+c\)</td></tr>
+            </tbody>
+          </table>
+
+          <!-- المعادلة التفاضلية -->
+          <h3>المعادلة التفاضلية</h3>
+          <div class="note-box">
+            <div class="box-label">تعريف</div>
+            <p>
+              المعادلة التفاضلية في متغيرين \(x,y\) هي معادلة تحتوي على المتغيرين وتفاضلات \(y\) بالنسبة إلى \(x\).
+              المعادلة التفاضلية من الدرجة الأولى والرتبة الأولى تكون على الصورة:
+            </p>
+            <div class="math-block">\[f\!\left(x,y,\frac{dy}{dx}\right)=0\]</div>
+            <p>لحل المعادلة التفاضلية نضرب طرفيها ثم نكامل كلاً منهما على حدة.</p>
+          </div>
+
+          <!-- أمثلة -->
+          <h3>أمثلة محلولة</h3>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (١) — تكامل مباشر لكثيرة حدود</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int (2x^3 - 4x^2 + x)\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نوزع التكامل على كل حد:</div></div>
+              <div class="math-block">\[\int 2x^3\,dx - \int 4x^2\,dx + \int x\,dx\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نطبق قانون \(\int x^n dx = \dfrac{x^{n+1}}{n+1}\) على كل حد:</div></div>
+              <div class="result-box">\[\dfrac{x^4}{2} - \dfrac{4x^3}{3} + \dfrac{x^2}{2} + c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٢) — تكامل يحتوي كسوراً وجذوراً</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\!\left(8x^3 - 6x^{\frac{1}{2}} + \dfrac{1}{x^2}\right)dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نحوّل \(\dfrac{1}{x^2} = x^{-2}\) ونطبق القانون على كل حد:</div></div>
+              <div class="math-block">\[8\cdot\dfrac{x^4}{4} - 6\cdot\dfrac{x^{3/2}}{3/2} + \dfrac{x^{-1}}{-1} + c\]</div>
+              <div class="result-box">\[2x^4 - 4x^{3/2} - \dfrac{1}{x} + c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٣) — معادلة تفاضلية (١)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              أوجد الحل العام للمعادلة التفاضلية: \(\dfrac{dy}{dx} = 5\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نضرب الطرفين في \(dx\):</div></div>
+              <div class="math-block">\[dy = 5\,dx\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نكامل الطرفين:</div></div>
+              <div class="math-block">\[\int dy = \int 5\,dx\]</div>
+              <div class="result-box">\[y = 5x + c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٤) — معادلة تفاضلية (٢)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              أوجد الحل العام للمعادلة التفاضلية: \(\dfrac{dy}{dx} = x^2 + 1\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نفصل المتغيرات:</div></div>
+              <div class="math-block">\[dy = (x^2+1)\,dx\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نكامل الطرفين:</div></div>
+              <div class="result-box">\[y = \dfrac{x^3}{3} + x + c\]</div>
+            </div>
+          </div>
+
+          <!-- قسم الأسئلة -->
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب الأول</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body">
+              <p style="color:var(--teal); font-weight:600; font-size:0.92rem;">
+                📌 اضغط على زر "افتح صفحة الأسئلة" أعلاه لعرض الأسئلة التفاعلية الكاملة لهذا الباب.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 2 — الدوال المثلثية
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch2">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب الثاني</div>
+            <div class="chapter-title">تكامل الدوال المثلثية</div>
+          </div>
+
+          <h3>التكاملات المثلثية الأساسية</h3>
+          <table class="formula-table">
+            <thead><tr><th>م</th><th>التكامل</th><th>النتيجة</th></tr></thead>
+            <tbody>
+              <tr><td class="row-num">١</td><td>\(\displaystyle\int\sin x\,dx\)</td><td>\(-\cos x+c\)</td></tr>
+              <tr><td class="row-num">٢</td><td>\(\displaystyle\int\cos x\,dx\)</td><td>\(\sin x+c\)</td></tr>
+              <tr><td class="row-num">٣</td><td>\(\displaystyle\int\sec x\tan x\,dx\)</td><td>\(\sec x+c\)</td></tr>
+              <tr><td class="row-num">٤</td><td>\(\displaystyle\int\csc x\cot x\,dx\)</td><td>\(-\csc x+c\)</td></tr>
+              <tr><td class="row-num">٥</td><td>\(\displaystyle\int\sec^2 x\,dx\)</td><td>\(\tan x+c\)</td></tr>
+              <tr><td class="row-num">٦</td><td>\(\displaystyle\int\csc^2 x\,dx\)</td><td>\(-\cot x+c\)</td></tr>
+              <tr><td class="row-num">٧</td><td>\(\displaystyle\int\tan x\,dx\)</td><td>\(\ln|\sec x|+c\)</td></tr>
+              <tr><td class="row-num">٨</td><td>\(\displaystyle\int\cot x\,dx\)</td><td>\(\ln|\sin x|+c\)</td></tr>
+              <tr><td class="row-num">٩</td><td>\(\displaystyle\int\sec x\,dx\)</td><td>\(\ln|\sec x+\tan x|+c\)</td></tr>
+              <tr><td class="row-num">١٠</td><td>\(\displaystyle\int\csc x\,dx\)</td><td>\(\ln|\csc x-\cot x|+c\)</td></tr>
+              <tr><td class="row-num">١١</td><td>\(\displaystyle\int\sin^2 x\,dx\)</td><td>\(\dfrac{x}{2}-\dfrac{\sin 2x}{4}+c\)</td></tr>
+              <tr><td class="row-num">١٢</td><td>\(\displaystyle\int\cos^2 x\,dx\)</td><td>\(\dfrac{x}{2}+\dfrac{\sin 2x}{4}+c\)</td></tr>
+              <tr><td class="row-num">١٣</td><td>\(\displaystyle\int\tan^2 x\,dx\)</td><td>\(\tan x - x+c\)</td></tr>
+              <tr><td class="row-num">١٤</td><td>\(\displaystyle\int\cot^2 x\,dx\)</td><td>\(-\cot x - x+c\)</td></tr>
+            </tbody>
+          </table>
+
+          <h3>أمثلة محلولة</h3>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (١) — تطبيق مباشر</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int \dfrac{\sin x}{\cos^2 x}\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نعيد كتابة الكسر:</div></div>
+              <div class="math-block">\[\int\frac{\sin x}{\cos x}\cdot\frac{1}{\cos x}\,dx = \int\tan x\cdot\sec x\,dx\]</div>
+              <div class="result-box">\[\sec x + c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٢) — استخدام قاعدة \(\int u^n du\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\sin^3 x\cos x\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نلاحظ أن \(d(\sin x) = \cos x\,dx\)</div></div>
+              <div class="math-block">\[\int\sin^3 x\,d(\sin x)\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نطبق قانون \(\int u^n du = \dfrac{u^{n+1}}{n+1}\):</div></div>
+              <div class="result-box">\[\dfrac{\sin^4 x}{4}+c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٣) — باستخدام متطابقة التضاعف</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\sin^2 x\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نستخدم: \(\sin^2 x = \dfrac{1-\cos 2x}{2}\)</div></div>
+              <div class="math-block">\[\int\frac{1-\cos 2x}{2}\,dx = \frac{1}{2}\int dx - \frac{1}{2}\int\cos 2x\,dx\]</div>
+              <div class="result-box">\[\dfrac{x}{2} - \dfrac{\sin 2x}{4}+c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٤) — \(\int\tan x\,dx\) بطريقة اللوغاريتم</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              أثبت أن: \(\displaystyle\int\tan x\,dx = \ln|\sec x|+c\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نكتب \(\tan x = \dfrac{\sin x}{\cos x}\):</div></div>
+              <div class="math-block">\[\int\frac{\sin x}{\cos x}\,dx = -\int\frac{-\sin x}{\cos x}\,dx = -\int\frac{d(\cos x)}{\cos x}\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نطبق \(\int\dfrac{f'}{f}dx = \ln|f|\):</div></div>
+              <div class="result-box">\[-\ln|\cos x|+c = \ln|\sec x|+c\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب الثاني</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body">
+              <p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة التفاعلية لهذا الباب.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 3 — الدوال الزائدية
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch3">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب الثالث</div>
+            <div class="chapter-title">تكامل الدوال الزائدية (Hyperbolic)</div>
+          </div>
+
+          <div class="definition-box">
+            <div class="box-label">تذكير بالتعريفات</div>
+            <p>\(\sinh x = \dfrac{e^x-e^{-x}}{2}\) &nbsp;،&nbsp; \(\cosh x = \dfrac{e^x+e^{-x}}{2}\) &nbsp;،&nbsp; \(\tanh x = \dfrac{\sinh x}{\cosh x}\)</p>
+            <p>المتطابقة الأساسية: \(\cosh^2 x - \sinh^2 x = 1\)</p>
+          </div>
+
+          <h3>الجدول القياسي للتكاملات الزائدية</h3>
+          <table class="formula-table">
+            <thead><tr><th>م</th><th>التكامل</th><th>النتيجة</th></tr></thead>
+            <tbody>
+              <tr><td class="row-num">١</td><td>\(\displaystyle\int\sinh x\,dx\)</td><td>\(\cosh x+c\)</td></tr>
+              <tr><td class="row-num">٢</td><td>\(\displaystyle\int\cosh x\,dx\)</td><td>\(\sinh x+c\)</td></tr>
+              <tr><td class="row-num">٣</td><td>\(\displaystyle\int\text{sech}^2 x\,dx\)</td><td>\(\tanh x+c\)</td></tr>
+              <tr><td class="row-num">٤</td><td>\(\displaystyle\int\text{csch}^2 x\,dx\)</td><td>\(-\coth x+c\)</td></tr>
+              <tr><td class="row-num">٥</td><td>\(\displaystyle\int\text{sech}\,x\tanh x\,dx\)</td><td>\(-\text{sech}\,x+c\)</td></tr>
+              <tr><td class="row-num">٦</td><td>\(\displaystyle\int\text{csch}\,x\coth x\,dx\)</td><td>\(-\text{csch}\,x+c\)</td></tr>
+              <tr><td class="row-num">٧</td><td>\(\displaystyle\int\dfrac{dx}{\sqrt{1+x^2}}\)</td><td>\(\sinh^{-1}x+c\)</td></tr>
+              <tr><td class="row-num">٨</td><td>\(\displaystyle\int\dfrac{dx}{\sqrt{x^2-1}}\)</td><td>\(\cosh^{-1}x+c\)</td></tr>
+              <tr><td class="row-num">٩</td><td>\(\displaystyle\int\dfrac{dx}{1-x^2}\quad(|x|<1)\)</td><td>\(\tanh^{-1}x+c\)</td></tr>
+            </tbody>
+          </table>
+
+          <h3>أمثلة محلولة</h3>
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال — تكامل زائدي مركب</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\sinh^3 x\cosh x\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نلاحظ أن \(d(\sinh x) = \cosh x\,dx\)</div></div>
+              <div class="math-block">\[\int\sinh^3 x\,d(\sinh x)\]</div>
+              <div class="result-box">\[\dfrac{\sinh^4 x}{4}+c\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب الثالث</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 4 — التجزيء
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch4">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب الرابع</div>
+            <div class="chapter-title">التكامل بالتجزيء</div>
+          </div>
+
+          <div class="theorem-box">
+            <div class="box-label">قانون التكامل بالتجزيء</div>
+            <p>من مقرر التفاضل نعلم أن: \(d(u\cdot v) = u\,dv + v\,du\)</p>
+            <p>بتكامل الطرفين:</p>
+            <div class="math-block">\[\boxed{\int u\,dv = uv - \int v\,du}\]</div>
+          </div>
+
+          <div class="note-box">
+            <div class="box-label">قاعدة LIATE لاختيار u</div>
+            <p>
+              <strong>L</strong>ogarithmic — <strong>I</strong>nverse trig — <strong>A</strong>lgebraic — <strong>T</strong>rigonometric — <strong>E</strong>xponential<br>
+              اختر \(u\) من الفئة الأعلى في هذا الترتيب.
+            </p>
+          </div>
+
+          <h3>أمثلة محلولة</h3>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (١) — \(\int xe^x\,dx\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">احسب بالتجزيء: \(I = \displaystyle\int xe^x\,dx\)</div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=x \Rightarrow du=dx\) ، \(dv=e^x dx \Rightarrow v=e^x\)</div></div>
+              <div class="math-block">\[\int xe^x\,dx = xe^x - \int e^x\,dx\]</div>
+              <div class="result-box">\[e^x(x-1)+c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٢) — \(\int e^x\sin x\,dx\) (تجزيء مرتين)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">احسب: \(\displaystyle I = \int e^x\sin x\,dx\)</div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=\sin x,\; dv=e^x dx\)</div></div>
+              <div class="math-block">\[I = e^x\sin x - \int e^x\cos x\,dx\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نجزئ مرة أخرى: \(u=\cos x,\; dv=e^x dx\)</div></div>
+              <div class="math-block">\[I = e^x\sin x - e^x\cos x - \int e^x\sin x\,dx = e^x\sin x - e^x\cos x - I\]</div>
+              <div class="solution-step"><div class="step-num">٣</div><div>نجمع \(I\) في الطرف الأيسر:</div></div>
+              <div class="result-box">\[I = \dfrac{e^x(\sin x - \cos x)}{2}+c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٣) — \(\int\ln x\,dx\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">احسب: \(\displaystyle\int\ln x\,dx\)</div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=\ln x \Rightarrow du=\tfrac{1}{x}dx\) ، \(dv=dx \Rightarrow v=x\)</div></div>
+              <div class="math-block">\[\int\ln x\,dx = x\ln x - \int dx\]</div>
+              <div class="result-box">\[x\ln x - x + c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٤) — \(\int\tan^{-1}x\,dx\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">احسب: \(\displaystyle\int\tan^{-1}x\,dx\)</div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نختار: \(u=\tan^{-1}x \Rightarrow du=\dfrac{dx}{1+x^2}\) ، \(dv=dx \Rightarrow v=x\)</div></div>
+              <div class="math-block">\[\int\tan^{-1}x\,dx = x\tan^{-1}x - \int\frac{x}{1+x^2}\,dx\]</div>
+              <div class="result-box">\[x\tan^{-1}x - \dfrac{1}{2}\ln(1+x^2)+c\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب الرابع</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 5 — التعويض
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch5">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب الخامس</div>
+            <div class="chapter-title">التكامل بالتعويض</div>
+          </div>
+
+          <div class="definition-box">
+            <div class="box-label">الفكرة</div>
+            <p>نستبدل المتغير \(x\) بتعبير جديد \(y=g(x)\) لتبسيط صورة التكامل. هناك نوعان: <strong>تعويضات جبرية</strong> (للتخلص من الجذور) و<strong>تعويضات مثلثية</strong> (للتكاملات ذات الجذور من درجة ثانية).</p>
+          </div>
+
+          <h3>أولاً: التعويضات الجبرية</h3>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (١) — إزالة الجذر التربيعي</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\dfrac{dx}{(3-x)\sqrt{x-2}}\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نعوِّض: \(y=\sqrt{x-2}\) أي \(y^2=x-2\)، ومنها \(2y\,dy=dx\) و \(x=y^2+2\)</div></div>
+              <div class="math-block">\[\int\frac{2y\,dy}{(3-y^2-2)\cdot y} = 2\int\frac{dy}{1-y^2}\]</div>
+              <div class="result-box">\[2\tan^{-1}\!\sqrt{x-2}+c\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٢) — تعويض لتبسيط الأُس</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int x\sqrt{1-x^3}\,dx\)  (الصيغة العامة)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نعوِّض: \(y=\sqrt{1-x^3}\) أي \(y^2=1-x^3\)، ومنها \(2y\,dy = -3x^2\,dx\)</div></div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نعبّر عن التكامل بدلالة \(y\) ونحل:</div></div>
+              <div class="result-box">\[-\dfrac{2}{3}\cdot\dfrac{1}{3}(1-x^3)^{3/2}+c\]</div>
+            </div>
+          </div>
+
+          <h3>ثانياً: التعويضات المثلثية</h3>
+          <table class="formula-table">
+            <thead><tr><th>الصورة</th><th>التعويض</th><th>المتطابقة</th></tr></thead>
+            <tbody>
+              <tr><td>\(\sqrt{a^2-x^2}\)</td><td>\(x=a\sin\theta\)</td><td>\(a^2-a^2\sin^2\theta = a^2\cos^2\theta\)</td></tr>
+              <tr><td>\(\sqrt{a^2+x^2}\)</td><td>\(x=a\tan\theta\)</td><td>\(a^2+a^2\tan^2\theta = a^2\sec^2\theta\)</td></tr>
+              <tr><td>\(\sqrt{x^2-a^2}\)</td><td>\(x=a\sec\theta\)</td><td>\(a^2\sec^2\theta-a^2 = a^2\tan^2\theta\)</td></tr>
+            </tbody>
+          </table>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٣) — تعويض مثلثي \(\sqrt{a^2-x^2}\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\dfrac{dx}{\sqrt{a^2-x^2}}\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نعوِّض: \(x=a\sin\theta \Rightarrow dx=a\cos\theta\,d\theta\)</div></div>
+              <div class="math-block">\[\int\frac{a\cos\theta\,d\theta}{a\cos\theta} = \int d\theta = \theta + c\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نرجع للمتغير الأصلي: \(\theta=\sin^{-1}\!\dfrac{x}{a}\)</div></div>
+              <div class="result-box">\[\sin^{-1}\!\dfrac{x}{a}+c\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب الخامس</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 6 — الكسور الجزئية
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch6">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب السادس</div>
+            <div class="chapter-title">التكامل باستخدام الكسور الجزئية</div>
+          </div>
+
+          <div class="definition-box">
+            <div class="box-label">شرط تطبيق الكسور الجزئية</div>
+            <p>يجب أن يكون الكسر <strong>حقيقياً</strong> أي درجة البسط أقل من درجة المقام. إن لم يكن كذلك نقسم أولاً ثم نطبق الكسور الجزئية.</p>
+          </div>
+
+          <div class="theorem-box">
+            <div class="box-label">الحالة الأولى — عوامل مختلفة من الدرجة الأولى</div>
+            <p>إذا كان \(Q(x)=(x-a_1)(x-a_2)\cdots(x-a_n)\):</p>
+            <div class="math-block">\[\frac{P(x)}{Q(x)} = \frac{A_1}{x-a_1}+\frac{A_2}{x-a_2}+\cdots+\frac{A_n}{x-a_n}\]</div>
+          </div>
+
+          <div class="theorem-box">
+            <div class="box-label">الحالة الثانية — عوامل مكررة من الدرجة الأولى</div>
+            <p>إذا كان \(Q(x)=(x-a)^r\):</p>
+            <div class="math-block">\[\frac{P(x)}{(x-a)^r} = \frac{A_1}{x-a}+\frac{A_2}{(x-a)^2}+\cdots+\frac{A_r}{(x-a)^r}\]</div>
+          </div>
+
+          <div class="theorem-box">
+            <div class="box-label">الحالة الثالثة — عوامل تربيعية غير قابلة للتحليل</div>
+            <p>لكل عامل تربيعي \(ax^2+bx+c\) (لا جذور حقيقية) نخصص كسراً من الشكل:</p>
+            <div class="math-block">\[\frac{Ax+B}{ax^2+bx+c}\]</div>
+          </div>
+
+          <h3>مثال محلول</h3>
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال — الحالة الأولى</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\dfrac{3x+1}{(x-1)(x+2)}\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نكتب: \(\dfrac{3x+1}{(x-1)(x+2)}=\dfrac{A}{x-1}+\dfrac{B}{x+2}\)</div></div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نوحد المقامات: \(3x+1 = A(x+2)+B(x-1)\)</div></div>
+              <div class="solution-step"><div class="step-num">٣</div><div>نضع \(x=1\): \(A=\dfrac{4}{3}\) ، ونضع \(x=-2\): \(B=\dfrac{5}{3}\)</div></div>
+              <div class="result-box">\[\dfrac{4}{3}\ln|x-1|+\dfrac{5}{3}\ln|x+2|+c\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب السادس</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 7 — إكمال المربع
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch7">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب السابع</div>
+            <div class="chapter-title">التكامل باستخدام إكمال المربع</div>
+          </div>
+
+          <div class="definition-box">
+            <div class="box-label">متى نستخدمه؟</div>
+            <p>عندما يكون التكامل من الصور: \(\displaystyle\int\dfrac{dx}{ax^2+bx+c}\) أو \(\displaystyle\int\dfrac{dx}{\sqrt{ax^2+bx+c}}\) أو \(\displaystyle\int\sqrt{ax^2+bx+c}\,dx\)</p>
+          </div>
+
+          <h3>خطوات إكمال المربع</h3>
+          <div class="formula-box">
+            <div class="box-label">الخطوات التفصيلية</div>
+            <p>\(ax^2+bx+c = a\!\left[\left(x+\dfrac{b}{2a}\right)^2 - \left(\dfrac{b}{2a}\right)^2 + \dfrac{c}{a}\right] = a\left[(y)^2 \pm A^2\right]\)</p>
+            <p>حيث \(y = x + \dfrac{b}{2a}\) ، \(A^2 = \left|\dfrac{c}{a}-\left(\dfrac{b}{2a}\right)^2\right|\)</p>
+          </div>
+
+          <h3>الصيغ القياسية الناتجة</h3>
+          <table class="formula-table">
+            <thead><tr><th>الصيغة بعد الإكمال</th><th>النتيجة</th></tr></thead>
+            <tbody>
+              <tr><td>\(\displaystyle\int\dfrac{dy}{\sqrt{y^2+A^2}}\)</td><td>\(\sinh^{-1}\!\dfrac{y}{A}+c\)</td></tr>
+              <tr><td>\(\displaystyle\int\dfrac{dy}{\sqrt{y^2-A^2}}\)</td><td>\(\cosh^{-1}\!\dfrac{y}{A}+c\)</td></tr>
+              <tr><td>\(\displaystyle\int\dfrac{dy}{\sqrt{A^2-y^2}}\)</td><td>\(\sin^{-1}\!\dfrac{y}{A}+c\)</td></tr>
+              <tr><td>\(\displaystyle\int\dfrac{dy}{y^2+A^2}\)</td><td>\(\dfrac{1}{A}\tan^{-1}\!\dfrac{y}{A}+c\)</td></tr>
+            </tbody>
+          </table>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال — إكمال المربع ثم التكامل</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int\dfrac{dx}{x^2+4x+13}\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نكمل المربع: \(x^2+4x+13 = (x+2)^2+9\)</div></div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نعوِّض \(y=x+2\):</div></div>
+              <div class="math-block">\[\int\frac{dy}{y^2+9} = \frac{1}{3}\tan^{-1}\!\frac{y}{3}+c\]</div>
+              <div class="result-box">\[\dfrac{1}{3}\tan^{-1}\!\dfrac{x+2}{3}+c\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب السابع</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 8 — الاختزال
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch8">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب الثامن</div>
+            <div class="chapter-title">التكامل باستخدام الاختزال المتتالي</div>
+          </div>
+
+          <div class="definition-box">
+            <div class="box-label">تعريف</div>
+            <p>
+              عند محاولة إجراء تكامل بالتجزيء نجد أحياناً أن النتيجة تعتمد على تكامل آخر من نفس الصورة لكن أقل درجة.
+              نستخدم <strong>قانون الاختزال المتتالي (Reduction Formula)</strong> لإيجاد علاقة بين التكامل \(I_n\) وتكامل أبسط \(I_{n-1}\) أو \(I_{n-2}\).
+            </p>
+          </div>
+
+          <h3>أشكال قانون الاختزال</h3>
+          <div class="formula-box">
+            <div class="box-label">الأشكال العامة</div>
+            <p>• \(I_n = \int f(x,n)\,dx\) يرتبط بـ \(I_{n-1}\) أو \(I_{n-2}\)</p>
+            <p>• \(I_{n,m} = \int f(x,n,m)\,dx\) يرتبط بـ \(I_{n-2,m}\) أو \(I_{n,m-2}\)</p>
+          </div>
+
+          <h3>أمثلة محلولة</h3>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (١) — قانون الاختزال لـ \(\int\sin^n x\,dx\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              اشتق قانون الاختزال لـ \(I_n = \displaystyle\int\sin^n x\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نكتب \(\sin^n x = \sin^{n-1}x\cdot\sin x\) ونجزئ: \(u=\sin^{n-1}x,\; dv=\sin x\,dx\)</div></div>
+              <div class="math-block">\[I_n = -\sin^{n-1}x\cos x + (n-1)\int\sin^{n-2}x\cos^2 x\,dx\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نستبدل \(\cos^2 x = 1-\sin^2 x\) ونبسط وننقل \(I_n\):</div></div>
+              <div class="result-box">\[I_n = -\dfrac{\sin^{n-1}x\cos x}{n}+\dfrac{n-1}{n}I_{n-2}\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٢) — قانون الاختزال لـ \(\int\sec^n x\,dx\)</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              اشتق قانون الاختزال لـ \(I_n = \displaystyle\int\sec^n x\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نكتب \(\sec^n x = \sec^{n-2}x\cdot\sec^2 x\) ونجزئ</div></div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نطبق التجزيء ونستخدم \(\tan^2 x = \sec^2 x - 1\):</div></div>
+              <div class="result-box">\[I_n = \dfrac{\sec^{n-2}x\tan x}{n-1}+\dfrac{n-2}{n-1}I_{n-2}\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب الثامن</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════
+             CHAPTER 9 — التكامل المحدود
+             ═══════════════════════════════ -->
+        <section class="chapter" id="ch9">
+          <div class="chapter-header">
+            <div class="chapter-label">الباب التاسع</div>
+            <div class="chapter-title">التكامل المحدود (المُعيَّن)</div>
+          </div>
+
+          <div class="theorem-box">
+            <div class="box-label">تعريف التكامل المحدود — قاعدة باروو</div>
+            <p>إذا كان \(F'(x)=f(x)\) وكانت \(f\) دالة متصلة على الفترة المغلقة \([a,b]\)، فإن:</p>
+            <div class="math-block">\[\int_a^b f(x)\,dx = \Big[F(x)\Big]_a^b = F(b)-F(a)\]</div>
+          </div>
+
+          <h3>خواص التكامل المحدود</h3>
+          <div class="formula-box">
+            <div class="box-label">النظريات الأساسية الخمس</div>
+            <p><strong>نظرية (١):</strong> \(\displaystyle\int_a^b c\,dx = c(b-a)\) &nbsp;— تكامل ثابت</p>
+            <p><strong>نظرية (٢):</strong> \(\displaystyle\int_a^b cf(x)\,dx = c\int_a^b f(x)\,dx\) &nbsp;— إخراج الثابت</p>
+            <p><strong>نظرية (٣):</strong> \(\displaystyle\int_a^b [f\pm g]\,dx = \int_a^b f\,dx \pm \int_a^b g\,dx\) &nbsp;— الخطية</p>
+            <p><strong>نظرية (٤):</strong> إذا \(f(x)\geq 0\) على \([a,b]\) فإن \(\displaystyle\int_a^b f\,dx\geq 0\) &nbsp;— الإشارة</p>
+            <p><strong>نظرية (٥):</strong> \(\displaystyle\int_a^b f\,dx = \int_a^c f\,dx + \int_c^b f\,dx\quad (a < c < b)\) &nbsp;— التجزئة</p>
+          </div>
+
+          <h3>أمثلة محلولة</h3>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (١) — تكامل مباشر</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int_1^3 x^3\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="math-block">\[\left[\frac{x^4}{4}\right]_1^3 = \frac{81}{4} - \frac{1}{4} = \frac{80}{4}\]</div>
+              <div class="result-box">\[= 20\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٢) — تكامل مثلثي محدود</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int_0^{\pi/2}(3\cos 4x + 7)\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="math-block">\[\left[\frac{3}{4}\sin 4x + 7x\right]_0^{\pi/2}\]</div>
+              <div class="math-block">\[= \left(\frac{3}{4}\sin 2\pi + \frac{7\pi}{2}\right) - (0+0) = \frac{7\pi}{2}\]</div>
+              <div class="result-box">\[\dfrac{7\pi}{2}\]</div>
+            </div>
+          </div>
+
+          <div class="example-card">
+            <div class="example-header" onclick="toggleExample(this)">
+              <span>مثال (٣) — تكامل محدود بالتجزيء</span><span class="toggle">▼</span>
+            </div>
+            <div class="example-question">
+              احسب: \(\displaystyle\int_0^1 xe^{2x}\,dx\)
+            </div>
+            <div class="example-solution">
+              <div class="solution-step"><div class="step-num">١</div><div>نجد التكامل اللامحدود بالتجزيء: \(u=x,\; dv=e^{2x}dx\)</div></div>
+              <div class="math-block">\[\int xe^{2x}dx = \frac{xe^{2x}}{2} - \frac{e^{2x}}{4}+c\]</div>
+              <div class="solution-step"><div class="step-num">٢</div><div>نطبق الحدود:</div></div>
+              <div class="math-block">\[\left[\frac{xe^{2x}}{2}-\frac{e^{2x}}{4}\right]_0^1 = \left(\frac{e^2}{2}-\frac{e^2}{4}\right)-\left(0-\frac{1}{4}\right)\]</div>
+              <div class="result-box">\[\dfrac{e^2+1}{4}\]</div>
+            </div>
+          </div>
+
+          <div class="quiz-section">
+            <div class="quiz-header">
+              <h3>🧠 اختبر نفسك — الباب التاسع</h3>
+              <button class="quiz-open-btn" onclick="openQuizForCurrentChapter()">
+                <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 002 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
+                افتح صفحة الأسئلة
+              </button>
+            </div>
+            <div class="quiz-body"><p style="color:var(--teal); font-weight:600; font-size:0.92rem;">📌 اضغط لعرض الأسئلة.</p></div>
+          </div>
+        </section>
+
+      </div><!-- /content-inner -->
+    </div><!-- /content-pane -->
+
+    <!-- ══════════════════════════════════════
+         BROWSER WRAP — المتصفح المدمج
+         (يظهر عند الضغط على "افتح صفحة الأسئلة")
+         ══════════════════════════════════════ -->
+    <div id="browser-wrap" style="display:none; flex-direction:column; flex:1; overflow:hidden;">
+
+      <!-- شريط أدوات المتصفح -->
+      <div class="browser-bar">
+        <!-- زر الرجوع للمحتوى -->
+        <div class="browser-btns">
+          <button title="رجوع للدرس" onclick="closeBrowser()">
+            <!-- أيقونة رجوع -->
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+          </button>
+          <button title="تحديث" onclick="refreshBrowser()">
+            <!-- أيقونة تحديث -->
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
+          </button>
         </div>
-        <button class="quiz-btn" onclick="checkQuiz('ch9quiz',{'qd1':'b','qd2':'c'})">تحقق</button>
-        <div class="quiz-result" id="ch9quiz"></div>
+
+        <!-- شريط عنوان URL -->
+        <input
+          type="text"
+          id="browser-url-bar"
+          class="browser-url"
+          readonly
+          value="about:blank"
+          title="رابط الصفحة الحالية"
+        >
+
+        <!-- زر فتح في تبويب جديد -->
+        <button class="browser-open-btn" onclick="openExternalTab()">
+          فتح في تبويب جديد ↗
+        </button>
       </div>
-    </section>
+
+      <!-- إطار عرض الصفحة -->
+      <div class="browser-iframe-wrap">
+        <!-- مؤشر التحميل -->
+        <div id="iframe-loading" class="iframe-loading">
+          <div class="spinner"></div>
+          <p>جاري تحميل صفحة الأسئلة…</p>
+        </div>
+        <!-- الإطار الفعلي -->
+        <iframe
+          id="quiz-iframe"
+          class="browser-iframe"
+          src="about:blank"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          title="صفحة الأسئلة"
+        ></iframe>
+      </div>
+
+    </div><!-- /browser-wrap -->
 
   </main>
 </div>
 
-<script>
-// Render KaTeX after page load
-document.addEventListener("DOMContentLoaded", function() {
-  renderMathInElement(document.body, {
-    delimiters: [
-      {left:"$$",right:"$$",display:true},
-      {left:"\\[",right:"\\]",display:true},
-      {left:"$",right:"$",display:false},
-      {left:"\\(",right:"\\)",display:false}
-    ],
-    throwOnError: false
-  });
-});
-
-// Chapter navigation
-function showChapter(idx) {
-  document.querySelectorAll('.chapter').forEach((c,i) => {
-    c.classList.toggle('active', i===idx);
-  });
-  document.querySelectorAll('.nav-item').forEach((n,i) => {
-    n.classList.toggle('active', i===idx);
-  });
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-// Toggle example solution
-function toggleExample(header) {
-  const sol = header.closest('.example-card').querySelector('.example-solution');
-  const isOpen = sol.classList.toggle('show');
-  header.classList.toggle('open', isOpen);
-}
-
-// Quiz checking
-function checkQuiz(resultId, answers) {
-  let correct = 0;
-  let total = Object.keys(answers).length;
-  let allAnswered = true;
-
-  // Reset styling
-  document.querySelectorAll('.quiz-opt').forEach(opt => {
-    opt.classList.remove('correct','wrong');
-  });
-
-  for (const [qName, correctVal] of Object.entries(answers)) {
-    const selected = document.querySelector(`input[name="${qName}"]:checked`);
-    if (!selected) { allAnswered = false; continue; }
-    const label = selected.closest('.quiz-opt');
-    if (selected.value === correctVal) {
-      correct++;
-      label.classList.add('correct');
-    } else {
-      label.classList.add('wrong');
-      // Highlight correct answer
-      const correctInput = document.querySelector(`input[name="${qName}"][value="${correctVal}"]`);
-      if (correctInput) correctInput.closest('.quiz-opt').classList.add('correct');
-    }
-  }
-
-  const result = document.getElementById(resultId);
-  if (!allAnswered) {
-    result.className = 'quiz-result show fail';
-    result.textContent = '⚠️ يرجى الإجابة على جميع الأسئلة أولاً.';
-    return;
-  }
-  result.className = `quiz-result show ${correct===total?'pass':'fail'}`;
-  result.textContent = correct===total
-    ? `✅ ممتاز! أجبت على ${correct} من ${total} إجابات صحيحة.`
-    : `❌ أجبت على ${correct} من ${total}. راجع الإجابات الصحيحة المُظللة.`;
-}
-</script>
+<!-- ملف JavaScript -->
+<script src="main.js"></script>
 </body>
 </html>
