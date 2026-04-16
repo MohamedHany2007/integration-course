@@ -37,22 +37,52 @@ function showChapter(idx) {
 
   currentChapter = idx;
 
-  // أعد تصيير معادلات KaTeX في الباب الجديد بعد ظهوره
-  requestAnimationFrame(() => {
-    const activeChapter = document.getElementById('ch' + idx);
-    if (activeChapter && window.renderMathInElement) {
-      renderMathInElement(activeChapter, {
-        delimiters: [
-          { left: "$$",   right: "$$",   display: true  },
-          { left: "\\[",  right: "\\]",  display: true  },
-          { left: "$",    right: "$",    display: false },
-          { left: "\\(",  right: "\\)",  display: false }
-        ],
-        throwOnError: false
-      });
-    }
+// وظيفة موحدة لتصيير المعادلات في أي عنصر
+function renderMath(element) {
+  if (!element || !window.renderMathInElement) return;
+  
+  renderMathInElement(element, {
+    delimiters: [
+      { left: "$$",   right: "$$",   display: true  }, // معادلات منفصلة
+      { left: "\\[",  right: "\\]",  display: true  },
+      { left: "$",    right: "$",    display: false }, // معادلات وسط الكلام
+      { left: "\\(",  right: "\\)",  display: false }
+    ],
+    throwOnError: false,
+    trust: true
+  });
+}
+
+// تعديل وظيفة الانتقال بين الأبواب لضمان التصيير
+function showChapter(idx) {
+  const chapters = document.querySelectorAll('.chapter');
+  const navItems = document.querySelectorAll('.nav-item');
+
+  chapters.forEach((c, i) => {
+    c.classList.toggle('active', i === idx);
+  });
+  
+  navItems.forEach((n, i) => {
+    n.classList.toggle('active', i === idx);
   });
 
+  currentChapter = idx;
+
+  // انتظر لحظة حتى يظهر الباب ثم صير المعادلات
+  setTimeout(() => {
+    const activeChapter = document.getElementById('ch' + idx);
+    renderMath(activeChapter);
+  }, 50);
+
+  const pane = document.querySelector('.content-pane');
+  if (pane) pane.scrollTop = 0;
+  closeBrowser();
+}
+
+// عند تحميل الصفحة لأول مرة
+document.addEventListener('DOMContentLoaded', () => {
+  renderMath(document.body); // صير كل شيء موجود حالياً
+});
   // مرر إلى أعلى منطقة المحتوى
   const pane = document.querySelector('.content-pane');
   if (pane) pane.scrollTop = 0;
