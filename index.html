@@ -13,671 +13,290 @@
 
 <style>
 :root {
-  --bg:        #0a0e1a;
-  --bg2:       #0f1525;
-  --bg3:       #141c30;
-  --surface:   #1a2340;
-  --surface2:  #1f2a4a;
-  --border:    rgba(99,179,237,0.15);
-  --border2:   rgba(99,179,237,0.3);
-  --accent:    #3b82f6;
-  --accent2:   #60a5fa;
-  --gold:      #f59e0b;
-  --gold2:     #fbbf24;
-  --teal:      #14b8a6;
-  --teal2:     #2dd4bf;
-  --purple:    #a855f7;
-  --purple2:   #c084fc;
-  --pink:      #ec4899;
-  --pink2:     #f472b6;
-  --orange:    #f97316;
-  --orange2:   #fb923c;
-  --red:       #ef4444;
-  --green:     #22c55e;
-  --green2:    #4ade80;
-  --text:      #e2e8f0;
-  --text2:     #94a3b8;
-  --text3:     #64748b;
-  --glow-b:    rgba(59,130,246,0.4);
-  --glow-g:    rgba(20,184,166,0.35);
-  --glow-gold: rgba(245,158,11,0.4);
-  --glow-p:    rgba(168,85,247,0.35);
+  --bg:#0a0e1a;--bg2:#0f1525;--bg3:#141c30;
+  --surface:#1a2340;--surface2:#1f2a4a;
+  --border:rgba(99,179,237,0.15);--border2:rgba(99,179,237,0.3);
+  --accent:#3b82f6;--accent2:#60a5fa;
+  --gold:#f59e0b;--gold2:#fbbf24;
+  --teal:#14b8a6;--teal2:#2dd4bf;
+  --purple:#a855f7;--purple2:#c084fc;
+  --pink:#ec4899;--pink2:#f472b6;
+  --orange:#f97316;--orange2:#fb923c;
+  --red:#ef4444;--green:#22c55e;--green2:#4ade80;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --glow-b:rgba(59,130,246,0.4);--glow-g:rgba(20,184,166,0.35);
+  --glow-gold:rgba(245,158,11,0.4);--glow-p:rgba(168,85,247,0.35);
 }
-
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
 
-body{
-  font-family:'Cairo',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* ═══ MATH LTR FIX ═══ */
-.math-block,.math-inline,.katex,.katex *{
-  direction:ltr!important;
-  unicode-bidi:isolate;
-}
+.math-block,.math-inline,.katex,.katex *{direction:ltr!important;unicode-bidi:isolate;}
 .math-block{text-align:center;}
 
-/* ═══ BACKGROUND ═══ */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:
-    linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);
-  background-size:50px 50px;
-  pointer-events:none;z-index:0;
-}
-body::after{
-  content:'';
-  position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse 60% 40% at 20% 10%,rgba(59,130,246,0.08) 0%,transparent 60%),
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);
+  background-size:50px 50px;pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 20% 10%,rgba(59,130,246,0.08) 0%,transparent 60%),
     radial-gradient(ellipse 50% 35% at 80% 90%,rgba(20,184,166,0.07) 0%,transparent 60%),
     radial-gradient(ellipse 40% 30% at 50% 50%,rgba(245,158,11,0.04) 0%,transparent 70%);
-  pointer-events:none;z-index:0;
-}
+  pointer-events:none;z-index:0;}
 
-/* ═══ SHELL ═══ */
-.app-shell{
-  position:relative;z-index:1;
-  display:flex;flex-direction:column;min-height:100vh;
-}
+.app-shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;}
 
-/* ═══ HEADER ═══ */
-.site-header{
-  background:linear-gradient(135deg,#0a0e1a 0%,#111827 50%,#0d1526 100%);
-  border-bottom:1px solid var(--border2);
-  position:relative;overflow:hidden;flex-shrink:0;
-}
-.site-header::before{
-  content:'∫';
-  position:absolute;right:-20px;top:-40px;
-  font-size:220px;color:rgba(59,130,246,0.04);
-  font-family:'Amiri',serif;pointer-events:none;line-height:1;
-}
+/* HEADER */
+.site-header{background:linear-gradient(135deg,#0a0e1a 0%,#111827 50%,#0d1526 100%);border-bottom:1px solid var(--border2);position:relative;overflow:hidden;flex-shrink:0;}
+.site-header::before{content:'∫';position:absolute;right:-20px;top:-40px;font-size:220px;color:rgba(59,130,246,0.04);font-family:'Amiri',serif;pointer-events:none;line-height:1;}
 .header-inner{padding:1.4rem 2rem 1.2rem;position:relative;}
 .header-top-line{display:flex;align-items:center;gap:1rem;margin-bottom:0.6rem;flex-wrap:wrap;}
-.header-badge{
-  background:linear-gradient(135deg,var(--accent),var(--teal));
-  color:white;font-size:0.65rem;font-weight:700;
-  padding:0.2rem 0.6rem;border-radius:20px;letter-spacing:0.08em;
-}
+.header-badge{background:linear-gradient(135deg,var(--accent),var(--teal));color:white;font-size:0.65rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;letter-spacing:0.08em;}
 .header-uni{font-family:'Tajawal',sans-serif;font-size:0.78rem;color:var(--text3);letter-spacing:0.05em;}
-.header-title{
-  font-family:'Amiri',serif;
-  font-size:clamp(1.4rem,3vw,2.2rem);
-  font-weight:700;line-height:1.25;
+.header-title{font-family:'Amiri',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;line-height:1.25;
   background:linear-gradient(135deg,#fff 0%,var(--accent2) 50%,var(--teal2) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  margin-bottom:0.25rem;
-}
-.header-author{
-  font-family:'Amiri',serif;font-size:1rem;color:var(--gold2);
-  display:flex;align-items:center;gap:0.5rem;
-}
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.25rem;}
+.header-author{font-family:'Amiri',serif;font-size:1rem;color:var(--gold2);display:flex;align-items:center;gap:0.5rem;}
 .header-author::before{content:'';display:inline-block;width:24px;height:2px;background:var(--gold2);border-radius:1px;}
 .header-sub{font-size:0.78rem;color:var(--text3);margin-top:0.15rem;}
 .made-by{font-size:0.7rem;color:var(--text3);margin-top:0.3rem;display:flex;align-items:center;gap:0.4rem;}
 .made-by-dot{width:4px;height:4px;border-radius:50%;background:var(--accent);}
 
-/* ═══ MAIN LAYOUT ═══ */
-.main-layout{
-  display:flex;flex:1;
-  height:calc(100vh - 130px);
-  position:relative;
-}
+/* LAYOUT */
+.main-layout{display:flex;flex:1;height:calc(100vh - 130px);position:relative;}
 
-/* ═══ SIDEBAR ═══ */
-.sidebar{
-  width:255px;flex-shrink:0;
-  background:var(--bg2);
-  border-left:1px solid var(--border);
-  display:flex;flex-direction:column;
-  overflow:hidden;position:relative;
-}
-.sidebar::before{
-  content:'';position:absolute;top:0;right:0;
-  width:2px;height:100%;
-  background:linear-gradient(180deg,var(--accent) 0%,var(--teal) 50%,transparent 100%);
-  opacity:0.5;
-}
-.sidebar-header{
-  padding:0.9rem 1.1rem 0.7rem;
-  border-bottom:1px solid var(--border);flex-shrink:0;
-}
-.sidebar-header-title{
-  font-size:0.68rem;text-transform:uppercase;
-  letter-spacing:0.12em;color:var(--text3);font-weight:700;margin-bottom:0.2rem;
-}
+/* SIDEBAR */
+.sidebar{width:255px;flex-shrink:0;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.sidebar::before{content:'';position:absolute;top:0;right:0;width:2px;height:100%;background:linear-gradient(180deg,var(--accent) 0%,var(--teal) 50%,transparent 100%);opacity:0.5;}
+.sidebar-header{padding:0.9rem 1.1rem 0.7rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.sidebar-header-title{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);font-weight:700;margin-bottom:0.2rem;}
 .sidebar-header-sub{font-family:'Amiri',serif;font-size:0.95rem;color:var(--text2);}
-
 .nav-list{overflow-y:auto;flex:1;padding:0.4rem 0;scrollbar-width:thin;scrollbar-color:var(--surface) transparent;}
-
-.nav-item{
-  display:flex;align-items:center;gap:0.65rem;
-  padding:0.55rem 1rem;cursor:pointer;
-  transition:all 0.2s;border-right:3px solid transparent;
-  position:relative;user-select:none;
-}
+.nav-item{display:flex;align-items:center;gap:0.65rem;padding:0.52rem 1rem;cursor:pointer;transition:all 0.2s;border-right:3px solid transparent;position:relative;user-select:none;}
 .nav-item:hover{background:var(--surface);border-right-color:var(--border2);}
-.nav-item.active{
-  background:linear-gradient(90deg,var(--surface2) 0%,rgba(59,130,246,0.08) 100%);
-  border-right-color:var(--accent);
-}
+.nav-item.active{background:linear-gradient(90deg,var(--surface2) 0%,rgba(59,130,246,0.08) 100%);border-right-color:var(--accent);}
 .nav-item.active .nav-label{color:var(--accent2);}
-
-.nav-num{
-  width:24px;height:24px;border-radius:6px;
-  background:var(--surface);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.68rem;font-weight:700;color:var(--text3);
-  flex-shrink:0;transition:all 0.2s;
-}
-.nav-item.active .nav-num{
-  background:var(--accent);border-color:var(--accent);
-  color:white;box-shadow:0 0 10px var(--glow-b);
-}
-/* ألوان مميزة للصفحات الجديدة في الشريط الجانبي */
+.nav-num{width:24px;height:24px;border-radius:6px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;color:var(--text3);flex-shrink:0;transition:all 0.2s;}
+.nav-item.active .nav-num{background:var(--accent);border-color:var(--accent);color:white;box-shadow:0 0 10px var(--glow-b);}
 .nav-item[data-special="laws"].active .nav-num{background:var(--gold);border-color:var(--gold);box-shadow:0 0 10px var(--glow-gold);}
 .nav-item[data-special="laws"].active .nav-label{color:var(--gold2);}
 .nav-item[data-special="laws"].active{border-right-color:var(--gold);}
+.nav-item[data-special="examples"].active .nav-num{background:var(--orange);border-color:var(--orange);box-shadow:0 0 10px rgba(249,115,22,0.4);}
+.nav-item[data-special="examples"].active .nav-label{color:var(--orange2);}
+.nav-item[data-special="examples"].active{border-right-color:var(--orange);}
 .nav-item[data-special="questions"].active .nav-num{background:var(--purple);border-color:var(--purple);box-shadow:0 0 10px var(--glow-p);}
 .nav-item[data-special="questions"].active .nav-label{color:var(--purple2);}
 .nav-item[data-special="questions"].active{border-right-color:var(--purple);}
+.nav-label{font-size:0.79rem;font-weight:600;color:var(--text2);line-height:1.3;transition:color 0.2s;}
 
-.nav-label{font-size:0.8rem;font-weight:600;color:var(--text2);line-height:1.3;transition:color 0.2s;}
-
-/* ═══ CONTENT AREA ═══ */
+/* CONTENT */
 .content-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .content-scroll{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--surface) transparent;}
 .content-inner{padding:1.8rem 2.2rem;max-width:920px;}
 
-/* ═══ PAGE NAV BUTTONS (Top & Bottom) ═══ */
-.page-nav{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:0.7rem;margin:1.5rem 0 0.5rem;
-  padding:0.8rem 1rem;
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:10px;
-  flex-wrap:wrap;
-}
-.page-nav-center{
-  display:flex;align-items:center;gap:0.5rem;
-  font-size:0.8rem;color:var(--text3);font-weight:600;
-}
+/* PAGE NAV */
+.page-nav{display:flex;align-items:center;justify-content:space-between;gap:0.7rem;margin:1.5rem 0 0.5rem;padding:0.8rem 1rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;flex-wrap:wrap;}
+.page-nav-center{display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text3);font-weight:600;}
 .page-nav-center .pn-label{color:var(--text2);}
-
-.btn-nav{
-  display:flex;align-items:center;gap:0.4rem;
-  padding:0.45rem 1rem;border-radius:8px;
-  border:1px solid var(--border2);
-  background:var(--surface);
-  color:var(--text2);font-family:'Cairo',sans-serif;
-  font-size:0.78rem;font-weight:700;cursor:pointer;
-  transition:all 0.2s;white-space:nowrap;
-}
+.btn-nav{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 1rem;border-radius:8px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);font-family:'Cairo',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
 .btn-nav:hover{background:var(--surface2);color:var(--text);border-color:var(--accent);}
 .btn-nav:disabled{opacity:0.35;cursor:not-allowed;}
 .btn-nav svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
-
-.btn-home{
-  display:flex;align-items:center;gap:0.4rem;
-  padding:0.45rem 0.9rem;border-radius:8px;
-  border:1px solid rgba(245,158,11,0.3);
-  background:rgba(245,158,11,0.07);
-  color:var(--gold2);font-family:'Cairo',sans-serif;
-  font-size:0.75rem;font-weight:700;cursor:pointer;
-  transition:all 0.2s;white-space:nowrap;
-}
+.btn-home{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 0.9rem;border-radius:8px;border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.07);color:var(--gold2);font-family:'Cairo',sans-serif;font-size:0.75rem;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
 .btn-home:hover{background:rgba(245,158,11,0.15);border-color:var(--gold);}
 .btn-home svg{width:13px;height:13px;fill:currentColor;flex-shrink:0;}
 
-/* ═══ CHAPTERS ═══ */
+/* CHAPTERS */
 .chapter{display:none;}
-.chapter.active{
-  display:block;
-  animation:slideIn 0.35s cubic-bezier(0.22,1,0.36,1);
-}
-@keyframes slideIn{
-  from{opacity:0;transform:translateY(14px);}
-  to{opacity:1;transform:translateY(0);}
-}
+.chapter.active{display:block;animation:slideIn 0.35s cubic-bezier(0.22,1,0.36,1);}
+@keyframes slideIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
-.chapter-hero{
-  margin-bottom:1.8rem;padding-bottom:1.3rem;
-  border-bottom:1px solid var(--border);position:relative;
-}
-.chapter-eyebrow{
-  font-size:0.67rem;text-transform:uppercase;
-  letter-spacing:0.15em;color:var(--accent2);font-weight:700;
-  margin-bottom:0.35rem;display:flex;align-items:center;gap:0.5rem;
-}
+.chapter-hero{margin-bottom:1.8rem;padding-bottom:1.3rem;border-bottom:1px solid var(--border);position:relative;}
+.chapter-eyebrow{font-size:0.67rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent2);font-weight:700;margin-bottom:0.35rem;display:flex;align-items:center;gap:0.5rem;}
 .chapter-eyebrow::before{content:'';display:inline-block;width:18px;height:2px;background:var(--accent);border-radius:1px;}
-.chapter-title{
-  font-family:'Amiri',serif;
-  font-size:clamp(1.5rem,3.5vw,2.3rem);
-  font-weight:700;line-height:1.3;color:var(--text);
-}
-.chapter-title span{
-  background:linear-gradient(135deg,var(--accent2),var(--teal2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+.chapter-title{font-family:'Amiri',serif;font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:700;line-height:1.3;color:var(--text);}
+.chapter-title span{background:linear-gradient(135deg,var(--accent2),var(--teal2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-/* ═══ SECTION HEADING ═══ */
-.section-heading{
-  font-family:'Amiri',serif;font-size:1.15rem;
-  color:var(--text);margin:1.8rem 0 0.8rem;
-  display:flex;align-items:center;gap:0.6rem;
-}
-.section-heading::before{
-  content:'';width:4px;height:20px;
-  background:linear-gradient(180deg,var(--accent),var(--teal));
-  border-radius:2px;flex-shrink:0;
-}
+.section-heading{font-family:'Amiri',serif;font-size:1.15rem;color:var(--text);margin:1.8rem 0 0.8rem;display:flex;align-items:center;gap:0.6rem;}
+.section-heading::before{content:'';width:4px;height:20px;background:linear-gradient(180deg,var(--accent),var(--teal));border-radius:2px;flex-shrink:0;}
 
-/* ═══ BOXES ═══ */
-.box{
-  border-radius:10px;padding:1.1rem 1.4rem;
-  margin:1.1rem 0;position:relative;overflow:hidden;
-}
-.box::before{
-  content:'';position:absolute;top:0;right:0;
-  width:100%;height:1px;
-  background:linear-gradient(90deg,transparent,var(--box-color,var(--accent)),transparent);
-  opacity:0.5;
-}
+/* BOXES */
+.box{border-radius:10px;padding:1.1rem 1.4rem;margin:1.1rem 0;position:relative;overflow:hidden;}
+.box::before{content:'';position:absolute;top:0;right:0;width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--box-color,var(--accent)),transparent);opacity:0.5;}
 .box-definition{--box-color:var(--teal);background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.2);border-right:3px solid var(--teal);}
 .box-theorem{--box-color:var(--accent);background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.2);border-right:3px solid var(--accent);}
 .box-formula{--box-color:var(--gold);background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);text-align:center;}
 .box-note{--box-color:var(--text3);background:var(--surface);border:1px solid var(--border);border-right:3px solid var(--text3);}
-.box-purple{--box-color:var(--purple);background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.2);border-right:3px solid var(--purple);}
-.box-orange{--box-color:var(--orange);background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.2);border-right:3px solid var(--orange);}
-
-.box-label{
-  font-size:0.64rem;text-transform:uppercase;
-  letter-spacing:0.12em;font-weight:700;
-  margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem;
-}
+.box-label{font-size:0.64rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;margin-bottom:0.55rem;display:flex;align-items:center;gap:0.4rem;}
 .box-definition .box-label{color:var(--teal2);}
-.box-theorem    .box-label{color:var(--accent2);}
-.box-formula    .box-label{color:var(--gold2);}
-.box-note       .box-label{color:var(--text2);}
-.box-purple     .box-label{color:var(--purple2);}
-.box-orange     .box-label{color:var(--orange2);}
+.box-theorem .box-label{color:var(--accent2);}
+.box-formula .box-label{color:var(--gold2);}
+.box-note .box-label{color:var(--text2);}
 .box-label::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
-
 p{line-height:1.85;margin-bottom:0.6rem;font-size:0.94rem;color:var(--text2);}
 strong{color:var(--text);font-weight:700;}
 
-/* ═══ MATH BLOCKS — ألوان متباينة ═══ */
-.math-block{
-  direction:ltr;text-align:center;
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:0.9rem 1.4rem;
-  margin:0.9rem 0;
-  overflow-x:auto;
-  position:relative;
-}
-.math-block::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--mb-color,var(--accent)),transparent);
-  opacity:0.6;
-}
-/* ألوان مختلفة للمعادلات حسب السياق */
-.math-block.blue  {--mb-color:var(--accent2); border-color:rgba(59,130,246,0.25);}
-.math-block.teal  {--mb-color:var(--teal2);   border-color:rgba(20,184,166,0.25);}
-.math-block.gold  {--mb-color:var(--gold2);   border-color:rgba(245,158,11,0.25);}
-.math-block.purple{--mb-color:var(--purple2); border-color:rgba(168,85,247,0.25);}
-.math-block.green {--mb-color:var(--green2);  border-color:rgba(34,197,94,0.25);}
-.math-block.pink  {--mb-color:var(--pink2);   border-color:rgba(236,72,153,0.25);}
-.math-block.orange{--mb-color:var(--orange2); border-color:rgba(249,115,22,0.25);}
-
-/* لون الكاتكس نفسه */
-.math-block.blue   .katex{color:#93c5fd!important;}
-.math-block.teal   .katex{color:#5eead4!important;}
-.math-block.gold   .katex{color:#fde68a!important;}
+/* MATH BLOCKS */
+.math-block{direction:ltr;text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1.4rem;margin:0.9rem 0;overflow-x:auto;position:relative;}
+.math-block::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--mb-color,var(--accent)),transparent);opacity:0.6;}
+.math-block.blue{--mb-color:var(--accent2);border-color:rgba(59,130,246,0.25);}
+.math-block.teal{--mb-color:var(--teal2);border-color:rgba(20,184,166,0.25);}
+.math-block.gold{--mb-color:var(--gold2);border-color:rgba(245,158,11,0.25);}
+.math-block.purple{--mb-color:var(--purple2);border-color:rgba(168,85,247,0.25);}
+.math-block.green{--mb-color:var(--green2);border-color:rgba(34,197,94,0.25);}
+.math-block.pink{--mb-color:var(--pink2);border-color:rgba(236,72,153,0.25);}
+.math-block.orange{--mb-color:var(--orange2);border-color:rgba(249,115,22,0.25);}
+.math-block.blue .katex{color:#93c5fd!important;}
+.math-block.teal .katex{color:#5eead4!important;}
+.math-block.gold .katex{color:#fde68a!important;}
 .math-block.purple .katex{color:#d8b4fe!important;}
-.math-block.green  .katex{color:#86efac!important;}
-.math-block.pink   .katex{color:#f9a8d4!important;}
+.math-block.green .katex{color:#86efac!important;}
+.math-block.pink .katex{color:#f9a8d4!important;}
 .math-block.orange .katex{color:#fdba74!important;}
 
-/* ═══ FORMULA TABLE ═══ */
-.ftable{
-  width:100%;border-collapse:separate;border-spacing:0;
-  margin:0.9rem 0;font-size:0.86rem;
-  border-radius:10px;overflow:hidden;border:1px solid var(--border);
-}
-.ftable thead th{
-  background:var(--surface2);color:var(--text2);
-  padding:0.6rem 0.9rem;font-weight:700;
-  font-size:0.73rem;text-transform:uppercase;letter-spacing:0.08em;
-  text-align:center;border-bottom:1px solid var(--border2);
-}
-.ftable tbody td{
-  padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);
-  color:var(--text2);text-align:center;vertical-align:middle;
-  transition:background 0.15s;direction:ltr;
-}
+/* TABLES */
+.ftable{width:100%;border-collapse:separate;border-spacing:0;margin:0.9rem 0;font-size:0.86rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.ftable thead th{background:var(--surface2);color:var(--text2);padding:0.6rem 0.9rem;font-weight:700;font-size:0.73rem;text-transform:uppercase;letter-spacing:0.08em;text-align:center;border-bottom:1px solid var(--border2);}
+.ftable tbody td{padding:0.5rem 0.9rem;border-bottom:1px solid var(--border);color:var(--text2);text-align:center;vertical-align:middle;transition:background 0.15s;direction:ltr;}
 .ftable tbody tr:last-child td{border-bottom:none;}
 .ftable tbody tr:hover td{background:var(--surface);}
-
-.ftable td.rn{
-  font-weight:700;color:var(--accent2);font-size:0.73rem;
-  background:rgba(59,130,246,0.04);direction:rtl;width:40px;
-}
+.ftable td.rn{font-weight:700;color:var(--accent2);font-size:0.73rem;background:rgba(59,130,246,0.04);direction:rtl;width:40px;}
 .ftable td.desc{text-align:right;direction:rtl;color:var(--text);font-size:0.83rem;}
-
-/* تلوين صفوف الجداول بشكل متناوب للمعادلات */
 .ftable tbody tr:nth-child(odd) td:not(.rn):not(.desc){color:#93c5fd;}
 .ftable tbody tr:nth-child(even) td:not(.rn):not(.desc){color:#5eead4;}
 .ftable tbody tr:hover td:not(.rn):not(.desc){color:#fde68a!important;}
 
-/* ═══ EXAMPLES ═══ */
-.example{
-  border-radius:10px;overflow:hidden;
-  margin:1.2rem 0;border:1px solid var(--border);
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
+/* EXAMPLES */
+.example{border-radius:10px;overflow:hidden;margin:1.2rem 0;border:1px solid var(--border);transition:border-color 0.2s,box-shadow 0.2s;}
 .example:hover{border-color:var(--border2);box-shadow:0 4px 24px rgba(0,0,0,0.2);}
-
-.ex-header{
-  background:var(--surface2);padding:0.65rem 1.1rem;
-  display:flex;justify-content:space-between;align-items:center;
-  cursor:pointer;user-select:none;transition:background 0.15s;gap:0.8rem;
-}
+.ex-header{background:var(--surface2);padding:0.65rem 1.1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none;transition:background 0.15s;gap:0.8rem;}
 .ex-header:hover{background:var(--surface);}
 .ex-header-left{display:flex;align-items:center;gap:0.55rem;}
-
-.ex-tag{
-  background:linear-gradient(135deg,var(--accent),var(--teal));
-  color:white;font-size:0.58rem;font-weight:700;
-  padding:0.15rem 0.5rem;border-radius:4px;letter-spacing:0.06em;flex-shrink:0;
-}
+.ex-tag{background:linear-gradient(135deg,var(--accent),var(--teal));color:white;font-size:0.58rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;letter-spacing:0.06em;flex-shrink:0;}
 .ex-title{font-size:0.83rem;font-weight:600;color:var(--text);}
 .ex-chevron{color:var(--text3);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);flex-shrink:0;font-size:0.85rem;}
 .ex-header.open .ex-chevron{transform:rotate(180deg);color:var(--accent2);}
-
-.ex-question{
-  background:var(--bg3);padding:0.75rem 1.1rem;
-  font-size:0.88rem;font-weight:600;color:var(--text);
-  border-bottom:1px solid var(--border);direction:rtl;
-}
+.ex-question{background:var(--bg3);padding:0.75rem 1.1rem;font-size:0.88rem;font-weight:600;color:var(--text);border-bottom:1px solid var(--border);direction:rtl;}
 .ex-question .math-block{direction:ltr;}
-
 .ex-solution{padding:1rem;display:none;background:var(--bg2);}
 .ex-solution.show{display:block;animation:slideIn 0.25s ease;}
-
-.step{
-  display:flex;align-items:flex-start;gap:0.65rem;
-  margin:0.55rem 0;font-size:0.86rem;color:var(--text2);
-}
-.step-n{
-  width:21px;height:21px;border-radius:6px;
-  background:var(--accent);color:white;font-size:0.62rem;font-weight:700;
-  display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;margin-top:1px;box-shadow:0 0 8px var(--glow-b);
-}
-
-.result{
-  background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.05));
-  border:1px solid rgba(245,158,11,0.3);border-radius:8px;
-  padding:0.75rem 1.1rem;text-align:center;
-  margin-top:0.75rem;direction:ltr;position:relative;
-}
-.result::before{
-  content:'النتيجة';position:absolute;top:-0.5rem;right:0.8rem;
-  background:var(--bg2);padding:0 0.4rem;
-  font-size:0.58rem;color:var(--gold2);
-  letter-spacing:0.06em;font-weight:700;text-transform:uppercase;direction:rtl;
-}
+.step{display:flex;align-items:flex-start;gap:0.65rem;margin:0.55rem 0;font-size:0.86rem;color:var(--text2);}
+.step-n{width:21px;height:21px;border-radius:6px;background:var(--accent);color:white;font-size:0.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 0 8px var(--glow-b);}
+.result{background:linear-gradient(135deg,rgba(245,158,11,0.08),rgba(251,191,36,0.05));border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:0.75rem 1.1rem;text-align:center;margin-top:0.75rem;direction:ltr;position:relative;}
+.result::before{content:'النتيجة';position:absolute;top:-0.5rem;right:0.8rem;background:var(--bg2);padding:0 0.4rem;font-size:0.58rem;color:var(--gold2);letter-spacing:0.06em;font-weight:700;text-transform:uppercase;direction:rtl;}
 .result .katex{color:#fde68a!important;}
 
-/* ═══ QUIZ SECTION ═══ */
-.quiz-wrap{
-  margin-top:2rem;border-radius:12px;overflow:hidden;
-  border:1px solid var(--border2);box-shadow:0 0 30px rgba(59,130,246,0.08);
-}
-.quiz-top{
-  background:linear-gradient(135deg,var(--surface2),var(--surface));
-  padding:0.85rem 1.2rem;display:flex;
-  align-items:center;justify-content:space-between;
-  gap:1rem;border-bottom:1px solid var(--border);
-}
-.quiz-title{
-  font-size:0.88rem;font-weight:700;color:var(--text);
-  display:flex;align-items:center;gap:0.45rem;
-}
-.btn-quiz-open{
-  display:flex;align-items:center;gap:0.4rem;
-  background:linear-gradient(135deg,var(--accent),#2563eb);
-  color:white;border:none;padding:0.42rem 0.95rem;
-  border-radius:7px;cursor:pointer;
-  font-family:'Cairo',sans-serif;font-size:0.76rem;font-weight:700;
-  transition:all 0.2s;white-space:nowrap;
-  box-shadow:0 2px 12px var(--glow-b);
-}
+/* QUIZ */
+.quiz-wrap{margin-top:2rem;border-radius:12px;overflow:hidden;border:1px solid var(--border2);box-shadow:0 0 30px rgba(59,130,246,0.08);}
+.quiz-top{background:linear-gradient(135deg,var(--surface2),var(--surface));padding:0.85rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--border);}
+.quiz-title{font-size:0.88rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:0.45rem;}
+.btn-quiz-open{display:flex;align-items:center;gap:0.4rem;background:linear-gradient(135deg,var(--accent),#2563eb);color:white;border:none;padding:0.42rem 0.95rem;border-radius:7px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.76rem;font-weight:700;transition:all 0.2s;white-space:nowrap;box-shadow:0 2px 12px var(--glow-b);}
 .btn-quiz-open:hover{transform:translateY(-1px);box-shadow:0 4px 20px var(--glow-b);}
 .btn-quiz-open svg{width:12px;height:12px;fill:currentColor;}
 .quiz-body{padding:0.9rem 1.2rem;background:var(--bg2);}
 .quiz-hint{font-size:0.83rem;color:var(--text3);display:flex;align-items:center;gap:0.5rem;}
-.quiz-hint-dot{
-  width:7px;height:7px;border-radius:50%;
-  background:var(--accent);box-shadow:0 0 6px var(--glow-b);
-  flex-shrink:0;animation:pulse 2s infinite;
-}
+.quiz-hint-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--glow-b);flex-shrink:0;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
 
-/* ═══ BROWSER PANEL ═══ */
-.browser-panel{
-  display:none;flex-direction:column;
-  height:calc(100vh - 130px);
-  background:var(--bg);position:absolute;inset:0;z-index:10;
-}
+/* BROWSER */
+.browser-panel{display:none;flex-direction:column;height:calc(100vh - 130px);background:var(--bg);position:absolute;inset:0;z-index:10;}
 .browser-panel.visible{display:flex;}
-.browser-chrome{
-  background:#1a1f2e;border-bottom:1px solid #2a3148;
-  padding:0.5rem 0.75rem;
-  display:flex;align-items:center;gap:0.55rem;flex-shrink:0;
-}
+.browser-chrome{background:#1a1f2e;border-bottom:1px solid #2a3148;padding:0.5rem 0.75rem;display:flex;align-items:center;gap:0.55rem;flex-shrink:0;}
 .browser-dots{display:flex;gap:0.28rem;flex-shrink:0;}
 .dot-r{width:10px;height:10px;border-radius:50%;background:#ef4444;cursor:pointer;}
 .dot-y{width:10px;height:10px;border-radius:50%;background:#f59e0b;}
 .dot-g{width:10px;height:10px;border-radius:50%;background:#22c55e;}
 .dot-r:hover{filter:brightness(1.3);}
 .browser-nav{display:flex;gap:0.28rem;flex-shrink:0;}
-.browser-nav button{
-  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
-  color:var(--text3);width:25px;height:25px;border-radius:6px;
-  cursor:pointer;font-size:0.78rem;
-  display:flex;align-items:center;justify-content:center;transition:all 0.15s;
-}
+.browser-nav button{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);color:var(--text3);width:25px;height:25px;border-radius:6px;cursor:pointer;font-size:0.78rem;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
 .browser-nav button:hover{background:rgba(255,255,255,0.1);color:var(--text);}
-.browser-url-bar{
-  flex:1;background:rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.1);border-radius:6px;
-  color:#4ade80;font-family:'Courier New',monospace;font-size:0.72rem;
-  padding:0.28rem 0.7rem;direction:ltr;text-align:left;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  cursor:text;user-select:all;
-}
-.btn-new-tab{
-  background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);
-  color:var(--accent2);padding:0.28rem 0.65rem;border-radius:6px;
-  cursor:pointer;font-family:'Cairo',sans-serif;
-  font-size:0.7rem;font-weight:700;white-space:nowrap;
-  transition:all 0.15s;flex-shrink:0;
-}
+.browser-url-bar{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:6px;color:#4ade80;font-family:'Courier New',monospace;font-size:0.72rem;padding:0.28rem 0.7rem;direction:ltr;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:text;user-select:all;}
+.btn-new-tab{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:var(--accent2);padding:0.28rem 0.65rem;border-radius:6px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.7rem;font-weight:700;white-space:nowrap;transition:all 0.15s;flex-shrink:0;}
 .btn-new-tab:hover{background:rgba(59,130,246,0.25);}
 .browser-frame{flex:1;position:relative;overflow:hidden;}
 .browser-iframe{width:100%;height:100%;border:none;display:block;background:#fff;}
-.browser-loading{
-  position:absolute;inset:0;background:var(--bg);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1rem;z-index:5;transition:opacity 0.3s;
-}
+.browser-loading{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;z-index:5;transition:opacity 0.3s;}
 .browser-loading.gone{opacity:0;pointer-events:none;}
-.loader-ring{
-  width:42px;height:42px;
-  border:3px solid var(--border);border-top-color:var(--accent);
-  border-radius:50%;animation:spin 0.9s linear infinite;
-}
+.loader-ring{width:42px;height:42px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.9s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .browser-loading p{font-size:0.83rem;color:var(--text3);margin:0;}
 
-/* ═══ INTRO PAGE ═══ */
-.bismi{
-  font-family:'Amiri',serif;font-size:1.25rem;text-align:center;
-  color:var(--teal2);padding:0.75rem;margin-bottom:1.1rem;
-  border:1px solid rgba(20,184,166,0.2);border-radius:8px;
-  background:rgba(20,184,166,0.04);direction:rtl;
-}
-.chapter-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-  gap:0.75rem;margin:1.2rem 0;
-}
-.chapter-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:0.9rem 0.8rem;text-align:center;
-  cursor:pointer;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);
-  position:relative;overflow:hidden;
-}
-.chapter-card::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,var(--accent),var(--teal));
-  opacity:0;transition:opacity 0.2s;
-}
-.chapter-card:hover{
-  transform:translateY(-4px);border-color:var(--accent);
-  box-shadow:0 8px 28px rgba(59,130,246,0.2);
-}
+/* INTRO */
+.bismi{font-family:'Amiri',serif;font-size:1.25rem;text-align:center;color:var(--teal2);padding:0.75rem;margin-bottom:1.1rem;border:1px solid rgba(20,184,166,0.2);border-radius:8px;background:rgba(20,184,166,0.04);direction:rtl;}
+.chapter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:0.75rem;margin:1.2rem 0;}
+.chapter-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.9rem 0.8rem;text-align:center;cursor:pointer;transition:all 0.22s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden;}
+.chapter-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--teal));opacity:0;transition:opacity 0.2s;}
+.chapter-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 28px rgba(59,130,246,0.2);}
 .chapter-card:hover::before{opacity:0.07;}
 .chapter-card:hover .cc-num{background:var(--accent);box-shadow:0 0 14px var(--glow-b);}
 .chapter-card.special-laws:hover .cc-num{background:var(--gold);box-shadow:0 0 14px var(--glow-gold);}
 .chapter-card.special-laws{border-color:rgba(245,158,11,0.2);}
+.chapter-card.special-examples:hover .cc-num{background:var(--orange);box-shadow:0 0 14px rgba(249,115,22,0.4);}
+.chapter-card.special-examples{border-color:rgba(249,115,22,0.2);}
 .chapter-card.special-questions:hover .cc-num{background:var(--purple);box-shadow:0 0 14px var(--glow-p);}
 .chapter-card.special-questions{border-color:rgba(168,85,247,0.2);}
-.cc-num{
-  width:34px;height:34px;border-radius:8px;
-  background:var(--surface2);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:0.78rem;color:var(--text2);
-  margin:0 auto 0.45rem;transition:all 0.2s;
-  position:relative;z-index:1;
-}
-.cc-title{
-  font-size:0.75rem;font-weight:700;color:var(--text2);
-  line-height:1.4;position:relative;z-index:1;transition:color 0.2s;
-}
+.cc-num{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.78rem;color:var(--text2);margin:0 auto 0.45rem;transition:all 0.2s;position:relative;z-index:1;}
+.cc-title{font-size:0.73rem;font-weight:700;color:var(--text2);line-height:1.4;position:relative;z-index:1;transition:color 0.2s;}
 .chapter-card:hover .cc-title{color:var(--text);}
 
-/* ═══ SUMMARY PAGES ═══ */
-.summary-hero{
-  margin-bottom:1.5rem;padding-bottom:1.2rem;
-  border-bottom:1px solid var(--border);
-}
-.summary-badge{
-  display:inline-flex;align-items:center;gap:0.5rem;
-  padding:0.3rem 0.8rem;border-radius:20px;
-  font-size:0.68rem;font-weight:700;letter-spacing:0.08em;
-  margin-bottom:0.6rem;
-}
+/* SUMMARY PAGES */
+.summary-hero{margin-bottom:1.5rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border);}
+.summary-badge{display:inline-flex;align-items:center;gap:0.5rem;padding:0.3rem 0.8rem;border-radius:20px;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;margin-bottom:0.6rem;}
 .summary-badge.gold{background:rgba(245,158,11,0.15);color:var(--gold2);border:1px solid rgba(245,158,11,0.3);}
+.summary-badge.orange{background:rgba(249,115,22,0.15);color:var(--orange2);border:1px solid rgba(249,115,22,0.3);}
 .summary-badge.purple{background:rgba(168,85,247,0.15);color:var(--purple2);border:1px solid rgba(168,85,247,0.3);}
-.summary-title{
-  font-family:'Amiri',serif;
-  font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;line-height:1.3;
-}
-.summary-title.gold{
-  background:linear-gradient(135deg,var(--gold2),var(--orange2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.summary-title.purple{
-  background:linear-gradient(135deg,var(--purple2),var(--pink2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
+.summary-title{font-family:'Amiri',serif;font-size:clamp(1.5rem,3vw,2.1rem);font-weight:700;line-height:1.3;}
+.summary-title.gold{background:linear-gradient(135deg,var(--gold2),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.summary-title.orange{background:linear-gradient(135deg,var(--orange2),var(--pink2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.summary-title.purple{background:linear-gradient(135deg,var(--purple2),var(--pink2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-/* بطاقات ملخص القوانين */
-.law-section{
-  margin:1.2rem 0;border-radius:12px;overflow:hidden;
-  border:1px solid var(--border);
-}
-.law-section-header{
-  padding:0.7rem 1.1rem;
-  display:flex;align-items:center;gap:0.6rem;
-  font-size:0.85rem;font-weight:700;color:var(--text);
-}
-.ls-icon{
-  width:28px;height:28px;border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:0.75rem;font-weight:900;color:white;flex-shrink:0;
-}
-.law-section-body{
-  padding:0.8rem 1rem;background:var(--bg2);
-}
+/* LAW SECTIONS */
+.law-section{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+.law-section-header{padding:0.7rem 1.1rem;display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;font-weight:700;color:var(--text);}
+.ls-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:900;color:white;flex-shrink:0;}
+.law-section-body{padding:0.8rem 1rem;background:var(--bg2);}
 
-/* بطاقات ملخص الأسئلة */
-.qs-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;margin:0.9rem 0;overflow:hidden;
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
+/* EXAMPLE SUMMARY */
+.ex-sum-section{margin:1.2rem 0;border-radius:12px;overflow:hidden;border:1px solid var(--border);}
+.ex-sum-header{padding:0.75rem 1.1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;transition:background 0.15s;gap:0.8rem;}
+.ex-sum-header:hover{filter:brightness(1.1);}
+.ex-sum-header-left{display:flex;align-items:center;gap:0.7rem;}
+.ex-sum-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:900;color:white;flex-shrink:0;}
+.ex-sum-title{font-size:0.88rem;font-weight:700;color:var(--text);}
+.ex-sum-count{font-size:0.68rem;color:var(--text3);font-weight:600;}
+.ex-sum-chevron{color:var(--text3);transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);font-size:0.85rem;flex-shrink:0;}
+.ex-sum-header.open .ex-sum-chevron{transform:rotate(180deg);}
+.ex-sum-body{display:none;padding:0.9rem 1rem;background:var(--bg2);}
+.ex-sum-body.show{display:block;animation:slideIn 0.25s ease;}
+
+/* كروت الأمثلة في ملخص الأمثلة */
+.ex-mini{border-radius:9px;overflow:hidden;margin:0.8rem 0;border:1px solid var(--border);transition:border-color 0.2s;}
+.ex-mini:hover{border-color:var(--border2);}
+.ex-mini-q{background:var(--bg3);padding:0.6rem 0.9rem;font-size:0.83rem;font-weight:600;color:var(--text);border-bottom:1px solid var(--border);direction:rtl;display:flex;align-items:center;gap:0.6rem;}
+.ex-mini-tag{font-size:0.58rem;font-weight:700;padding:0.12rem 0.45rem;border-radius:4px;letter-spacing:0.05em;flex-shrink:0;color:white;}
+.ex-mini-sol{padding:0.7rem 0.9rem;background:var(--bg2);}
+.ex-mini-step{font-size:0.82rem;color:var(--text2);margin:0.3rem 0;padding-right:0.5rem;border-right:2px solid var(--border2);direction:rtl;}
+
+/* QUESTIONS SUMMARY */
+.qs-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin:0.9rem 0;overflow:hidden;transition:border-color 0.2s,box-shadow 0.2s;}
 .qs-card:hover{border-color:var(--border2);box-shadow:0 4px 20px rgba(0,0,0,0.2);}
-.qs-card-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0.65rem 1rem;background:var(--surface2);
-  border-bottom:1px solid var(--border);gap:0.8rem;
-  cursor:pointer;user-select:none;transition:background 0.15s;
-}
+.qs-card-header{display:flex;align-items:center;justify-content:space-between;padding:0.65rem 1rem;background:var(--surface2);border-bottom:1px solid var(--border);gap:0.8rem;cursor:pointer;user-select:none;transition:background 0.15s;}
 .qs-card-header:hover{background:var(--surface);}
 .qs-card-title{font-size:0.85rem;font-weight:700;color:var(--text);}
-.qs-badge{
-  font-size:0.6rem;font-weight:700;padding:0.15rem 0.5rem;
-  border-radius:4px;letter-spacing:0.06em;flex-shrink:0;
-}
-.qs-card-body{padding:0.85rem 1rem;background:var(--bg2);}
-.qs-list{list-style:none;padding:0;}
-.qs-list li{
-  padding:0.45rem 0;border-bottom:1px solid var(--border);
-  font-size:0.85rem;color:var(--text2);
-  display:flex;align-items:baseline;gap:0.55rem;
-}
+.qs-badge{font-size:0.6rem;font-weight:700;padding:0.15rem 0.5rem;border-radius:4px;letter-spacing:0.06em;flex-shrink:0;}
+.qs-card-body{padding:0.85rem 1rem;background:var(--bg2);display:none;}
+.qs-list{list-style:none;padding:0;counter-reset:li;}
+.qs-list li{padding:0.45rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--text2);display:flex;align-items:baseline;gap:0.55rem;counter-increment:li;}
 .qs-list li:last-child{border-bottom:none;}
-.qs-list li::before{
-  content:counter(li);counter-increment:li;
-  width:20px;height:20px;border-radius:5px;
-  display:inline-flex;align-items:center;justify-content:center;
-  font-size:0.6rem;font-weight:700;color:white;
-  flex-shrink:0;
-}
-.qs-list{counter-reset:li;}
-.qs-open-btn{
-  display:flex;align-items:center;gap:0.4rem;
-  background:linear-gradient(135deg,var(--purple),#7c3aed);
-  color:white;border:none;padding:0.38rem 0.85rem;
-  border-radius:6px;cursor:pointer;
-  font-family:'Cairo',sans-serif;font-size:0.74rem;font-weight:700;
-  transition:all 0.2s;white-space:nowrap;
-  box-shadow:0 2px 10px var(--glow-p);flex-shrink:0;
-}
+.qs-list li::before{content:counter(li);width:20px;height:20px;border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:700;color:white;flex-shrink:0;background:var(--purple);}
+.qs-open-btn{display:flex;align-items:center;gap:0.4rem;background:linear-gradient(135deg,var(--purple),#7c3aed);color:white;border:none;padding:0.38rem 0.85rem;border-radius:6px;cursor:pointer;font-family:'Cairo',sans-serif;font-size:0.74rem;font-weight:700;transition:all 0.2s;white-space:nowrap;box-shadow:0 2px 10px var(--glow-p);flex-shrink:0;}
 .qs-open-btn:hover{transform:translateY(-1px);box-shadow:0 4px 18px var(--glow-p);}
 .qs-open-btn svg{width:11px;height:11px;fill:currentColor;}
 
-/* ═══ SCROLLBAR ═══ */
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:3px;}
 ::-webkit-scrollbar-thumb:hover{background:var(--border2);}
 
-/* ═══ RESPONSIVE ═══ */
 @media(max-width:768px){
   .sidebar{display:none;}
   .content-inner{padding:1rem;}
@@ -689,7 +308,6 @@ strong{color:var(--text);font-weight:700;}
 <body>
 <div class="app-shell">
 
-<!-- ══════════ HEADER ══════════ -->
 <header class="site-header">
   <div class="header-inner">
     <div class="header-top-line">
@@ -703,10 +321,8 @@ strong{color:var(--text);font-weight:700;}
   </div>
 </header>
 
-<!-- ══════════ MAIN LAYOUT ══════════ -->
 <div class="main-layout">
 
-  <!-- SIDEBAR -->
   <nav class="sidebar">
     <div class="sidebar-header">
       <div class="sidebar-header-title">المحاضرات</div>
@@ -724,23 +340,21 @@ strong{color:var(--text);font-weight:700;}
       <div class="nav-item" onclick="goTo(8)"><div class="nav-num">٨</div><div class="nav-label">الاختزال المتتالي</div></div>
       <div class="nav-item" onclick="goTo(9)"><div class="nav-num">٩</div><div class="nav-label">التكامل المحدود</div></div>
       <div class="nav-item" data-special="laws" onclick="goTo(10)"><div class="nav-num">★</div><div class="nav-label">ملخص القوانين</div></div>
-      <div class="nav-item" data-special="questions" onclick="goTo(11)"><div class="nav-num">؟</div><div class="nav-label">ملخص الأسئلة</div></div>
+      <div class="nav-item" data-special="examples" onclick="goTo(11)"><div class="nav-num">◆</div><div class="nav-label">ملخص الأمثلة</div></div>
+      <div class="nav-item" data-special="questions" onclick="goTo(12)"><div class="nav-num">؟</div><div class="nav-label">ملخص الأسئلة</div></div>
     </div>
   </nav>
 
-  <!-- CONTENT AREA -->
   <div class="content-area">
 
-    <!-- BROWSER PANEL -->
     <div class="browser-panel" id="browserPanel">
       <div class="browser-chrome">
         <div class="browser-dots">
           <div class="dot-r" onclick="hideBrowser()" title="إغلاق"></div>
-          <div class="dot-y"></div>
-          <div class="dot-g"></div>
+          <div class="dot-y"></div><div class="dot-g"></div>
         </div>
         <div class="browser-nav">
-          <button onclick="hideBrowser()" title="رجوع للدرس">
+          <button onclick="hideBrowser()" title="رجوع">
             <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
           </button>
           <button onclick="reloadFrame()" title="تحديث">
@@ -761,23 +375,17 @@ strong{color:var(--text);font-weight:700;}
       </div>
     </div>
 
-    <!-- SCROLLABLE CONTENT -->
     <div class="content-scroll" id="contentScroll">
       <div class="content-inner">
 
-<!-- ════════════════════════════════
-     CH 0 — المقدمة
-════════════════════════════════ -->
+<!-- ══ CH 0 — المقدمة ══ -->
 <section class="chapter active" id="ch0">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">المقدمة · Introduction</div>
     <div class="chapter-title">الجداول القياسية و<span>المتطابقات الأساسية</span></div>
   </div>
-
   <div class="bismi">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ</div>
-
   <p>هذه المحاضرات مُعدَّة لطلاب الفرقة الأولى، تغطي أساليب التكامل المختلفة. اضغط على أي باب للانتقال إليه.</p>
-
   <div class="chapter-grid">
     <div class="chapter-card" onclick="goTo(1)"><div class="cc-num">١</div><div class="cc-title">التكامل غير المحدود</div></div>
     <div class="chapter-card" onclick="goTo(2)"><div class="cc-num">٢</div><div class="cc-title">الدوال المثلثية</div></div>
@@ -789,7 +397,8 @@ strong{color:var(--text);font-weight:700;}
     <div class="chapter-card" onclick="goTo(8)"><div class="cc-num">٨</div><div class="cc-title">الاختزال</div></div>
     <div class="chapter-card" onclick="goTo(9)"><div class="cc-num">٩</div><div class="cc-title">التكامل المحدود</div></div>
     <div class="chapter-card special-laws" onclick="goTo(10)"><div class="cc-num">★</div><div class="cc-title">ملخص القوانين</div></div>
-    <div class="chapter-card special-questions" onclick="goTo(11)"><div class="cc-num">؟</div><div class="cc-title">ملخص الأسئلة</div></div>
+    <div class="chapter-card special-examples" onclick="goTo(11)"><div class="cc-num">◆</div><div class="cc-title">ملخص الأمثلة</div></div>
+    <div class="chapter-card special-questions" onclick="goTo(12)"><div class="cc-num">؟</div><div class="cc-title">ملخص الأسئلة</div></div>
   </div>
 
   <div class="section-heading">الجدول القياسي للتفاضلات</div>
@@ -835,50 +444,42 @@ strong{color:var(--text);font-weight:700;}
 
   <div class="quiz-wrap">
     <div class="quiz-top">
-      <div class="quiz-title"><span>🧠</span> أسئلة المقدمة والجداول القياسية</div>
+      <div class="quiz-title"><span>🧠</span> أسئلة المقدمة</div>
       <button class="btn-quiz-open" onclick="openQuiz(0)">
         <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
         افتح صفحة الأسئلة
       </button>
     </div>
-    <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط الزر لعرض الأسئلة التفاعلية مباشرةً داخل الموقع.</div></div>
+    <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط الزر لعرض الأسئلة التفاعلية مباشرةً.</div></div>
   </div>
 
-  <!-- أزرار التنقل -->
   <div class="page-nav">
     <button class="btn-nav" disabled>
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
+      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق
     </button>
     <div class="page-nav-center">
       <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية
       </button>
     </div>
     <button class="btn-nav" onclick="goTo(1)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
+      التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
     </button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 1 — التكامل غير المحدود
-════════════════════════════════ -->
+<!-- ══ CH 1 ══ -->
 <section class="chapter" id="ch1">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب الأول · Chapter 1</div>
     <div class="chapter-title"><span>التكامل غير المحدود</span></div>
   </div>
-
   <div class="box box-definition">
     <div class="box-label">تعريف — Indefinite Integral</div>
     <p>إذا كانت \(F'(x) = g(x)\)، فإن الدالة \(F\) تُسمى <strong>دالة مقابلة (تكامل غير محدود)</strong> للدالة \(g\):</p>
     <div class="math-block blue">\[\int g(x)\,dx = F(x) + c\]</div>
     <p>حيث \(c\) ثابت اختياري يُسمى <strong>ثابت التكامل</strong>.</p>
   </div>
-
   <div class="section-heading">الجدول القياسي للتكاملات</div>
   <table class="ftable">
     <thead><tr><th>م</th><th>القانون</th></tr></thead>
@@ -899,17 +500,7 @@ strong{color:var(--text);font-weight:700;}
       <tr><td class="rn">١٤</td><td>\(\displaystyle\int \frac{f'(x)}{f(x)}\,dx = \ln|f(x)|+c\)</td></tr>
     </tbody>
   </table>
-
-  <div class="section-heading">المعادلة التفاضلية</div>
-  <div class="box box-note">
-    <div class="box-label">Differential Equation</div>
-    <p>المعادلة التفاضلية من الدرجة الأولى تكون على الصورة:</p>
-    <div class="math-block teal">\[f\!\left(x,\,y,\,\frac{dy}{dx}\right)=0\]</div>
-    <p>لحل المعادلة: نضرب الطرفين في \(dx\) ثم نكامل كلا الطرفين.</p>
-  </div>
-
   <div class="section-heading">أمثلة محلولة</div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">تكامل كثيرة الحدود</span></div>
@@ -923,20 +514,18 @@ strong{color:var(--text);font-weight:700;}
       <div class="result">\[\frac{x^4}{2} - \frac{4x^3}{3} + \frac{x^2}{2} + c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
-      <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">تكامل يحتوي جذوراً وكسوراً</span></div>
+      <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">جذور وكسور</span></div>
       <span class="ex-chevron">▾</span>
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\!\left(8x^3 - 6\sqrt{x} + \frac{1}{x^2}\right)dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نحوّل: \(\sqrt{x}=x^{1/2}\) و \(\dfrac{1}{x^2}=x^{-2}\) ثم نطبق القانون</div></div>
+      <div class="step"><div class="step-n">١</div><div>نحوّل: \(\sqrt{x}=x^{1/2}\) و \(\dfrac{1}{x^2}=x^{-2}\)</div></div>
       <div class="math-block teal">\[8\cdot\frac{x^4}{4} \;-\; 6\cdot\frac{x^{3/2}}{3/2} \;+\; \frac{x^{-1}}{-1} + c\]</div>
       <div class="result">\[2x^4 - 4x^{3/2} - \frac{1}{x} + c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">معادلة تفاضلية</span></div>
@@ -949,7 +538,6 @@ strong{color:var(--text);font-weight:700;}
       <div class="result">\[y = \frac{x^3}{3} + x + c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب الأول</div>
@@ -960,35 +548,22 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط الزر لعرض الأسئلة التفاعلية لهذا الباب.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(0)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">١ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(2)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(2)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 2 — الدوال المثلثية
-════════════════════════════════ -->
+<!-- ══ CH 2 ══ -->
 <section class="chapter" id="ch2">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب الثاني · Chapter 2</div>
     <div class="chapter-title"><span>تكامل الدوال المثلثية</span></div>
   </div>
-
   <div class="section-heading">التكاملات المثلثية الأساسية</div>
   <table class="ftable">
     <thead><tr><th>م</th><th>التكامل</th><th>النتيجة</th></tr></thead>
@@ -1009,12 +584,10 @@ strong{color:var(--text);font-weight:700;}
       <tr><td class="rn">١٤</td><td>\(\displaystyle\int\cot^2 x\,dx\)</td><td>\(-\cot x - x+c\)</td></tr>
     </tbody>
   </table>
-
   <div class="section-heading">أمثلة محلولة</div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
-      <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">استخدام القانون المباشر</span></div>
+      <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">القانون المباشر</span></div>
       <span class="ex-chevron">▾</span>
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int \frac{\sin x}{\cos^2 x}\,dx\)</div>
@@ -1024,33 +597,30 @@ strong{color:var(--text);font-weight:700;}
       <div class="result">\[\sec x + c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
-      <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">باستخدام قاعدة \(\int u^n\,du\)</span></div>
+      <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">قاعدة \(\int u^n\,du\)</span></div>
       <span class="ex-chevron">▾</span>
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\sin^7(3x)\cos(3x)\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نلاحظ أن \(d(\sin 3x) = 3\cos 3x\,dx\)، فنكتب:</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(d(\sin 3x) = 3\cos 3x\,dx\)، فنكتب:</div></div>
       <div class="math-block teal">\[\frac{1}{3}\int\sin^7(3x)\,d(\sin 3x)\]</div>
       <div class="result">\[\frac{\sin^8(3x)}{24} + c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
-      <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">باستخدام متطابقة التضاعف</span></div>
+      <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">متطابقة التضاعف</span></div>
       <span class="ex-chevron">▾</span>
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\sin^2 x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نستخدم المتطابقة: \(\sin^2 x = \dfrac{1-\cos 2x}{2}\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(\sin^2 x = \dfrac{1-\cos 2x}{2}\)</div></div>
       <div class="math-block gold">\[\frac{1}{2}\int(1-\cos 2x)\,dx = \frac{1}{2}\left[x - \frac{\sin 2x}{2}\right]\]</div>
       <div class="result">\[\frac{x}{2} - \frac{\sin 2x}{4} + c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٤</span><span class="ex-title">إثبات \(\int\tan x\,dx\)</span></div>
@@ -1058,12 +628,11 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">أثبت أن: \(\displaystyle\int\tan x\,dx = \ln|\sec x|+c\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نكتب \(\tan x = \dfrac{\sin x}{\cos x}\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(\tan x = \dfrac{\sin x}{\cos x}\)</div></div>
       <div class="math-block purple">\[-\int\frac{-\sin x}{\cos x}\,dx = -\int\frac{d(\cos x)}{\cos x} = -\ln|\cos x|+c\]</div>
       <div class="result">\[\ln|\sec x| + c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب الثاني</div>
@@ -1074,41 +643,27 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(1)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(1)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٢ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(3)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(3)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 3 — الدوال الزائدية
-════════════════════════════════ -->
+<!-- ══ CH 3 ══ -->
 <section class="chapter" id="ch3">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب الثالث · Chapter 3</div>
     <div class="chapter-title"><span>تكامل الدوال الزائدية</span></div>
   </div>
-
   <div class="box box-definition">
     <div class="box-label">تذكير بالتعريفات — Hyperbolic Functions</div>
     <div class="math-block purple">\[\sinh x = \frac{e^x-e^{-x}}{2} \qquad \cosh x = \frac{e^x+e^{-x}}{2} \qquad \tanh x = \frac{\sinh x}{\cosh x}\]</div>
     <div class="math-block green">\[\cosh^2 x - \sinh^2 x = 1 \qquad 1-\tanh^2 x = \operatorname{sech}^2 x\]</div>
   </div>
-
   <div class="section-heading">الجدول القياسي للتكاملات الزائدية</div>
   <table class="ftable">
     <thead><tr><th>م</th><th>التكامل</th><th>النتيجة</th></tr></thead>
@@ -1123,7 +678,6 @@ strong{color:var(--text);font-weight:700;}
       <tr><td class="rn">٨</td><td>\(\displaystyle\int\frac{dx}{1-x^2}\quad(|x|<1)\)</td><td>\(\tanh^{-1}x+c\)</td></tr>
     </tbody>
   </table>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال</span><span class="ex-title">تكامل زائدي مركب</span></div>
@@ -1131,12 +685,11 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\sinh^3 x\cosh x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نلاحظ أن \(d(\sinh x) = \cosh x\,dx\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(d(\sinh x) = \cosh x\,dx\)</div></div>
       <div class="math-block purple">\[\int\sinh^3 x\,d(\sinh x)\]</div>
       <div class="result">\[\frac{\sinh^4 x}{4}+c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب الثالث</div>
@@ -1147,61 +700,43 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(2)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(2)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٣ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(4)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(4)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 4 — التجزيء
-════════════════════════════════ -->
+<!-- ══ CH 4 ══ -->
 <section class="chapter" id="ch4">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب الرابع · Chapter 4</div>
     <div class="chapter-title"><span>التكامل بالتجزيء</span></div>
   </div>
-
   <div class="box box-theorem">
-    <div class="box-label">قانون التكامل بالتجزيء — Integration by Parts</div>
-    <p>من مقرر التفاضل: \(d(u\cdot v) = u\,dv + v\,du\)، بتكامل الطرفين:</p>
+    <div class="box-label">قانون التجزيء — Integration by Parts</div>
     <div class="math-block gold">\[\boxed{\int u\,dv = uv - \int v\,du}\]</div>
   </div>
-
   <div class="box box-note">
     <div class="box-label">قاعدة LIATE لاختيار u</div>
-    <p><strong>L</strong>ogarithmic &rarr; <strong>I</strong>nverse trig &rarr; <strong>A</strong>lgebraic &rarr; <strong>T</strong>rigonometric &rarr; <strong>E</strong>xponential — اختر \(u\) من الفئة الأعلى.</p>
+    <p><strong>L</strong>ogarithmic → <strong>I</strong>nverse trig → <strong>A</strong>lgebraic → <strong>T</strong>rigonometric → <strong>E</strong>xponential</p>
   </div>
-
   <div class="section-heading">أمثلة محلولة</div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">\(\int xe^x\,dx\)</span></div>
       <span class="ex-chevron">▾</span>
     </div>
-    <div class="ex-question">احسب بالتجزيء: \(\displaystyle I = \int xe^x\,dx\)</div>
+    <div class="ex-question">احسب: \(\displaystyle I = \int xe^x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نختار: \(u=x \Rightarrow du=dx\) ، \(dv=e^x dx \Rightarrow v=e^x\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(u=x \Rightarrow du=dx\) ، \(dv=e^x dx \Rightarrow v=e^x\)</div></div>
       <div class="math-block blue">\[\int xe^x\,dx = xe^x - \int e^x\,dx\]</div>
       <div class="result">\[e^x(x-1)+c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">\(\int e^x\sin x\,dx\) — تجزيء مرتين</span></div>
@@ -1209,15 +744,14 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle I = \int e^x\sin x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نختار \(u=\sin x,\;dv=e^x dx\) ونجزئ:</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(u=\sin x,\;dv=e^x dx\)</div></div>
       <div class="math-block teal">\[I = e^x\sin x - \int e^x\cos x\,dx\]</div>
-      <div class="step"><div class="step-n">٢</div><div>نجزئ مرة أخرى باختيار \(u=\cos x\):</div></div>
+      <div class="step"><div class="step-n">٢</div><div>تجزيء مرة أخرى \(u=\cos x\):</div></div>
       <div class="math-block blue">\[I = e^x\sin x - e^x\cos x - I\]</div>
       <div class="step"><div class="step-n">٣</div><div>نجمع \(I\) ونقسم على ٢:</div></div>
       <div class="result">\[I = \frac{e^x(\sin x - \cos x)}{2}+c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">\(\int\ln x\,dx\)</span></div>
@@ -1225,12 +759,11 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\ln x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نختار \(u=\ln x \Rightarrow du=\tfrac{1}{x}dx\) ، \(dv=dx \Rightarrow v=x\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(u=\ln x,\; dv=dx \Rightarrow v=x\)</div></div>
       <div class="math-block gold">\[\int\ln x\,dx = x\ln x - \int dx\]</div>
       <div class="result">\[x\ln x - x + c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٤</span><span class="ex-title">\(\int\tan^{-1}x\,dx\)</span></div>
@@ -1238,12 +771,11 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\tan^{-1}x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نختار \(u=\tan^{-1}x,\; dv=dx\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(u=\tan^{-1}x,\; dv=dx\)</div></div>
       <div class="math-block purple">\[\int\tan^{-1}x\,dx = x\tan^{-1}x - \int\frac{x}{1+x^2}\,dx\]</div>
       <div class="result">\[x\tan^{-1}x - \frac{1}{2}\ln(1+x^2)+c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب الرابع</div>
@@ -1254,42 +786,27 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(3)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(3)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٤ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(5)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(5)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 5 — التعويض
-════════════════════════════════ -->
+<!-- ══ CH 5 ══ -->
 <section class="chapter" id="ch5">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب الخامس · Chapter 5</div>
     <div class="chapter-title"><span>التكامل بالتعويض</span></div>
   </div>
-
   <div class="box box-definition">
     <div class="box-label">الفكرة الأساسية — Substitution</div>
-    <p>نستبدل المتغير \(x\) بتعبير جديد \(y=g(x)\) لتحويل التكامل إلى صيغة قياسية أبسط. نوعان: <strong>جبري</strong> و<strong>مثلثي</strong>.</p>
+    <p>نستبدل المتغير \(x\) بتعبير جديد \(y=g(x)\) لتحويل التكامل إلى صيغة قياسية أبسط.</p>
   </div>
-
   <div class="section-heading">أولاً: التعويضات الجبرية</div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">إزالة الجذر التربيعي</span></div>
@@ -1297,25 +814,23 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\frac{dx}{(3-x)\sqrt{x-2}}\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نعوّض \(y=\sqrt{x-2}\) أي \(y^2=x-2\)، ومنها \(2y\,dy=dx\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(y=\sqrt{x-2}\) ، \(y^2=x-2\) ، \(2y\,dy=dx\)</div></div>
       <div class="math-block blue">\[\int\frac{2y\,dy}{(1-y^2)\cdot y} = 2\int\frac{dy}{1-y^2}\]</div>
       <div class="result">\[2\tan^{-1}\!\sqrt{x-2}+c\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
-      <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">تعويض لتبسيط الأُس</span></div>
+      <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">تعويض الأُس</span></div>
       <span class="ex-chevron">▾</span>
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int e^x\sqrt{1+e^x}\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نعوّض \(y=\sqrt{1+e^x}\) أي \(y^2=1+e^x\)، ومنها \(2y\,dy=e^x dx\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(y=\sqrt{1+e^x}\) ، \(y^2=1+e^x\) ، \(2y\,dy=e^x dx\)</div></div>
       <div class="math-block teal">\[\int y\cdot 2y\,dy = 2\int y^2\,dy = \frac{2y^3}{3}\]</div>
       <div class="result">\[\frac{2}{3}(1+e^x)^{3/2}+c\]</div>
     </div>
   </div>
-
   <div class="section-heading">ثانياً: التعويضات المثلثية</div>
   <table class="ftable">
     <thead><tr><th>الصورة</th><th>التعويض</th><th>تبسيط الجذر</th></tr></thead>
@@ -1325,21 +840,19 @@ strong{color:var(--text);font-weight:700;}
       <tr><td>\(\sqrt{x^2-a^2}\)</td><td>\(x=a\sec\theta\)</td><td>\(a\tan\theta\)</td></tr>
     </tbody>
   </table>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
-      <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">تعويض مثلثي \(\sqrt{a^2-x^2}\)</span></div>
+      <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">تعويض \(\sqrt{a^2-x^2}\)</span></div>
       <span class="ex-chevron">▾</span>
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\frac{dx}{\sqrt{a^2-x^2}}\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نعوّض \(x=a\sin\theta \Rightarrow dx=a\cos\theta\,d\theta\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(x=a\sin\theta \Rightarrow dx=a\cos\theta\,d\theta\)</div></div>
       <div class="math-block gold">\[\int\frac{a\cos\theta\,d\theta}{a\cos\theta} = \int d\theta = \theta+c\]</div>
-      <div class="step"><div class="step-n">٢</div><div>نرجع: \(\theta = \sin^{-1}\dfrac{x}{a}\)</div></div>
+      <div class="step"><div class="step-n">٢</div><div>\(\theta = \sin^{-1}\dfrac{x}{a}\)</div></div>
       <div class="result">\[\sin^{-1}\!\frac{x}{a}+c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب الخامس</div>
@@ -1350,55 +863,35 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(4)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(4)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٥ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(6)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(6)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 6 — الكسور الجزئية
-════════════════════════════════ -->
+<!-- ══ CH 6 ══ -->
 <section class="chapter" id="ch6">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب السادس · Chapter 6</div>
     <div class="chapter-title"><span>الكسور الجزئية</span></div>
   </div>
-
-  <div class="box box-note">
-    <div class="box-label">شرط التطبيق</div>
-    <p>الكسر يجب أن يكون <strong>حقيقياً</strong> (درجة البسط &lt; درجة المقام). إن لم يكن، نقسم أولاً.</p>
-  </div>
-
+  <div class="box box-note"><div class="box-label">شرط التطبيق</div><p>الكسر يجب أن يكون <strong>حقيقياً</strong> (درجة البسط &lt; درجة المقام). إن لم يكن، نقسم أولاً.</p></div>
   <div class="box box-theorem">
-    <div class="box-label">الحالة الأولى — عوامل مختلفة من الدرجة الأولى</div>
-    <div class="math-block blue">\[\frac{P(x)}{(x-a_1)(x-a_2)\cdots(x-a_n)} = \frac{A_1}{x-a_1}+\frac{A_2}{x-a_2}+\cdots+\frac{A_n}{x-a_n}\]</div>
+    <div class="box-label">الحالة الأولى — عوامل مختلفة</div>
+    <div class="math-block blue">\[\frac{P(x)}{(x-a_1)(x-a_2)\cdots} = \frac{A_1}{x-a_1}+\frac{A_2}{x-a_2}+\cdots\]</div>
   </div>
-
   <div class="box box-theorem">
     <div class="box-label">الحالة الثانية — عوامل مكررة</div>
     <div class="math-block teal">\[\frac{P(x)}{(x-a)^r} = \frac{A_1}{x-a}+\frac{A_2}{(x-a)^2}+\cdots+\frac{A_r}{(x-a)^r}\]</div>
   </div>
-
   <div class="box box-theorem">
-    <div class="box-label">الحالة الثالثة — عوامل تربيعية غير قابلة للتحليل</div>
-    <div class="math-block gold">\[\text{لكل عامل } (ax^2+bx+c) \text{ نخصص: } \frac{Ax+B}{ax^2+bx+c}\]</div>
+    <div class="box-label">الحالة الثالثة — تربيعية غير قابلة للتحليل</div>
+    <div class="math-block gold">\[\frac{Ax+B}{ax^2+bx+c}\]</div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال</span><span class="ex-title">الحالة الأولى</span></div>
@@ -1406,12 +899,11 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\frac{3x+1}{(x-1)(x+2)}\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نكتب: \(\dfrac{3x+1}{(x-1)(x+2)}=\dfrac{A}{x-1}+\dfrac{B}{x+2}\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(\dfrac{A}{x-1}+\dfrac{B}{x+2}\)</div></div>
       <div class="step"><div class="step-n">٢</div><div>\(x=1 \Rightarrow A=\dfrac{4}{3}\) ، \(x=-2 \Rightarrow B=\dfrac{5}{3}\)</div></div>
       <div class="result">\[\frac{4}{3}\ln|x-1|+\frac{5}{3}\ln|x+2|+c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب السادس</div>
@@ -1422,45 +914,30 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(5)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(5)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٦ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(7)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(7)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 7 — إكمال المربع
-════════════════════════════════ -->
+<!-- ══ CH 7 ══ -->
 <section class="chapter" id="ch7">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب السابع · Chapter 7</div>
     <div class="chapter-title"><span>إكمال المربع</span></div>
   </div>
-
   <div class="box box-definition">
     <div class="box-label">متى نستخدمه؟</div>
     <div class="math-block blue">\[\int\frac{dx}{ax^2+bx+c} \qquad \int\frac{dx}{\sqrt{ax^2+bx+c}} \qquad \int\sqrt{ax^2+bx+c}\,dx\]</div>
   </div>
-
   <div class="box box-formula">
     <div class="box-label">خطوات إكمال المربع</div>
-    <div class="math-block gold">\[ax^2+bx+c = a\!\left[\left(x+\frac{b}{2a}\right)^{\!2} + \frac{c}{a}-\frac{b^2}{4a^2}\right] = a\bigl[(y)^2 \pm A^2\bigr]\]</div>
+    <div class="math-block gold">\[ax^2+bx+c = a\!\left[\left(x+\frac{b}{2a}\right)^{\!2} + \frac{c}{a}-\frac{b^2}{4a^2}\right]\]</div>
   </div>
-
   <div class="section-heading">الصيغ القياسية الناتجة</div>
   <table class="ftable">
     <thead><tr><th>الصيغة</th><th>النتيجة</th></tr></thead>
@@ -1471,7 +948,6 @@ strong{color:var(--text);font-weight:700;}
       <tr><td>\(\displaystyle\int\frac{dy}{y^2+A^2}\)</td><td>\(\dfrac{1}{A}\tan^{-1}\dfrac{y}{A}+c\)</td></tr>
     </tbody>
   </table>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال</span><span class="ex-title">إكمال المربع ثم التكامل</span></div>
@@ -1479,13 +955,12 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int\frac{dx}{x^2+4x+13}\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نكمل المربع: \(x^2+4x+13 = (x+2)^2+9\)</div></div>
-      <div class="step"><div class="step-n">٢</div><div>نعوّض \(y=x+2\):</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(x^2+4x+13 = (x+2)^2+9\)</div></div>
+      <div class="step"><div class="step-n">٢</div><div>\(y=x+2\):</div></div>
       <div class="math-block teal">\[\int\frac{dy}{y^2+9} = \frac{1}{3}\tan^{-1}\!\frac{y}{3}+c\]</div>
       <div class="result">\[\frac{1}{3}\tan^{-1}\!\frac{x+2}{3}+c\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب السابع</div>
@@ -1496,40 +971,26 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(6)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(6)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٧ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(8)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(8)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 8 — الاختزال
-════════════════════════════════ -->
+<!-- ══ CH 8 ══ -->
 <section class="chapter" id="ch8">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب الثامن · Chapter 8</div>
     <div class="chapter-title"><span>الاختزال المتتالي</span></div>
   </div>
-
   <div class="box box-definition">
     <div class="box-label">تعريف — Reduction Formula</div>
-    <p>قانون يُختزل فيه التكامل \(I_n\) إلى تكامل أبسط \(I_{n-1}\) أو \(I_{n-2}\) من نفس الصورة لكن أقل درجة، يُنتج بتطبيق التجزيء مراراً.</p>
+    <p>قانون يُختزل فيه التكامل \(I_n\) إلى تكامل أبسط \(I_{n-2}\) من نفس الصورة لكن أقل درجة.</p>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">اختزال \(\int\sin^n x\,dx\)</span></div>
@@ -1537,13 +998,12 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">اشتق قانون الاختزال لـ \(I_n = \displaystyle\int\sin^n x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نكتب \(\sin^n x = \sin^{n-1}x\cdot\sin x\) ونجزئ: \(u=\sin^{n-1}x,\; dv=\sin x\,dx\)</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(\sin^n x = \sin^{n-1}x\cdot\sin x\) ، \(u=\sin^{n-1}x,\; dv=\sin x\,dx\)</div></div>
       <div class="math-block blue">\[I_n = -\sin^{n-1}x\cos x + (n-1)\int\sin^{n-2}x\cos^2 x\,dx\]</div>
-      <div class="step"><div class="step-n">٢</div><div>نستبدل \(\cos^2 x = 1-\sin^2 x\) وننقل \(I_n\):</div></div>
+      <div class="step"><div class="step-n">٢</div><div>\(\cos^2 x = 1-\sin^2 x\) ونحل لـ \(I_n\):</div></div>
       <div class="result">\[I_n = -\frac{\sin^{n-1}x\cos x}{n}+\frac{n-1}{n}I_{n-2}\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">اختزال \(\int\sec^n x\,dx\)</span></div>
@@ -1551,11 +1011,10 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">اشتق قانون الاختزال لـ \(I_n = \displaystyle\int\sec^n x\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>نكتب \(\sec^n x = \sec^{n-2}x\cdot\sec^2 x\) ونجزئ ونستخدم \(\tan^2 x=\sec^2 x-1\):</div></div>
+      <div class="step"><div class="step-n">١</div><div>\(\sec^n x = \sec^{n-2}x\cdot\sec^2 x\) والتجزيء واستخدام \(\tan^2 x=\sec^2 x-1\):</div></div>
       <div class="result">\[I_n = \frac{\sec^{n-2}x\tan x}{n-1}+\frac{n-2}{n-1}I_{n-2}\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب الثامن</div>
@@ -1566,51 +1025,34 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(7)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(7)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٨ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(9)">
-      التالي
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(9)">التالي<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 9 — التكامل المحدود
-════════════════════════════════ -->
+<!-- ══ CH 9 ══ -->
 <section class="chapter" id="ch9">
   <div class="chapter-hero">
     <div class="chapter-eyebrow">الباب التاسع · Chapter 9</div>
     <div class="chapter-title"><span>التكامل المحدود (المُعيَّن)</span></div>
   </div>
-
   <div class="box box-theorem">
     <div class="box-label">قاعدة باروو — Barrow's Rule</div>
-    <p>إذا كان \(F'(x)=f(x)\) وكانت \(f\) متصلة على \([a,b]\):</p>
     <div class="math-block gold">\[\int_a^b f(x)\,dx = \Bigl[F(x)\Bigr]_a^b = F(b)-F(a)\]</div>
   </div>
-
-  <div class="section-heading">خواص التكامل المحدود الخمس</div>
+  <div class="section-heading">الخواص الأساسية</div>
   <div class="box box-formula">
-    <div class="box-label">النظريات الأساسية</div>
+    <div class="box-label">النظريات الخمس</div>
     <div class="math-block blue">\[\text{(١)}\;\int_a^b c\,dx = c(b-a) \qquad \text{(٢)}\;\int_a^b cf\,dx = c\int_a^b f\,dx\]</div>
     <div class="math-block teal">\[\text{(٣)}\;\int_a^b [f\pm g]\,dx = \int_a^b f\,dx \pm \int_a^b g\,dx\]</div>
     <div class="math-block purple">\[\text{(٤)}\;f\!\geq\!0 \Rightarrow \int_a^b f\,dx\geq 0 \qquad \text{(٥)}\;\int_a^b f\,dx = \int_a^c f\,dx + \int_c^b f\,dx\]</div>
   </div>
-
   <div class="section-heading">أمثلة محلولة</div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ١</span><span class="ex-title">تكامل مباشر</span></div>
@@ -1622,7 +1064,6 @@ strong{color:var(--text);font-weight:700;}
       <div class="result">\[= 20\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٢</span><span class="ex-title">تكامل مثلثي محدود</span></div>
@@ -1630,11 +1071,10 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int_0^{\pi/2}(3\cos 4x + 7)\,dx\)</div>
     <div class="ex-solution">
-      <div class="math-block teal">\[\left[\frac{3}{4}\sin 4x + 7x\right]_0^{\pi/2} = \left(\frac{3}{4}\sin 2\pi + \frac{7\pi}{2}\right)-(0)\]</div>
+      <div class="math-block teal">\[\left[\frac{3}{4}\sin 4x + 7x\right]_0^{\pi/2} = \frac{3}{4}\sin 2\pi + \frac{7\pi}{2}\]</div>
       <div class="result">\[\frac{7\pi}{2}\]</div>
     </div>
   </div>
-
   <div class="example">
     <div class="ex-header" onclick="tog(this)">
       <div class="ex-header-left"><span class="ex-tag">مثال ٣</span><span class="ex-title">محدود بالتجزيء</span></div>
@@ -1642,12 +1082,11 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="ex-question">احسب: \(\displaystyle\int_0^1 xe^{2x}\,dx\)</div>
     <div class="ex-solution">
-      <div class="step"><div class="step-n">١</div><div>التجزيء: \(u=x,\; dv=e^{2x}dx\) يعطي \(\int xe^{2x}dx = \dfrac{xe^{2x}}{2}-\dfrac{e^{2x}}{4}\)</div></div>
-      <div class="math-block gold">\[\left[\frac{xe^{2x}}{2}-\frac{e^{2x}}{4}\right]_0^1 = \left(\frac{e^2}{2}-\frac{e^2}{4}\right)-\left(0-\frac{1}{4}\right)\]</div>
+      <div class="step"><div class="step-n">١</div><div>\(u=x,\; dv=e^{2x}dx \Rightarrow \int xe^{2x}dx = \dfrac{xe^{2x}}{2}-\dfrac{e^{2x}}{4}\)</div></div>
+      <div class="math-block gold">\[\left[\frac{xe^{2x}}{2}-\frac{e^{2x}}{4}\right]_0^1 = \frac{e^2}{4}+\frac{1}{4}\]</div>
       <div class="result">\[\frac{e^2+1}{4}\]</div>
     </div>
   </div>
-
   <div class="quiz-wrap">
     <div class="quiz-top">
       <div class="quiz-title"><span>🧠</span> أسئلة الباب التاسع</div>
@@ -1658,118 +1097,83 @@ strong{color:var(--text);font-weight:700;}
     </div>
     <div class="quiz-body"><div class="quiz-hint"><div class="quiz-hint-dot"></div>اضغط لعرض الأسئلة.</div></div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(8)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      السابق
-    </button>
+    <button class="btn-nav" onclick="goTo(8)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>السابق</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
       <span class="pn-label">٩ / ٩</span>
     </div>
-    <button class="btn-nav" onclick="goTo(10)">
-      ملخص القوانين
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(10)">ملخص القوانين<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 10 — ملخص القوانين
-════════════════════════════════ -->
+<!-- ══ CH 10 — ملخص القوانين ══ -->
 <section class="chapter" id="ch10">
   <div class="summary-hero">
     <div class="summary-badge gold">★ ملخص شامل</div>
     <div class="summary-title gold">ملخص جميع قوانين التكامل</div>
     <p style="margin-top:0.5rem;">جميع قوانين التكامل المقررة مُجمَّعة في مكان واحد للمراجعة السريعة.</p>
   </div>
-
-  <!-- ١ — القوانين الأساسية -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(59,130,246,0.1);border-bottom:1px solid rgba(59,130,246,0.2);">
-      <div class="ls-icon" style="background:var(--accent);">١</div>
-      التكاملات الأساسية
+      <div class="ls-icon" style="background:var(--accent);">١</div>التكاملات الأساسية
     </div>
     <div class="law-section-body">
-      <div class="math-block blue">\[\int x^n\,dx = \frac{x^{n+1}}{n+1}+c \qquad (n\neq-1)\]</div>
-      <div class="math-block teal">\[\int \frac{1}{x}\,dx = \ln|x|+c \qquad \int e^x\,dx = e^x+c \qquad \int a^x\,dx = \frac{a^x}{\ln a}+c\]</div>
-      <div class="math-block gold">\[\int \frac{f'(x)}{f(x)}\,dx = \ln|f(x)|+c\]</div>
+      <div class="math-block blue">\[\int x^n\,dx = \frac{x^{n+1}}{n+1}+c \quad (n\neq-1) \qquad \int \frac{1}{x}\,dx = \ln|x|+c\]</div>
+      <div class="math-block teal">\[\int e^x\,dx = e^x+c \qquad \int a^x\,dx = \frac{a^x}{\ln a}+c \qquad \int \frac{f'(x)}{f(x)}\,dx = \ln|f(x)|+c\]</div>
     </div>
   </div>
-
-  <!-- ٢ — المثلثية -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(20,184,166,0.1);border-bottom:1px solid rgba(20,184,166,0.2);">
-      <div class="ls-icon" style="background:var(--teal);">٢</div>
-      تكاملات مثلثية
+      <div class="ls-icon" style="background:var(--teal);">٢</div>تكاملات مثلثية
     </div>
     <div class="law-section-body">
       <div class="math-block blue">\[\int\sin x\,dx = -\cos x+c \qquad \int\cos x\,dx = \sin x+c\]</div>
       <div class="math-block teal">\[\int\sec^2 x\,dx = \tan x+c \qquad \int\csc^2 x\,dx = -\cot x+c\]</div>
-      <div class="math-block gold">\[\int\sec x\tan x\,dx = \sec x+c \qquad \int\csc x\cot x\,dx = -\csc x+c\]</div>
-      <div class="math-block purple">\[\int\tan x\,dx = \ln|\sec x|+c \qquad \int\cot x\,dx = \ln|\sin x|+c\]</div>
-      <div class="math-block green">\[\int\sec x\,dx = \ln|\sec x+\tan x|+c \qquad \int\csc x\,dx = \ln|\csc x-\cot x|+c\]</div>
+      <div class="math-block gold">\[\int\tan x\,dx = \ln|\sec x|+c \qquad \int\cot x\,dx = \ln|\sin x|+c\]</div>
+      <div class="math-block purple">\[\int\sec x\,dx = \ln|\sec x+\tan x|+c \qquad \int\csc x\,dx = \ln|\csc x-\cot x|+c\]</div>
       <div class="math-block pink">\[\int\sin^2 x\,dx = \frac{x}{2}-\frac{\sin 2x}{4}+c \qquad \int\cos^2 x\,dx = \frac{x}{2}+\frac{\sin 2x}{4}+c\]</div>
     </div>
   </div>
-
-  <!-- ٣ — العكسية -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.2);">
-      <div class="ls-icon" style="background:var(--gold);">٣</div>
-      تكاملات الدوال العكسية
+      <div class="ls-icon" style="background:var(--gold);">٣</div>تكاملات الدوال العكسية
     </div>
     <div class="law-section-body">
       <div class="math-block blue">\[\int\frac{dx}{\sqrt{1-x^2}} = \sin^{-1}x+c \qquad \int\frac{dx}{1+x^2} = \tan^{-1}x+c\]</div>
       <div class="math-block teal">\[\int\frac{dx}{\sqrt{a^2-x^2}} = \sin^{-1}\frac{x}{a}+c \qquad \int\frac{dx}{a^2+x^2} = \frac{1}{a}\tan^{-1}\frac{x}{a}+c\]</div>
     </div>
   </div>
-
-  <!-- ٤ — الزائدية -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(168,85,247,0.1);border-bottom:1px solid rgba(168,85,247,0.2);">
-      <div class="ls-icon" style="background:var(--purple);">٤</div>
-      تكاملات الدوال الزائدية
+      <div class="ls-icon" style="background:var(--purple);">٤</div>تكاملات الدوال الزائدية
     </div>
     <div class="law-section-body">
       <div class="math-block purple">\[\int\sinh x\,dx = \cosh x+c \qquad \int\cosh x\,dx = \sinh x+c \qquad \int\operatorname{sech}^2 x\,dx = \tanh x+c\]</div>
       <div class="math-block green">\[\int\frac{dx}{\sqrt{1+x^2}} = \sinh^{-1}x+c \qquad \int\frac{dx}{\sqrt{x^2-1}} = \cosh^{-1}x+c \qquad \int\frac{dx}{1-x^2} = \tanh^{-1}x+c\]</div>
     </div>
   </div>
-
-  <!-- ٥ — التجزيء -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(249,115,22,0.1);border-bottom:1px solid rgba(249,115,22,0.2);">
-      <div class="ls-icon" style="background:var(--orange);">٥</div>
-      قانون التجزيء
+      <div class="ls-icon" style="background:var(--orange);">٥</div>قانون التجزيء
     </div>
     <div class="law-section-body">
       <div class="math-block orange">\[\int u\,dv = uv - \int v\,du\]</div>
-      <div class="math-block gold">\[\int xe^x\,dx = e^x(x-1)+c \quad \int\ln x\,dx = x\ln x-x+c \quad \int\tan^{-1}x\,dx = x\tan^{-1}x-\frac{1}{2}\ln(1+x^2)+c\]</div>
+      <div class="math-block gold">\[\int xe^x\,dx = e^x(x-1)+c \qquad \int\ln x\,dx = x\ln x-x+c\]</div>
       <div class="math-block pink">\[\int e^x\sin x\,dx = \frac{e^x(\sin x-\cos x)}{2}+c \qquad \int e^x\cos x\,dx = \frac{e^x(\sin x+\cos x)}{2}+c\]</div>
     </div>
   </div>
-
-  <!-- ٦ — التعويض المثلثي -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.2);">
-      <div class="ls-icon" style="background:var(--green);">٦</div>
-      التعويضات المثلثية
+      <div class="ls-icon" style="background:var(--green);">٦</div>التعويضات المثلثية
     </div>
     <div class="law-section-body">
-      <div class="math-block green">\[\sqrt{a^2-x^2}\;\Rightarrow\;x=a\sin\theta \qquad \sqrt{a^2+x^2}\;\Rightarrow\;x=a\tan\theta \qquad \sqrt{x^2-a^2}\;\Rightarrow\;x=a\sec\theta\]</div>
+      <div class="math-block green">\[\sqrt{a^2-x^2}\Rightarrow x=a\sin\theta \qquad \sqrt{a^2+x^2}\Rightarrow x=a\tan\theta \qquad \sqrt{x^2-a^2}\Rightarrow x=a\sec\theta\]</div>
     </div>
   </div>
-
-  <!-- ٧ — إكمال المربع -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(236,72,153,0.1);border-bottom:1px solid rgba(236,72,153,0.2);">
-      <div class="ls-icon" style="background:var(--pink);">٧</div>
-      إكمال المربع
+      <div class="ls-icon" style="background:var(--pink);">٧</div>إكمال المربع
     </div>
     <div class="law-section-body">
       <div class="math-block pink">\[ax^2+bx+c = a\left[\left(x+\frac{b}{2a}\right)^2+\frac{c}{a}-\frac{b^2}{4a^2}\right]\]</div>
@@ -1777,12 +1181,9 @@ strong{color:var(--text);font-weight:700;}
       <div class="math-block teal">\[\int\frac{dy}{\sqrt{y^2+A^2}}=\sinh^{-1}\frac{y}{A}+c \qquad \int\frac{dy}{\sqrt{y^2-A^2}}=\cosh^{-1}\frac{y}{A}+c\]</div>
     </div>
   </div>
-
-  <!-- ٨ — قوانين الاختزال -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(99,179,237,0.08);border-bottom:1px solid var(--border);">
-      <div class="ls-icon" style="background:var(--accent2);">٨</div>
-      قوانين الاختزال المتتالي
+      <div class="ls-icon" style="background:var(--accent2);">٨</div>قوانين الاختزال المتتالي
     </div>
     <div class="law-section-body">
       <div class="math-block purple">\[I_n=\int\sin^n x\,dx = -\frac{\sin^{n-1}x\cos x}{n}+\frac{n-1}{n}I_{n-2}\]</div>
@@ -1790,48 +1191,357 @@ strong{color:var(--text);font-weight:700;}
       <div class="math-block orange">\[I_n=\int\sec^n x\,dx = \frac{\sec^{n-2}x\tan x}{n-1}+\frac{n-2}{n-1}I_{n-2}\]</div>
     </div>
   </div>
-
-  <!-- ٩ — التكامل المحدود -->
   <div class="law-section">
     <div class="law-section-header" style="background:rgba(251,191,36,0.08);border-bottom:1px solid rgba(251,191,36,0.2);">
-      <div class="ls-icon" style="background:var(--gold2);">٩</div>
-      التكامل المحدود — قاعدة باروو
+      <div class="ls-icon" style="background:var(--gold2);">٩</div>التكامل المحدود — قاعدة باروو
     </div>
     <div class="law-section-body">
       <div class="math-block gold">\[\int_a^b f(x)\,dx = \Bigl[F(x)\Bigr]_a^b = F(b)-F(a)\]</div>
       <div class="math-block blue">\[\int_a^b [f\pm g]\,dx = \int_a^b f\,dx\pm\int_a^b g\,dx \qquad \int_a^b f\,dx = \int_a^c f\,dx+\int_c^b f\,dx\]</div>
     </div>
   </div>
-
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(9)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      الباب التاسع
-    </button>
+    <button class="btn-nav" onclick="goTo(9)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>الباب التاسع</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
     </div>
-    <button class="btn-nav" onclick="goTo(11)">
-      ملخص الأسئلة
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" onclick="goTo(11)">ملخص الأمثلة<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-<!-- ════════════════════════════════
-     CH 11 — ملخص الأسئلة
-════════════════════════════════ -->
+<!-- ══ CH 11 — ملخص الأمثلة ══ -->
 <section class="chapter" id="ch11">
+  <div class="summary-hero">
+    <div class="summary-badge orange">◆ ملخص الأمثلة</div>
+    <div class="summary-title orange">ملخص جميع الأمثلة المحلولة</div>
+    <p style="margin-top:0.5rem;">جميع الأمثلة المحلولة مُجمَّعة مع خطواتها الرئيسية ونتائجها للمراجعة السريعة. اضغط على أي قسم لفتحه.</p>
+  </div>
+
+  <!-- ب١ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(59,130,246,0.1);border-bottom:1px solid rgba(59,130,246,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--accent);">١</div>
+        <div>
+          <div class="ex-sum-title">الباب الأول — التكامل غير المحدود</div>
+          <div class="ex-sum-count">٣ أمثلة محلولة</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--accent);">١</span>احسب: \(\displaystyle\int (2x^3 - 4x^2 + x)\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block blue">\[\int 2x^3\,dx - \int 4x^2\,dx + \int x\,dx\]</div>
+          <div class="result">\[\frac{x^4}{2} - \frac{4x^3}{3} + \frac{x^2}{2} + c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--accent);">٢</span>احسب: \(\displaystyle\int\!\left(8x^3 - 6\sqrt{x} + \frac{1}{x^2}\right)dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block teal">\[8\cdot\frac{x^4}{4} - 6\cdot\frac{x^{3/2}}{3/2} + \frac{x^{-1}}{-1} + c\]</div>
+          <div class="result">\[2x^4 - 4x^{3/2} - \frac{1}{x} + c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--accent);">٣</span>أوجد الحل العام: \(\dfrac{dy}{dx} = x^2 + 1\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">نضرب في dx ثم نكامل الطرفين</div>
+          <div class="result">\[y = \frac{x^3}{3} + x + c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٢ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(20,184,166,0.1);border-bottom:1px solid rgba(20,184,166,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--teal);">٢</div>
+        <div>
+          <div class="ex-sum-title">الباب الثاني — الدوال المثلثية</div>
+          <div class="ex-sum-count">٤ أمثلة محلولة</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--teal);">١</span>احسب: \(\displaystyle\int \frac{\sin x}{\cos^2 x}\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block blue">\[\int\tan x\cdot\sec x\,dx\]</div>
+          <div class="result">\[\sec x + c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--teal);">٢</span>احسب: \(\displaystyle\int\sin^7(3x)\cos(3x)\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block teal">\[\frac{1}{3}\int\sin^7(3x)\,d(\sin 3x)\]</div>
+          <div class="result">\[\frac{\sin^8(3x)}{24} + c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--teal);">٣</span>احسب: \(\displaystyle\int\sin^2 x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">نستخدم: \(\sin^2 x = \dfrac{1-\cos 2x}{2}\)</div>
+          <div class="result">\[\frac{x}{2} - \frac{\sin 2x}{4} + c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--teal);">٤</span>أثبت: \(\displaystyle\int\tan x\,dx = \ln|\sec x|+c\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block purple">\[-\int\frac{-\sin x}{\cos x}\,dx = -\ln|\cos x|+c\]</div>
+          <div class="result">\[\ln|\sec x| + c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٣ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(168,85,247,0.1);border-bottom:1px solid rgba(168,85,247,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--purple);">٣</div>
+        <div>
+          <div class="ex-sum-title">الباب الثالث — الدوال الزائدية</div>
+          <div class="ex-sum-count">١ مثال محلول</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--purple);">١</span>احسب: \(\displaystyle\int\sinh^3 x\cosh x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">نلاحظ أن \(d(\sinh x) = \cosh x\,dx\)</div>
+          <div class="math-block purple">\[\int\sinh^3 x\,d(\sinh x)\]</div>
+          <div class="result">\[\frac{\sinh^4 x}{4}+c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٤ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(245,158,11,0.1);border-bottom:1px solid rgba(245,158,11,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--gold);">٤</div>
+        <div>
+          <div class="ex-sum-title">الباب الرابع — التكامل بالتجزيء</div>
+          <div class="ex-sum-count">٤ أمثلة محلولة</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">١</span>احسب: \(\displaystyle\int xe^x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(u=x,\;dv=e^x dx\)</div>
+          <div class="math-block blue">\[xe^x - \int e^x\,dx\]</div>
+          <div class="result">\[e^x(x-1)+c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">٢</span>احسب: \(\displaystyle\int e^x\sin x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">تجزيء مرتين ثم نحل لـ I</div>
+          <div class="math-block teal">\[I = e^x\sin x - e^x\cos x - I\]</div>
+          <div class="result">\[\frac{e^x(\sin x - \cos x)}{2}+c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">٣</span>احسب: \(\displaystyle\int\ln x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(u=\ln x,\;dv=dx\)</div>
+          <div class="math-block gold">\[x\ln x - \int dx\]</div>
+          <div class="result">\[x\ln x - x + c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">٤</span>احسب: \(\displaystyle\int\tan^{-1}x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(u=\tan^{-1}x,\;dv=dx\)</div>
+          <div class="math-block purple">\[x\tan^{-1}x - \int\frac{x}{1+x^2}\,dx\]</div>
+          <div class="result">\[x\tan^{-1}x - \frac{1}{2}\ln(1+x^2)+c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٥ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(34,197,94,0.1);border-bottom:1px solid rgba(34,197,94,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--green);">٥</div>
+        <div>
+          <div class="ex-sum-title">الباب الخامس — التكامل بالتعويض</div>
+          <div class="ex-sum-count">٣ أمثلة محلولة</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--green);">١</span>احسب: \(\displaystyle\int\frac{dx}{(3-x)\sqrt{x-2}}\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(y=\sqrt{x-2}\) ، \(2y\,dy=dx\)</div>
+          <div class="math-block blue">\[2\int\frac{dy}{1-y^2}\]</div>
+          <div class="result">\[2\tan^{-1}\!\sqrt{x-2}+c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--green);">٢</span>احسب: \(\displaystyle\int e^x\sqrt{1+e^x}\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(y=\sqrt{1+e^x}\) ، \(2y\,dy=e^x dx\)</div>
+          <div class="math-block teal">\[2\int y^2\,dy = \frac{2y^3}{3}\]</div>
+          <div class="result">\[\frac{2}{3}(1+e^x)^{3/2}+c\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--green);">٣</span>احسب: \(\displaystyle\int\frac{dx}{\sqrt{a^2-x^2}}\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(x=a\sin\theta \Rightarrow dx=a\cos\theta\,d\theta\)</div>
+          <div class="math-block gold">\[\int d\theta = \theta+c\]</div>
+          <div class="result">\[\sin^{-1}\!\frac{x}{a}+c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٦ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(249,115,22,0.1);border-bottom:1px solid rgba(249,115,22,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--orange);">٦</div>
+        <div>
+          <div class="ex-sum-title">الباب السادس — الكسور الجزئية</div>
+          <div class="ex-sum-count">١ مثال محلول</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--orange);">١</span>احسب: \(\displaystyle\int\frac{3x+1}{(x-1)(x+2)}\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(\dfrac{A}{x-1}+\dfrac{B}{x+2}\) ← \(A=\dfrac{4}{3},\;B=\dfrac{5}{3}\)</div>
+          <div class="result">\[\frac{4}{3}\ln|x-1|+\frac{5}{3}\ln|x+2|+c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٧ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(236,72,153,0.1);border-bottom:1px solid rgba(236,72,153,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--pink);">٧</div>
+        <div>
+          <div class="ex-sum-title">الباب السابع — إكمال المربع</div>
+          <div class="ex-sum-count">١ مثال محلول</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--pink);">١</span>احسب: \(\displaystyle\int\frac{dx}{x^2+4x+13}\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">\(x^2+4x+13=(x+2)^2+9\) ثم \(y=x+2\)</div>
+          <div class="math-block teal">\[\int\frac{dy}{y^2+9} = \frac{1}{3}\tan^{-1}\!\frac{y}{3}+c\]</div>
+          <div class="result">\[\frac{1}{3}\tan^{-1}\!\frac{x+2}{3}+c\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٨ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(99,179,237,0.08);border-bottom:1px solid var(--border);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--accent2);">٨</div>
+        <div>
+          <div class="ex-sum-title">الباب الثامن — الاختزال المتتالي</div>
+          <div class="ex-sum-count">٢ مثال محلول</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--accent2);">١</span>اشتق قانون اختزال: \(I_n = \displaystyle\int\sin^n x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">نجزئ: \(u=\sin^{n-1}x,\;dv=\sin x\,dx\) ثم نستبدل \(\cos^2 x=1-\sin^2 x\)</div>
+          <div class="result">\[I_n = -\frac{\sin^{n-1}x\cos x}{n}+\frac{n-1}{n}I_{n-2}\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--accent2);">٢</span>اشتق قانون اختزال: \(I_n = \displaystyle\int\sec^n x\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">نجزئ: \(u=\sec^{n-2}x,\;dv=\sec^2 x\,dx\) ثم \(\tan^2 x=\sec^2 x-1\)</div>
+          <div class="result">\[I_n = \frac{\sec^{n-2}x\tan x}{n-1}+\frac{n-2}{n-1}I_{n-2}\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ب٩ -->
+  <div class="ex-sum-section">
+    <div class="ex-sum-header" onclick="togExSum(this)" style="background:rgba(251,191,36,0.08);border-bottom:1px solid rgba(251,191,36,0.2);">
+      <div class="ex-sum-header-left">
+        <div class="ex-sum-icon" style="background:var(--gold2);">٩</div>
+        <div>
+          <div class="ex-sum-title">الباب التاسع — التكامل المحدود</div>
+          <div class="ex-sum-count">٣ أمثلة محلولة</div>
+        </div>
+      </div>
+      <span class="ex-sum-chevron">▾</span>
+    </div>
+    <div class="ex-sum-body">
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">١</span>احسب: \(\displaystyle\int_1^3 x^3\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block blue">\[\left[\frac{x^4}{4}\right]_1^3 = \frac{81}{4}-\frac{1}{4}=\frac{80}{4}\]</div>
+          <div class="result">\[= 20\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">٢</span>احسب: \(\displaystyle\int_0^{\pi/2}(3\cos 4x + 7)\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="math-block teal">\[\left[\frac{3}{4}\sin 4x + 7x\right]_0^{\pi/2}\]</div>
+          <div class="result">\[\frac{7\pi}{2}\]</div>
+        </div>
+      </div>
+      <div class="ex-mini">
+        <div class="ex-mini-q"><span class="ex-mini-tag" style="background:var(--gold);">٣</span>احسب: \(\displaystyle\int_0^1 xe^{2x}\,dx\)</div>
+        <div class="ex-mini-sol">
+          <div class="ex-mini-step">تجزيء: \(u=x,\;dv=e^{2x}dx\)</div>
+          <div class="math-block gold">\[\left[\frac{xe^{2x}}{2}-\frac{e^{2x}}{4}\right]_0^1\]</div>
+          <div class="result">\[\frac{e^2+1}{4}\]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-nav">
+    <button class="btn-nav" onclick="goTo(10)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>ملخص القوانين</button>
+    <div class="page-nav-center">
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
+    </div>
+    <button class="btn-nav" onclick="goTo(12)">ملخص الأسئلة<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
+  </div>
+</section>
+
+<!-- ══ CH 12 — ملخص الأسئلة ══ -->
+<section class="chapter" id="ch12">
   <div class="summary-hero">
     <div class="summary-badge purple">؟ ملخص الأسئلة</div>
     <div class="summary-title purple">ملخص جميع أسئلة التكامل</div>
     <p style="margin-top:0.5rem;">جميع الأسئلة التدريبية مُجمَّعة لكل باب مع رابط الصفحة التفاعلية.</p>
   </div>
 
-  <!-- باب م -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1840,13 +1550,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(0)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>أوجد مشتقة الدوال الأساسية من الجدول القياسي</li>
         <li>تحقق من صحة المتطابقات المثلثية الأساسية</li>
@@ -1856,7 +1565,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ١ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1865,13 +1573,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(1)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب \(\displaystyle\int (2x^3 - 4x^2 + x)\,dx\)</li>
         <li>احسب \(\displaystyle\int\!\left(8x^3 - 6\sqrt{x} + \frac{1}{x^2}\right)dx\)</li>
@@ -1881,7 +1588,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٢ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1890,13 +1596,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(2)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب \(\displaystyle\int \frac{\sin x}{\cos^2 x}\,dx\)</li>
         <li>احسب \(\displaystyle\int\sin^7(3x)\cos(3x)\,dx\)</li>
@@ -1907,7 +1612,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٣ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1916,13 +1620,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(3)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب \(\displaystyle\int\sinh^3 x\cosh x\,dx\)</li>
         <li>احسب \(\displaystyle\int\tanh x\,dx\)</li>
@@ -1932,7 +1635,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٤ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1941,13 +1643,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(4)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب بالتجزيء: \(\displaystyle\int xe^x\,dx\)</li>
         <li>احسب: \(\displaystyle\int e^x\sin x\,dx\)</li>
@@ -1958,7 +1659,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٥ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1967,13 +1667,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(5)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب: \(\displaystyle\int\frac{dx}{(3-x)\sqrt{x-2}}\)</li>
         <li>احسب: \(\displaystyle\int e^x\sqrt{1+e^x}\,dx\)</li>
@@ -1984,7 +1683,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٦ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -1993,13 +1691,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(6)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب: \(\displaystyle\int\frac{3x+1}{(x-1)(x+2)}\,dx\)</li>
         <li>احسب: \(\displaystyle\int\frac{x^2+1}{(x-1)^2(x+2)}\,dx\)</li>
@@ -2009,7 +1706,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٧ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -2018,13 +1714,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(7)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب: \(\displaystyle\int\frac{dx}{x^2+4x+13}\)</li>
         <li>احسب: \(\displaystyle\int\frac{dx}{\sqrt{x^2+2x+5}}\)</li>
@@ -2034,7 +1729,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٨ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -2043,13 +1737,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(8)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>اشتق قانون اختزال \(I_n = \displaystyle\int\sin^n x\,dx\)</li>
         <li>اشتق قانون اختزال \(I_n = \displaystyle\int\cos^n x\,dx\)</li>
@@ -2059,7 +1752,6 @@ strong{color:var(--text);font-weight:700;}
     </div>
   </div>
 
-  <!-- باب ٩ -->
   <div class="qs-card">
     <div class="qs-card-header" onclick="togQs(this)">
       <div style="display:flex;align-items:center;gap:0.6rem;">
@@ -2068,13 +1760,12 @@ strong{color:var(--text);font-weight:700;}
       </div>
       <div style="display:flex;align-items:center;gap:0.6rem;">
         <button class="qs-open-btn" onclick="event.stopPropagation();openQuiz(9)">
-          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>
-          افتح
+          <svg viewBox="0 0 24 24"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42L17.59 5H14V3zm-1 2H5a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-8h-2v8H5V7h8V5z"/></svg>افتح
         </button>
         <span style="color:var(--text3);font-size:0.85rem;">▾</span>
       </div>
     </div>
-    <div class="qs-card-body" style="display:none;">
+    <div class="qs-card-body">
       <ul class="qs-list">
         <li>احسب: \(\displaystyle\int_1^3 x^3\,dx\)</li>
         <li>احسب: \(\displaystyle\int_0^{\pi/2}(3\cos 4x + 7)\,dx\)</li>
@@ -2086,32 +1777,22 @@ strong{color:var(--text);font-weight:700;}
   </div>
 
   <div class="page-nav">
-    <button class="btn-nav" onclick="goTo(10)">
-      <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-      ملخص القوانين
-    </button>
+    <button class="btn-nav" onclick="goTo(11)"><svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>ملخص الأمثلة</button>
     <div class="page-nav-center">
-      <button class="btn-home" onclick="goTo(0)">
-        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-        الرئيسية
-      </button>
+      <button class="btn-home" onclick="goTo(0)"><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>الرئيسية</button>
     </div>
-    <button class="btn-nav" disabled>
-      نهاية
-      <svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg>
-    </button>
+    <button class="btn-nav" disabled>نهاية<svg viewBox="0 0 24 24"><path d="M14 6l-1.41 1.41L17.17 12l-4.58 4.59L14 18l6-6z"/></svg></button>
   </div>
 </section>
 
-      </div><!-- /content-inner -->
-    </div><!-- /content-scroll -->
-  </div><!-- /content-area -->
-</div><!-- /main-layout -->
-</div><!-- /app-shell -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
 <script>
-/* ═══ QUIZ URLS ═══ */
-const QUIZ = {
+const QUIZ={
   0:"https://notebooklm.google.com/notebook/4d18c0f9-1aaf-4c52-a731-3579701ac56a/artifact/1471926c-3c73-4cfa-a02d-d440f51d0bb6",
   1:"https://notebooklm.google.com/notebook/4d18c0f9-1aaf-4c52-a731-3579701ac56a/artifact/4559a66c-bc61-4aa1-884d-7a1d60298a69",
   2:"https://notebooklm.google.com/notebook/4d18c0f9-1aaf-4c52-a731-3579701ac56a/artifact/fef96b74-2586-46f3-8537-113642403d57",
@@ -2124,65 +1805,67 @@ const QUIZ = {
   9:"https://notebooklm.google.com/notebook/4d18c0f9-1aaf-4c52-a731-3579701ac56a/artifact/f9faa0ce-dfea-41eb-9afa-8744701f240b"
 };
 
-let curChapter = 0;
+let curChapter=0;
 
-/* ─── التنقل ─── */
 function goTo(idx){
   document.querySelectorAll('.chapter').forEach((c,i)=>c.classList.toggle('active',i===idx));
   document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',i===idx));
   curChapter=idx;
   hideBrowser();
   document.getElementById('contentScroll').scrollTop=0;
-  // تصيير المعادلات في الصفحة الجديدة
   requestAnimationFrame(()=>{
     const ch=document.getElementById('ch'+idx);
     if(ch&&window.renderMathInElement){
       renderMathInElement(ch,{
-        delimiters:[
-          {left:"\\[",right:"\\]",display:true},
-          {left:"\\(",right:"\\)",display:false}
-        ],
+        delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],
         throwOnError:false,trust:true,strict:false
       });
     }
   });
 }
 
-/* ─── فتح/إخفاء حل المثال ─── */
 function tog(header){
   const sol=header.closest('.example').querySelector('.ex-solution');
   const open=sol.classList.toggle('show');
   header.classList.toggle('open',open);
 }
 
-/* ─── فتح/إخفاء أسئلة ملخص ─── */
+function togExSum(header){
+  const body=header.nextElementSibling;
+  const isOpen=body.classList.toggle('show');
+  header.classList.toggle('open',isOpen);
+  const arr=header.querySelector('.ex-sum-chevron');
+  if(arr) arr.style.transform=isOpen?'rotate(180deg)':'rotate(0deg)';
+  if(isOpen&&window.renderMathInElement){
+    renderMathInElement(body,{
+      delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],
+      throwOnError:false,trust:true,strict:false
+    });
+  }
+}
+
 function togQs(header){
   const body=header.nextElementSibling;
   const isOpen=body.style.display==='block';
   body.style.display=isOpen?'none':'block';
   const arr=header.querySelector('span:last-child');
   if(arr) arr.textContent=isOpen?'▾':'▴';
-  // تصيير المعادلات في الأسئلة
   if(!isOpen&&window.renderMathInElement){
     renderMathInElement(body,{
-      delimiters:[
-        {left:"\\[",right:"\\]",display:true},
-        {left:"\\(",right:"\\)",display:false}
-      ],
+      delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],
       throwOnError:false,trust:true,strict:false
     });
   }
 }
 
-/* ─── المتصفح المدمج ─── */
 function openQuiz(idx){
   const url=QUIZ[idx];
   if(!url) return;
-  const panel  =document.getElementById('browserPanel');
-  const scroll =document.getElementById('contentScroll');
-  const urlBar =document.getElementById('urlBar');
+  const panel=document.getElementById('browserPanel');
+  const scroll=document.getElementById('contentScroll');
+  const urlBar=document.getElementById('urlBar');
   const loading=document.getElementById('browserLoading');
-  const frame  =document.getElementById('quizFrame');
+  const frame=document.getElementById('quizFrame');
   scroll.style.display='none';
   panel.classList.add('visible');
   urlBar.value=url;
@@ -2191,12 +1874,9 @@ function openQuiz(idx){
 }
 
 function hideBrowser(){
-  const panel =document.getElementById('browserPanel');
-  const scroll=document.getElementById('contentScroll');
-  const frame =document.getElementById('quizFrame');
-  panel.classList.remove('visible');
-  scroll.style.display='';
-  frame.src='about:blank';
+  document.getElementById('browserPanel').classList.remove('visible');
+  document.getElementById('contentScroll').style.display='';
+  document.getElementById('quizFrame').src='about:blank';
 }
 
 function frameLoaded(){
@@ -2204,9 +1884,9 @@ function frameLoaded(){
 }
 
 function reloadFrame(){
-  const frame  =document.getElementById('quizFrame');
+  const frame=document.getElementById('quizFrame');
   const loading=document.getElementById('browserLoading');
-  const url    =document.getElementById('urlBar').value;
+  const url=document.getElementById('urlBar').value;
   loading.classList.remove('gone');
   frame.src='about:blank';
   setTimeout(()=>{frame.src=url;},80);
@@ -2217,14 +1897,10 @@ function openNewTab(){
   if(url&&url!=='about:blank') window.open(url,'_blank','noopener');
 }
 
-/* ─── تصيير KaTeX ─── */
 document.addEventListener('DOMContentLoaded',()=>{
   if(window.renderMathInElement){
     renderMathInElement(document.getElementById('ch0'),{
-      delimiters:[
-        {left:"\\[",right:"\\]",display:true},
-        {left:"\\(",right:"\\)",display:false}
-      ],
+      delimiters:[{left:"\\[",right:"\\]",display:true},{left:"\\(",right:"\\)",display:false}],
       throwOnError:false,trust:true,strict:false
     });
   }
